@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Linear and piecewise linear regression with LazyPPL</title>
+<style>
+  html {
+    line-height: 1.5;
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    background-color: #fdfdfd;
+  }
+  body {
+    margin: 0 auto;
+    max-width: 56em;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+  @media (max-width: 600px) {
+    body {
+      font-size: 0.9em;
+      padding: 1em;
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+  }
+  @media print {
+    body {
+      background-color: transparent;
+      color: black;
+      font-size: 12pt;
+    }
+    p, h2, h3 {
+      orphans: 3;
+      widows: 3;
+    }
+    h2, h3, h4 {
+      page-break-after: avoid;
+    }
+  }
+  p {
+    margin: 1em 0;
+  }
+  a {
+    color: #1a1a1a;
+  }
+  a:visited {
+    color: #1a1a1a;
+  }
+  img {
+    max-width: 100%;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.4em;
+  }
+  h5, h6 {
+    font-size: 1em;
+    font-style: italic;
+  }
+  h6 {
+    font-weight: normal;
+  }
+  ol, ul {
+    padding-left: 1.7em;
+  }
+  li > ol, li > ul {
+    margin-top: 0;
+  }
+  blockquote {
+    margin: 1em 0 1em 1.7em;
+    padding-left: 1em;
+    border-left: 2px solid #e6e6e6;
+    color: #606060;
+  }
+  code {
+    font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+    font-size: 85%;
+    margin: 0;
+  }
+  pre {
+    margin: 1em 0;
+    overflow: auto;
+  }
+  pre code {
+    padding: 0;
+    overflow: visible;
+    overflow-wrap: normal;
+  }
+  .sourceCode {
+   background-color: transparent;
+   overflow: visible;
+  }
+  hr {
+    background-color: #1a1a1a;
+    border: none;
+    height: 1px;
+    margin: 1em 0;
+  }
+  table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  table caption {
+    margin-bottom: 0.75em;
+  }
+  tbody {
+    margin-top: 0.5em;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  th {
+    border-top: 1px solid #1a1a1a;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+  }
+  td {
+    padding: 0.125em 0.5em 0.25em 0.5em;
+  }
+  header {
+    margin-bottom: 4em;
+    text-align: center;
+  }
+  #TOC li {
+    list-style: none;
+  }
+  #TOC ul {
+    padding-left: 1.3em;
+  }
+  #TOC > ul {
+    padding-left: 0;
+  }
+  #TOC a:not(:hover) {
+    text-decoration: none;
+  }
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+  pre > code.sourceCode { white-space: pre; position: relative; }
+  pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+  pre > code.sourceCode > span:empty { height: 1.2em; }
+  .sourceCode { overflow: visible; }
+  code.sourceCode > span { color: inherit; text-decoration: inherit; }
+  div.sourceCode { margin: 1em 0; }
+  pre.sourceCode { margin: 0; }
+  @media screen {
+  div.sourceCode { overflow: auto; }
+  }
+  @media print {
+  pre > code.sourceCode { white-space: pre-wrap; }
+  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+  }
+  pre.numberSource code
+    { counter-reset: source-line 0; }
+  pre.numberSource code > span
+    { position: relative; left: -4em; counter-increment: source-line; }
+  pre.numberSource code > span > a:first-child::before
+    { content: counter(source-line);
+      position: relative; left: -1em; text-align: right; vertical-align: baseline;
+      border: none; display: inline-block;
+      -webkit-touch-callout: none; -webkit-user-select: none;
+      -khtml-user-select: none; -moz-user-select: none;
+      -ms-user-select: none; user-select: none;
+      padding: 0 4px; width: 4em;
+      color: #aaaaaa;
+    }
+  pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+  div.sourceCode
+    {   }
+  @media screen {
+  pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+  }
+  code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+  code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+  code span.at { color: #7d9029; } /* Attribute */
+  code span.bn { color: #40a070; } /* BaseN */
+  code span.bu { } /* BuiltIn */
+  code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+  code span.ch { color: #4070a0; } /* Char */
+  code span.cn { color: #880000; } /* Constant */
+  code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+  code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+  code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+  code span.dt { color: #902000; } /* DataType */
+  code span.dv { color: #40a070; } /* DecVal */
+  code span.er { color: #ff0000; font-weight: bold; } /* Error */
+  code span.ex { } /* Extension */
+  code span.fl { color: #40a070; } /* Float */
+  code span.fu { color: #06287e; } /* Function */
+  code span.im { } /* Import */
+  code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+  code span.op { color: #666666; } /* Operator */
+  code span.ot { color: #007020; } /* Other */
+  code span.pp { color: #bc7a00; } /* Preprocessor */
+  code span.sc { color: #4070a0; } /* SpecialChar */
+  code span.ss { color: #bb6688; } /* SpecialString */
+  code span.st { color: #4070a0; } /* String */
+  code span.va { color: #19177c; } /* Variable */
+  code span.vs { color: #4070a0; } /* VerbatimString */
+  code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="Index.html">LazyPPL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Regression examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li>
+              <li><a class="dropdown-item" href="WienerDemo.html">Wiener process regression</a></li>
+              <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Other examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="ClusteringDemo.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
+            </ul>
+          </li>
+              <li class="nav-item"><a href="https://bitbucket.org/lazyppl" class="nav-link">Source at BitBucket</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>  <header id="title-block-header">
+<h1 class="title">Linear and piecewise linear regression with
+LazyPPL</h1>
+</header>
+<p>We discuss Bayesian <a href="#linearRegression">linear regression</a>
+and <a href="#piecewiseLinearRegression">piecewise linear
+regression</a>. Our piecewise linear regression uses an infinite Poisson
+process as the set of change points. The laziness of Haskell effectively
+truncates the infinite process as needed. The examples also demonstrate
+that higher-order functions (such as <code>regress</code> and
+<code>splice</code>) are very useful.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">RegressionDemo</span> <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour.Names</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span></code></pre></div>
+</details>
+<h2 id="linearRegression">Linear regression</h2>
+<p>Regression is about finding fitting a function to some data. Bayesian
+regression is about finding a posterior distribution on functions, given
+the data.</p>
+<p>We start with a random linear function:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">linear ::</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>linear <span class="ot">=</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="ot">=</span> \x <span class="ot">-&gt;</span> a <span class="op">*</span> x <span class="op">+</span> b</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> f</span></code></pre></div>
+Note that this returns a random function. Here are 1000 draws from the
+distribution. <img src="images/regression-linear-prior.svg" />
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>plotLinearPrior <span class="ot">=</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    fs&#39; <span class="ot">&lt;-</span> mh <span class="dv">1</span> (sample linear) </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> <span class="op">$</span> fs&#39;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">&quot;images/regression-linear-prior.svg&quot;</span> [] fs <span class="fl">0.1</span></span></code></pre></div>
+</details>
+<p><br></br></p>
+Here is a sample dataset that we will find a function for:
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">dataset ::</span> [(<span class="dt">Double</span>, <span class="dt">Double</span>)]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">=</span> [(<span class="dv">0</span>,<span class="fl">0.6</span>), (<span class="dv">1</span>, <span class="fl">0.7</span>), (<span class="dv">2</span>,<span class="fl">1.2</span>), (<span class="dv">3</span>,<span class="fl">3.2</span>), (<span class="dv">4</span>,<span class="fl">6.8</span>), (<span class="dv">5</span>, <span class="fl">8.2</span>), (<span class="dv">6</span>,<span class="fl">8.4</span>)]</span></code></pre></div>
+<img src="images/regression-dataset.svg" />
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plotDataset <span class="ot">=</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">&quot;images/regression-dataset.svg&quot;</span> dataset [] <span class="fl">0.1</span></span></code></pre></div>
+</details>
+<p><br></br></p>
+<p>Our regression here is noisy: the function has not <em>precisely</em>
+generated this data set, because the points are not colinear.</p>
+Our generic regression function takes a random function
+<code>prior</code>, and some input/output observations
+<code>dataset</code>, which are assumed to be noisy according to
+<code>sigma</code>, returns a conditioned random linear function
+(unnormalized).
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">regress ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> (a <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> [(a, <span class="dt">Double</span>)] <span class="ot">-&gt;</span> <span class="dt">Meas</span> (a <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>regress sigma prior dataset <span class="ot">=</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    f <span class="ot">&lt;-</span> sample prior</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    forM_ dataset (\(x, y) <span class="ot">-&gt;</span> score <span class="op">$</span> normalPdf (f x) sigma y)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> f</span></code></pre></div>
+Now we can run Bayesian linear regression by sampling from the
+unnormalized measure using Metropolis-Hastings. The result is the
+posterior distribution over linear functions.
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plotLinReg <span class="ot">=</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> fs&#39; <span class="ot">&lt;-</span> mh <span class="fl">0.5</span> (regress <span class="fl">0.5</span> linear dataset)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> <span class="op">$</span> every <span class="dv">50</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">100</span> fs&#39;</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>     plotFuns <span class="st">&quot;images/regression-linear-reg.svg&quot;</span> dataset fs <span class="fl">0.01</span></span></code></pre></div>
+<p><img src="images/regression-linear-reg.svg" /></p>
+<h2 id="piecewiseLinearRegression">Piecewise linear regression and
+Poisson point processes</h2>
+To move to piecewise linear regression, we introduce a function
+<code>splice</code> which splices together different draws from a random
+function at a random selection of change points. NB if the point process
+is infinite then the resulting function has an infinite number of
+pieces, but this is all done lazily, so it’s not a problem.
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">splice ::</span> <span class="dt">Prob</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>splice pointProcess randomFun <span class="ot">=</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    xs <span class="ot">&lt;-</span> pointProcess</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    fs <span class="ot">&lt;-</span> <span class="fu">mapM</span> (<span class="fu">const</span> randomFun) xs</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    default_f <span class="ot">&lt;-</span> randomFun</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span><span class="ot"> h ::</span> [(<span class="dt">Double</span>, <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)] <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        h [] x <span class="ot">=</span> default_f x</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        h ((a, f) <span class="op">:</span> xfs) x <span class="op">|</span> x <span class="op">&lt;=</span> a <span class="ot">=</span> f x</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        h ((a, f) <span class="op">:</span> xfs) x <span class="op">|</span> x <span class="op">&gt;</span> a <span class="ot">=</span> h xfs x</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (h (<span class="fu">zip</span> xs fs))</span></code></pre></div>
+Note that this second-order function works for any point process and for
+any random function. We will use the random linear function
+<code>linear</code>, and for a point process we will use the following
+Poisson point process, <code>poissonPP</code>. This generates an
+infinite random list of points, where the gaps between them are
+exponentially distributed.
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">poissonPP ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> [<span class="dt">Double</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>poissonPP lower rate <span class="ot">=</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    step <span class="ot">&lt;-</span> exponential rate</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="ot">=</span> lower <span class="op">+</span> step</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    xs <span class="ot">&lt;-</span> poissonPP x rate</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (x <span class="op">:</span> xs)</span></code></pre></div>
+Here are five draws from the process. Each draw is really an infinite
+set of points, but we have truncated the display to the viewport [0,20].
+Laziness then takes care of truncating the infinite sequences
+appropriately. <img src="images/regression-poissonpp.svg" />
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plotPoissonPP <span class="ot">=</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    pws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> poissonPP <span class="dv">0</span> <span class="fl">0.1</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> ps <span class="ot">=</span> <span class="fu">map</span> (<span class="fu">takeWhile</span> (<span class="dv">20</span><span class="op">&gt;</span>)) <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">5</span> <span class="op">$</span> pws</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> filename <span class="ot">=</span> <span class="st">&quot;images/regression-poissonpp.svg&quot;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Plotting &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> myscatter mpl i <span class="ot">=</span> mpl <span class="op">%</span> setSubplot i <span class="op">%</span> scatter (ps <span class="op">!!</span> i) (<span class="fu">map</span> (<span class="fu">const</span> (<span class="dv">0</span><span class="ot">::</span><span class="dt">Double</span>)) (ps <span class="op">!!</span> i)) <span class="op">@@</span> [o2 <span class="st">&quot;s&quot;</span> (<span class="dv">10</span><span class="ot">::</span><span class="dt">Int</span>),o2 <span class="st">&quot;c&quot;</span> <span class="st">&quot;black&quot;</span>]  <span class="op">%</span> xlim (<span class="dv">0</span><span class="ot">::</span><span class="dt">Int</span>) (<span class="dv">20</span><span class="ot">::</span><span class="dt">Int</span>) <span class="op">%</span> ylim (<span class="op">-</span><span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">1</span><span class="ot">::</span><span class="dt">Int</span>) <span class="op">%</span> mp <span class="op">#</span> <span class="st">&quot;ax.yaxis.set_major_formatter(mticker.NullFormatter())&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> myscatteraxes mpl i <span class="ot">=</span> <span class="kw">if</span> i <span class="op">&lt;</span> (<span class="fu">length</span> ps <span class="op">-</span> <span class="dv">1</span>) <span class="kw">then</span> myscatter mpl i <span class="op">%</span> mp <span class="op">#</span> <span class="st">&quot;ax.xaxis.set_major_formatter(mticker.NullFormatter())&quot;</span> <span class="kw">else</span> myscatter mpl i</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    file filename <span class="op">$</span> <span class="fu">foldl</span> myscatteraxes (subplots <span class="op">@@</span> [o2 <span class="st">&quot;nrows&quot;</span> (<span class="fu">length</span> ps),o2 <span class="st">&quot;ncols&quot;</span> (<span class="dv">1</span><span class="ot">::</span><span class="dt">Int</span>)]) [<span class="dv">0</span><span class="op">..</span>(<span class="fu">length</span> ps <span class="op">-</span> <span class="dv">1</span>)]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+</details>
+<p><br></br></p>
+<p>We can now invoke a random piecewise linear function by calling <code
+class="sourceCode haskell">splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear</code>.
+Here are ten draws from this distribution. Because the viewport is
+bounded, laziness takes care of truncations to the point process that we
+passed to <code>splice</code>.</p>
+<p><img src="images/regression-piecewise-prior.svg" /></p>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plotPiecewisePrior <span class="ot">=</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    fs&#39; <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">10</span> <span class="op">$</span> fs&#39;</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">&quot;images/regression-piecewise-prior.svg&quot;</span> [] fs <span class="dv">1</span></span></code></pre></div>
+</details>
+<br></br> This is a random function just like any other, so we can use
+it as a prior, using the same regression routines as before, <code
+class="sourceCode haskell">regress <span class="fl">0.1</span> (splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear)</code>.
+We can then sample from the unnormalized distribution using
+Metropolis-Hastings.
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plotPiecewiseReg <span class="ot">=</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    fs&#39; <span class="ot">&lt;-</span> mhirreducible <span class="fl">0.2</span> <span class="fl">0.1</span> (regress <span class="fl">0.1</span> (splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear) dataset)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> <span class="op">$</span> every <span class="dv">1000</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">10000</span> fs&#39;</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">&quot;images/regression-piecewise-reg.svg&quot;</span> dataset fs <span class="fl">0.01</span></span></code></pre></div>
+<p><img src="images/regression-piecewise-reg.svg" /></p>
+<details class="code-details">
+<summary>
+Graphing routines
+</summary>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Plot the points drawn from weighted samples</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- epsilon: smallest y axis difference to worry about</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- delta: smallest x axis difference to worry about</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ot">interestingPoints ::</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">Double</span>]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>interestingPoints f lower upper epsilon delta acc <span class="ot">=</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> <span class="fu">abs</span>(upper <span class="op">-</span> lower) <span class="op">&lt;</span> delta <span class="kw">then</span> acc</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">else</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> mid <span class="ot">=</span> (upper <span class="op">-</span> lower) <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> lower <span class="kw">in</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="fu">abs</span>((f(upper) <span class="op">-</span> f(lower)) <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> f(lower) <span class="op">-</span> f(mid)) <span class="op">&lt;</span> epsilon</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">then</span> acc</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">else</span> interestingPoints f lower mid epsilon delta (mid <span class="op">:</span> (interestingPoints f mid upper epsilon delta acc))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>sampleFun f <span class="ot">=</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">--  [ (x, f x) | x &lt;- [(-0.25),(-0.25+0.1)..6.2]]</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> xs <span class="ot">=</span> ((<span class="op">-</span><span class="fl">0.25</span>) <span class="op">:</span> (interestingPoints f (<span class="op">-</span><span class="fl">0.25</span>) <span class="fl">6.2</span> <span class="fl">0.3</span> <span class="fl">0.001</span> [<span class="fl">6.2</span>])) <span class="kw">in</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span> (\x <span class="ot">-&gt;</span> (x,f x)) xs</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="ot">plotFuns ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>)] <span class="ot">-&gt;</span> [<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>] <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>plotFuns filename dataset funs alpha <span class="ot">=</span> </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">do</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Plotting &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        file filename <span class="op">$</span> <span class="fu">foldl</span> (\a f <span class="ot">-&gt;</span> <span class="kw">let</span> xfs <span class="ot">=</span> sampleFun f <span class="kw">in</span> a <span class="op">%</span> plot (<span class="fu">map</span> <span class="fu">fst</span> xfs) (<span class="fu">map</span> <span class="fu">snd</span> xfs) <span class="op">@@</span> [o1 <span class="st">&quot;go-&quot;</span>, o2 <span class="st">&quot;linewidth&quot;</span> (<span class="fl">0.5</span><span class="ot"> ::</span> <span class="dt">Double</span>), o2 <span class="st">&quot;alpha&quot;</span> alpha, o2 <span class="st">&quot;ms&quot;</span> (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>)]) (scatter (<span class="fu">map</span> <span class="fu">fst</span> dataset) (<span class="fu">map</span> <span class="fu">snd</span> dataset) <span class="op">@@</span> [o2 <span class="st">&quot;c&quot;</span> <span class="st">&quot;black&quot;</span>] <span class="op">%</span> xlim (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">6</span><span class="ot"> ::</span> <span class="dt">Int</span>) <span class="op">%</span> ylim (<span class="op">-</span><span class="dv">2</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">10</span><span class="ot"> ::</span> <span class="dt">Int</span>)) funs</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">putStrLn</span> <span class="st">&quot;Done.&quot;</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span> ()</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {plotLinearPrior ; plotDataset ; plotLinReg ; plotPiecewisePrior ; plotPoissonPP ; plotPiecewiseReg }</span></code></pre></div>
+</details>
+<br>
+<hr>
+<small><i>  Generated by Pandoc from Literate Haskell. Full source at <a href="https://bitbucket.org/lazyppl/lazyppl-src/src/master/">Bitbucket</a>.</i></small>
+  
+</body>
+</html>

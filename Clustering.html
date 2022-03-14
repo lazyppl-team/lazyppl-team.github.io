@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Clustering with a lazy Dirichlet process</title>
+<style>
+  html {
+    line-height: 1.5;
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    background-color: #fdfdfd;
+  }
+  body {
+    margin: 0 auto;
+    max-width: 56em;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+  @media (max-width: 600px) {
+    body {
+      font-size: 0.9em;
+      padding: 1em;
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+  }
+  @media print {
+    body {
+      background-color: transparent;
+      color: black;
+      font-size: 12pt;
+    }
+    p, h2, h3 {
+      orphans: 3;
+      widows: 3;
+    }
+    h2, h3, h4 {
+      page-break-after: avoid;
+    }
+  }
+  p {
+    margin: 1em 0;
+  }
+  a {
+    color: #1a1a1a;
+  }
+  a:visited {
+    color: #1a1a1a;
+  }
+  img {
+    max-width: 100%;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.4em;
+  }
+  h5, h6 {
+    font-size: 1em;
+    font-style: italic;
+  }
+  h6 {
+    font-weight: normal;
+  }
+  ol, ul {
+    padding-left: 1.7em;
+  }
+  li > ol, li > ul {
+    margin-top: 0;
+  }
+  blockquote {
+    margin: 1em 0 1em 1.7em;
+    padding-left: 1em;
+    border-left: 2px solid #e6e6e6;
+    color: #606060;
+  }
+  code {
+    font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+    font-size: 85%;
+    margin: 0;
+  }
+  pre {
+    margin: 1em 0;
+    overflow: auto;
+  }
+  pre code {
+    padding: 0;
+    overflow: visible;
+    overflow-wrap: normal;
+  }
+  .sourceCode {
+   background-color: transparent;
+   overflow: visible;
+  }
+  hr {
+    background-color: #1a1a1a;
+    border: none;
+    height: 1px;
+    margin: 1em 0;
+  }
+  table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  table caption {
+    margin-bottom: 0.75em;
+  }
+  tbody {
+    margin-top: 0.5em;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  th {
+    border-top: 1px solid #1a1a1a;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+  }
+  td {
+    padding: 0.125em 0.5em 0.25em 0.5em;
+  }
+  header {
+    margin-bottom: 4em;
+    text-align: center;
+  }
+  #TOC li {
+    list-style: none;
+  }
+  #TOC ul {
+    padding-left: 1.3em;
+  }
+  #TOC > ul {
+    padding-left: 0;
+  }
+  #TOC a:not(:hover) {
+    text-decoration: none;
+  }
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+  pre > code.sourceCode { white-space: pre; position: relative; }
+  pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+  pre > code.sourceCode > span:empty { height: 1.2em; }
+  .sourceCode { overflow: visible; }
+  code.sourceCode > span { color: inherit; text-decoration: inherit; }
+  div.sourceCode { margin: 1em 0; }
+  pre.sourceCode { margin: 0; }
+  @media screen {
+  div.sourceCode { overflow: auto; }
+  }
+  @media print {
+  pre > code.sourceCode { white-space: pre-wrap; }
+  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+  }
+  pre.numberSource code
+    { counter-reset: source-line 0; }
+  pre.numberSource code > span
+    { position: relative; left: -4em; counter-increment: source-line; }
+  pre.numberSource code > span > a:first-child::before
+    { content: counter(source-line);
+      position: relative; left: -1em; text-align: right; vertical-align: baseline;
+      border: none; display: inline-block;
+      -webkit-touch-callout: none; -webkit-user-select: none;
+      -khtml-user-select: none; -moz-user-select: none;
+      -ms-user-select: none; user-select: none;
+      padding: 0 4px; width: 4em;
+      color: #aaaaaa;
+    }
+  pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+  div.sourceCode
+    {   }
+  @media screen {
+  pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+  }
+  code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+  code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+  code span.at { color: #7d9029; } /* Attribute */
+  code span.bn { color: #40a070; } /* BaseN */
+  code span.bu { } /* BuiltIn */
+  code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+  code span.ch { color: #4070a0; } /* Char */
+  code span.cn { color: #880000; } /* Constant */
+  code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+  code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+  code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+  code span.dt { color: #902000; } /* DataType */
+  code span.dv { color: #40a070; } /* DecVal */
+  code span.er { color: #ff0000; font-weight: bold; } /* Error */
+  code span.ex { } /* Extension */
+  code span.fl { color: #40a070; } /* Float */
+  code span.fu { color: #06287e; } /* Function */
+  code span.im { } /* Import */
+  code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+  code span.op { color: #666666; } /* Operator */
+  code span.ot { color: #007020; } /* Other */
+  code span.pp { color: #bc7a00; } /* Preprocessor */
+  code span.sc { color: #4070a0; } /* SpecialChar */
+  code span.ss { color: #bb6688; } /* SpecialString */
+  code span.st { color: #4070a0; } /* String */
+  code span.va { color: #19177c; } /* Variable */
+  code span.vs { color: #4070a0; } /* VerbatimString */
+  code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">LazyPPL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Regression examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="Regression.html">Linear and piecewise linear</a></li>
+              <li><a class="dropdown-item" href="Wiener.html">Wiener process regression</a></li>
+              <li><a class="dropdown-item" href="ProgramInduction.html">Program induction</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Other examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="Clustering.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
+            </ul>
+          </li>
+              <li class="nav-item"><a href="https://bitbucket.org/lazyppl" class="nav-link">Source at BitBucket</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>  <header id="title-block-header">
+<h1 class="title">Clustering with a lazy Dirichlet process</h1>
+</header>
+<p>This file contains an example of non-parametric clustering using a
+Dirichlet process. The idea of clustering is that we have some data
+points and we try to group them into clusters that make sense.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">ClusteringDemo</span> <span class="kw">where</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Lens</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour.Names</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour.RGBSpace.HSV</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour.SRGB</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Default.Class</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Monoid</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.DirichletP</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Numeric.Log</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">-- In Ghci you will need to :set -fobject-code</span></span></code></pre></div>
+</details>
+<br> In our example, the data points are on the plane and clusters
+contain points that are closer to each other. To illustrate this, we
+consider a synthetic example data set:<br />
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">=</span> [(<span class="fl">7.7936387</span>, <span class="fl">7.469271</span>), (<span class="fl">5.3105156</span>, <span class="fl">7.891521</span>), (<span class="fl">5.4320135</span>, <span class="fl">5.135559</span>), (<span class="fl">7.3844196</span>, <span class="fl">7.478719</span>), (<span class="fl">6.7382938</span>, <span class="fl">7.476735</span>), (<span class="fl">0.6663453</span>, <span class="fl">4.460257</span>), (<span class="fl">3.2001898</span>, <span class="fl">2.653919</span>), (<span class="fl">2.1231227</span>, <span class="fl">3.758051</span>), (<span class="fl">3.3734472</span>, <span class="fl">2.420528</span>), (<span class="fl">0.4699408</span>, <span class="fl">1.835277</span>)]</span></code></pre></div>
+<img src="images/clustering-dataset.svg" />
+<details class="code-details">
+<summary>
+Code for plotting the data points.
+</summary>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotDataset ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plotDataset <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> filename <span class="ot">=</span> <span class="st">&quot;images/clustering-dataset.svg&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  file filename <span class="op">$</span> mplBivarNormal <span class="dv">0</span> <span class="dv">0</span> <span class="dv">100</span> <span class="dv">0</span> (scatter [<span class="dv">0</span>,<span class="dv">8</span>] [<span class="dv">0</span>,<span class="dv">8</span>] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;white&quot;</span>]) <span class="op">%</span> scatter (<span class="fu">map</span> <span class="fu">fst</span> dataset) (<span class="fu">map</span> <span class="fu">snd</span> dataset) <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;black&quot;</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+</details>
+<p>We first define a generic clustering model that uses a Chinese
+Restaurant process. The parameters for our generic clustering model
+are:</p>
+<ul>
+<li><code
+class="sourceCode haskell"><span class="ot">xs ::</span> [a]</code>, a
+data set<br />
+</li>
+<li><code
+class="sourceCode haskell"><span class="ot">pparam ::</span> <span class="dt">Prob</span> b</code>,
+from which we sample a parameter for each cluster</li>
+<li><code
+class="sourceCode haskell"><span class="ot">like ::</span> b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Double</span></code>,
+parameterized likelihood function, which we use to score the cluster
+assignment for each data point</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">cluster ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Prob</span> b <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> [(a, <span class="dt">Double</span>, b)]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cluster xs pparam like <span class="ot">=</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- sample a distribution from a Dirichlet process  </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    rest <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant <span class="fl">0.3</span>        </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- lazily sample an infinite list of cluster parameters    </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    param <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="fu">const</span> pparam    </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- lazily sample an infinite list of colors </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    color <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="fu">const</span> <span class="op">$</span> uniformbounded <span class="fl">0.2</span> <span class="dv">1</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- for each data point, sample a cluster and return </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">--   the corresponding color and parameter  </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    forM xs</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      ( \x <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>          i <span class="ot">&lt;-</span> sample <span class="op">$</span> newCustomer rest   </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>          score <span class="op">$</span> like (param i) x</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">return</span> (x, color i, param i)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      )</span></code></pre></div>
+<p>Here we are using our Chinese Restaurant process interface
+(<code>Distr.DirichletP</code>). It involves abstract types <code
+class="sourceCode haskell"><span class="dt">Restaurant</span></code> and
+<code class="sourceCode haskell"><span class="dt">Table</span></code>,
+and provides two functions:</p>
+<ul>
+<li><code
+class="sourceCode haskell"><span class="ot">newRestaurant ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Restaurant</span></code>,
+which provides a new restaurant;</li>
+<li><code
+class="sourceCode haskell"><span class="ot">newCustomer ::</span> <span class="dt">Restaurant</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Table</span></code>,
+which says which table a new customer will sit at.</li>
+</ul>
+<p>We model data points by customers to a restaurant, and they are in
+the cluster if they sit at the same table. The restaurant is implemented
+in <code>Distr.DirichletP</code> by a lazy stick-breaking
+construction.</p>
+<p>The tables support stochastic memoization via a function <code
+class="sourceCode haskell"><span class="ot">memoize ::</span> (<span class="dt">Table</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> a) <span class="ot">-&gt;</span> <span class="dt">Prob</span> (<span class="dt">Table</span> <span class="ot">-&gt;</span> a)</code>.
+This is defined using laziness (lazy tries). This memoization allows us
+to randomly assign parameters and colours to clusters/tables.</p>
+<p>We try clustering on the synthetic data set <code>dataset</code>.</p>
+The code below is the model. The return value is a list where each data
+point is tagged with a color and the parameters for the cluster we
+assigned it (coordinates of mean and standard deviation).<br />
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">example ::</span> <span class="dt">Meas</span> [((<span class="dt">Double</span>, <span class="dt">Double</span>), <span class="dt">Double</span>, (<span class="dt">Double</span>, <span class="dt">Double</span>, <span class="dt">Double</span>))]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>example <span class="ot">=</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  cluster</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    dataset</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">do</span> x <span class="ot">&lt;-</span> normal <span class="dv">5</span> <span class="dv">4</span>; y <span class="ot">&lt;-</span> normal <span class="dv">5</span> <span class="dv">4</span>; prec <span class="ot">&lt;-</span> gamma <span class="dv">2</span> <span class="dv">4</span>;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                                        <span class="fu">return</span> (x, y, <span class="dv">1</span> <span class="op">/</span> <span class="fu">sqrt</span> prec))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    (\(x, y, s) (x&#39;, y&#39;) <span class="ot">-&gt;</span> normalPdf x s x&#39; <span class="op">*</span> normalPdf y s y&#39;)</span></code></pre></div>
+Then the inference code is as follows:
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>infer <span class="ot">=</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    xycws&#39; <span class="ot">&lt;-</span> mh1 example</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> xycws <span class="ot">=</span> <span class="fu">take</span> <span class="dv">20000</span> xycws&#39;</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span><span class="ot"> xycws ::</span> <span class="dt">Product</span> (<span class="dt">Log</span> <span class="dt">Double</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> (<span class="dt">Just</span> xyc) <span class="ot">=</span> Data.List.lookup maxw <span class="op">$</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="fu">map</span> (\(z, w) <span class="ot">-&gt;</span> (w, z)) xycws</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- for illustration we plot the MAP sample</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    plotCoords <span class="st">&quot;images/clustering-map.svg&quot;</span> xyc </span></code></pre></div>
+<p>This produces the following cluster asssignment:</p>
+<p><img src="images/clustering-map.svg" /></p>
+<details class="code-details">
+<summary>
+Code for plotting the data points and clusters.
+</summary>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotCoords ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [((<span class="dt">Double</span>, <span class="dt">Double</span>), <span class="dt">Double</span>, (<span class="dt">Double</span>, <span class="dt">Double</span>, <span class="dt">Double</span>))] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plotCoords filename dataset <span class="ot">=</span> <span class="kw">do</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> starterplot <span class="ot">=</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       scatter [<span class="dv">0</span>,<span class="dv">8</span>] [<span class="dv">0</span>,<span class="dv">8</span>] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;white&quot;</span>]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gaussians <span class="ot">=</span> (<span class="fu">foldl</span> (\p (c,x,y,s) <span class="ot">-&gt;</span> mplBivarNormal x y s c p) starterplot (nub <span class="op">$</span> <span class="fu">map</span> (\(_,c,(x,y,s))<span class="ot">-&gt;</span>(c,x,y,s)) dataset))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> plot <span class="ot">=</span> <span class="fu">foldl</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>             (\p <span class="ot">-&gt;</span> \((x,y),c,_) <span class="ot">-&gt;</span> <span class="kw">let</span> c&#39; <span class="ot">=</span> hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span> <span class="kw">in</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                         p <span class="op">%</span> scatter [x] [y] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> [channelRed c&#39;,channelGreen c&#39;,channelBlue c&#39;]])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>             gaussians</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>             dataset</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  file filename plot</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ot">mplBivarNormal ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span> <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>mplBivarNormal mux muy sigma c p <span class="ot">=</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>          p <span class="op">%</span> imshow ws <span class="op">@@</span> [o2 <span class="st">&quot;interpolation&quot;</span> <span class="st">&quot;bilinear&quot;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>               ,o2 <span class="st">&quot;origin&quot;</span> <span class="st">&quot;lower&quot;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>               ,o2 <span class="st">&quot;extent&quot;</span> [<span class="dv">0</span><span class="ot">::</span><span class="dt">Double</span>, <span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">8</span>]]</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                 <span class="kw">where</span> delta <span class="ot">=</span> <span class="fl">0.025</span><span class="ot">::</span><span class="dt">Double</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                       xs <span class="ot">=</span> [<span class="fl">0.0</span><span class="op">+</span>delta<span class="op">..</span><span class="fl">8.0</span>]</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                       ys <span class="ot">=</span> [<span class="fl">0.0</span><span class="op">+</span>delta<span class="op">..</span><span class="fl">8.0</span>]</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                       r <span class="ot">=</span> channelRed(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>                       g <span class="ot">=</span> channelGreen(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                       b <span class="ot">=</span> channelBlue(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                       ws <span class="ot">=</span> [[[r,g,b,pdfBivariateNormal x y sigma sigma mux muy <span class="fl">0.0</span>] <span class="op">|</span> x <span class="ot">&lt;-</span> xs] <span class="op">|</span> y <span class="ot">&lt;-</span> ys]</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>pdfBivariateNormal x y sigmax sigmay mux muy sigmaxy <span class="ot">=</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span><span class="fu">pi</span><span class="op">*</span>sigmax<span class="op">*</span>sigmay<span class="op">*</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>)))<span class="op">*</span><span class="fu">exp</span>(<span class="op">-</span>z<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>)))</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> rho <span class="ot">=</span> sigmaxy<span class="op">/</span>(sigmax<span class="op">*</span>sigmay)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        z <span class="ot">=</span> (x<span class="op">-</span>mux)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>sigmax<span class="op">^</span><span class="dv">2</span><span class="op">-</span>(<span class="dv">2</span><span class="op">*</span>rho<span class="op">*</span>(x<span class="op">-</span>mux)<span class="op">*</span>(y<span class="op">-</span>muy))<span class="op">/</span>(sigmax<span class="op">*</span>sigmay)<span class="op">+</span>(y<span class="op">-</span>muy)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>sigmay<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> { plotDataset ; infer }</span></code></pre></div>
+</details>
+<br>
+<hr>
+<small><i>  Generated by Pandoc from Literate Haskell. Full source at <a href="https://bitbucket.org/lazyppl/lazyppl-src/src/master/">Bitbucket</a>.</i></small>
+  
+</body>
+</html>
