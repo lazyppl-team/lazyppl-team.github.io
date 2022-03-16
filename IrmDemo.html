@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Relational inference with a CRP-based infinite relational model</title>
+<style>
+  html {
+    line-height: 1.5;
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    background-color: #fdfdfd;
+  }
+  body {
+    margin: 0 auto;
+    max-width: 56em;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+  @media (max-width: 600px) {
+    body {
+      font-size: 0.9em;
+      padding: 1em;
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+  }
+  @media print {
+    body {
+      background-color: transparent;
+      color: black;
+      font-size: 12pt;
+    }
+    p, h2, h3 {
+      orphans: 3;
+      widows: 3;
+    }
+    h2, h3, h4 {
+      page-break-after: avoid;
+    }
+  }
+  p {
+    margin: 1em 0;
+  }
+  a {
+    color: #1a1a1a;
+  }
+  a:visited {
+    color: #1a1a1a;
+  }
+  img {
+    max-width: 100%;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.4em;
+  }
+  h5, h6 {
+    font-size: 1em;
+    font-style: italic;
+  }
+  h6 {
+    font-weight: normal;
+  }
+  ol, ul {
+    padding-left: 1.7em;
+  }
+  li > ol, li > ul {
+    margin-top: 0;
+  }
+  blockquote {
+    margin: 1em 0 1em 1.7em;
+    padding-left: 1em;
+    border-left: 2px solid #e6e6e6;
+    color: #606060;
+  }
+  code {
+    font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+    font-size: 85%;
+    margin: 0;
+  }
+  pre {
+    margin: 1em 0;
+    overflow: auto;
+  }
+  pre code {
+    padding: 0;
+    overflow: visible;
+    overflow-wrap: normal;
+  }
+  .sourceCode {
+   background-color: transparent;
+   overflow: visible;
+  }
+  hr {
+    background-color: #1a1a1a;
+    border: none;
+    height: 1px;
+    margin: 1em 0;
+  }
+  table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  table caption {
+    margin-bottom: 0.75em;
+  }
+  tbody {
+    margin-top: 0.5em;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  th {
+    border-top: 1px solid #1a1a1a;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+  }
+  td {
+    padding: 0.125em 0.5em 0.25em 0.5em;
+  }
+  header {
+    margin-bottom: 4em;
+    text-align: center;
+  }
+  #TOC li {
+    list-style: none;
+  }
+  #TOC ul {
+    padding-left: 1.3em;
+  }
+  #TOC > ul {
+    padding-left: 0;
+  }
+  #TOC a:not(:hover) {
+    text-decoration: none;
+  }
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+  pre > code.sourceCode { white-space: pre; position: relative; }
+  pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+  pre > code.sourceCode > span:empty { height: 1.2em; }
+  .sourceCode { overflow: visible; }
+  code.sourceCode > span { color: inherit; text-decoration: inherit; }
+  div.sourceCode { margin: 1em 0; }
+  pre.sourceCode { margin: 0; }
+  @media screen {
+  div.sourceCode { overflow: auto; }
+  }
+  @media print {
+  pre > code.sourceCode { white-space: pre-wrap; }
+  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+  }
+  pre.numberSource code
+    { counter-reset: source-line 0; }
+  pre.numberSource code > span
+    { position: relative; left: -4em; counter-increment: source-line; }
+  pre.numberSource code > span > a:first-child::before
+    { content: counter(source-line);
+      position: relative; left: -1em; text-align: right; vertical-align: baseline;
+      border: none; display: inline-block;
+      -webkit-touch-callout: none; -webkit-user-select: none;
+      -khtml-user-select: none; -moz-user-select: none;
+      -ms-user-select: none; user-select: none;
+      padding: 0 4px; width: 4em;
+      color: #aaaaaa;
+    }
+  pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+  div.sourceCode
+    {   }
+  @media screen {
+  pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+  }
+  code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+  code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+  code span.at { color: #7d9029; } /* Attribute */
+  code span.bn { color: #40a070; } /* BaseN */
+  code span.bu { } /* BuiltIn */
+  code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+  code span.ch { color: #4070a0; } /* Char */
+  code span.cn { color: #880000; } /* Constant */
+  code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+  code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+  code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+  code span.dt { color: #902000; } /* DataType */
+  code span.dv { color: #40a070; } /* DecVal */
+  code span.er { color: #ff0000; font-weight: bold; } /* Error */
+  code span.ex { } /* Extension */
+  code span.fl { color: #40a070; } /* Float */
+  code span.fu { color: #06287e; } /* Function */
+  code span.im { } /* Import */
+  code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+  code span.op { color: #666666; } /* Operator */
+  code span.ot { color: #007020; } /* Other */
+  code span.pp { color: #bc7a00; } /* Preprocessor */
+  code span.sc { color: #4070a0; } /* SpecialChar */
+  code span.ss { color: #bb6688; } /* SpecialString */
+  code span.st { color: #4070a0; } /* String */
+  code span.va { color: #19177c; } /* Variable */
+  code span.vs { color: #4070a0; } /* VerbatimString */
+  code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">LazyPPL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Regression examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li>
+              <li><a class="dropdown-item" href="WienerDemo.html">Wiener process regression</a></li>
+              <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Other examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="ClusteringDemo.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
+            </ul>
+          </li>
+              <li class="nav-item"><a href="https://bitbucket.org/lazyppl/lazyppl-src/" class="nav-link">Source at BitBucket</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>  <header id="title-block-header">
+<h1 class="title">Relational inference with a CRP-based infinite
+relational model</h1>
+</header>
+<p>This example, which follows an <a
+href="http://v1.probmods.org/non-parametric-models.html#example-the-infinite-relational-model">example
+from Church</a>, demonstrates how the abstract types of the Chinese
+Restaurant Process can be used to program an infinite relational
+model.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE FlexibleInstances #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE MultiParamTypeClasses #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">module</span> <span class="dt">IrmDemo</span> <span class="kw">where</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr.DirichletP</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.List</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
+</details>
+<p>We have six people, and we know that some of them talk to each other,
+and some of them don’t talk to each other. We want to infer the social
+groups. This is non-parametric in that we don’t assume a fixed number of
+social groups.</p>
+<p>We set up a data type inhabited by the people of interest.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Person</span> <span class="ot">=</span> <span class="dt">Tom</span> <span class="op">|</span> <span class="dt">Fred</span> <span class="op">|</span> <span class="dt">Jim</span> <span class="op">|</span> <span class="dt">Mary</span> <span class="op">|</span> <span class="dt">Sue</span> <span class="op">|</span> <span class="dt">Ann</span> <span class="kw">deriving</span> (<span class="dt">Show</span> , <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">instance</span> <span class="dt">MonadMemo</span> <span class="dt">Prob</span> <span class="dt">Person</span></span></code></pre></div>
+<h2 id="the-model">The model</h2>
+<p>The model is set up by building a Chinese Restaurant and placing the
+people at tables in it. The model describes an unnormalized probability
+measure on functions assigning tables to people.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; model ::</span> <span class="dt">Meas</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> model <span class="ot">=</span> <span class="kw">do</span></span></code></pre></div>
+<p>We first set up a new restaurant. Behind the scenes, this initiates
+lazy stick-breaking.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;   r ::</span> <span class="dt">Restaurant</span> <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant <span class="fl">1.0</span></span></code></pre></div>
+<p>We define two memoized functions: the first, <code>table</code>,
+assigns a table to each person. Memoization is defined using
+laziness.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;   table ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> \person <span class="ot">-&gt;</span> newCustomer r</span></code></pre></div>
+<p>The second memoized function, <code>near</code>, assigns to each pair
+of tables the chance that people on those tables will talk to each
+other.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;   near ::</span> ((<span class="dt">Table</span>, <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> \(tableA, tableB) <span class="ot">-&gt;</span> beta <span class="fl">0.5</span> <span class="fl">0.5</span></span></code></pre></div>
+<p>We define two helper functions, <code>talks</code> and
+<code>nottalks</code>, which we then map over the observations about
+various people talking or not talking to each other.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span><span class="ot"> talks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> \(personA, personB) <span class="ot">-&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                             score <span class="op">$</span> near (table personA, table personB)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span><span class="ot"> nottalks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> \(personA, personB) <span class="ot">-&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                               score <span class="op">$</span> <span class="dv">1</span> <span class="op">-</span> near (table personA, table personB)</span></code></pre></div>
+<p>The data set:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">mapM_</span> talks [(<span class="dt">Tom</span>, <span class="dt">Fred</span>), (<span class="dt">Tom</span>, <span class="dt">Jim</span>), (<span class="dt">Jim</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Sue</span>), (<span class="dt">Mary</span>, <span class="dt">Ann</span>), (<span class="dt">Ann</span>, <span class="dt">Sue</span>)]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">mapM_</span> nottalks [(<span class="dt">Mary</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Jim</span>), (<span class="dt">Sue</span>, <span class="dt">Fred</span>), (<span class="dt">Sue</span>, <span class="dt">Tom</span>), (<span class="dt">Ann</span>, <span class="dt">Jim</span>), (<span class="dt">Ann</span>, <span class="dt">Tom</span>)]</span></code></pre></div>
+<p>Finally we return the assignment of tables to people.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">return</span> table</span></code></pre></div>
+<h2 id="running-the-model">Running the model</h2>
+<p>We sample from this unnormalized measure using a Metropolis-Hastings
+simulation. We calculate the probability of Tom/Fred and Tom/Mary
+sitting together, and also plot a graph of the MAP sample.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   tws <span class="ot">&lt;-</span> <span class="fu">take</span> <span class="dv">10000</span> <span class="op">&lt;$&gt;</span> mh <span class="fl">0.2</span> model</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotHistogram <span class="st">&quot;images/irm-tom-fred.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> (\(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Fred</span>) <span class="op">$</span> tws</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotHistogram <span class="st">&quot;images/irm-tom-mary.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> (\(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Mary</span>) <span class="op">$</span> tws</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">writeFile</span> <span class="st">&quot;images/irm-tables.dot&quot;</span> <span class="op">$</span> <span class="fu">show</span> <span class="op">$</span> maxap tws</span></code></pre></div>
+<figure>
+<img src="images/irm-tom-fred.svg"
+alt="The posterior probability of Tom and Fred sitting together." />
+<figcaption aria-hidden="true">The posterior probability of Tom and Fred
+sitting together.</figcaption>
+</figure>
+<figure>
+<img src="images/irm-tom-mary.svg"
+alt="The posterior probability of Tom and Mary sitting together." />
+<figcaption aria-hidden="true">The posterior probability of Tom and Mary
+sitting together.</figcaption>
+</figure>
+<figure>
+<img src="images/irm-tables.svg" alt="The graph of the MAP relation." />
+<figcaption aria-hidden="true">The graph of the MAP
+relation.</figcaption>
+</figure>
+<h2 id="footnote">Footnote</h2>
+<p>The example at Probmods actually gives different histograms to the
+ones here, but we suspect that this is an issue with the
+<code>mh-query</code> parameters in that example, because webchurch’s
+rejection sampling agrees with our histograms.</p>
+<details class="code-details">
+<summary>
+Plotting code
+</summary>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="co">-- Maximum a priori from a list of weighted samples</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> maxap xws <span class="ot">=</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span> xws) <span class="kw">in</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> (<span class="dt">Just</span> x) <span class="ot">=</span> Data.List.lookup maxw <span class="op">$</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                     <span class="fu">map</span> (\(z, w) <span class="ot">-&gt;</span> (w, z)) xws <span class="kw">in</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>    x</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; tableToDot ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> tableToDot f <span class="ot">=</span> <span class="st">&quot;graph tables {&quot;</span> <span class="op">++</span> <span class="fu">concat</span> [ <span class="fu">show</span> a <span class="op">++</span> <span class="st">&quot; -- &quot;</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">&quot;; &quot;</span> <span class="op">|</span> a <span class="ot">&lt;-</span> people , b <span class="ot">&lt;-</span> people , a <span class="op">&lt;</span> b, f a <span class="op">==</span> f b] <span class="op">++</span> <span class="st">&quot;}&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="kw">where</span> dotLine a b <span class="dt">True</span> <span class="ot">=</span> <span class="fu">show</span> a <span class="op">++</span> <span class="st">&quot; -- &quot;</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">&quot;\n&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        people <span class="ot">=</span> [<span class="fu">minBound</span><span class="op">..</span><span class="fu">maxBound</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">instance</span> <span class="dt">Show</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="kw">where</span> <span class="fu">show</span> f <span class="ot">=</span> tableToDot f</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="kw">let</span> categories <span class="ot">=</span> nub xs</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (\c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (\n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+</details>
+<br>
+<hr>
+<small><i>  Generated by Pandoc from Literate Haskell. Full source at <a href="https://bitbucket.org/lazyppl/lazyppl-src/src/master/src/">Bitbucket</a>.</i></small>
+  
+</body>
+</html>

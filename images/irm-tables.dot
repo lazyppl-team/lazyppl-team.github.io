@@ -1,0 +1,1 @@
+graph tables {Tom -- Fred; Tom -- Jim; Fred -- Jim; Mary -- Sue; Mary -- Ann; Sue -- Ann; }
