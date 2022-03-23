@@ -247,6 +247,8 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="ClusteringDemo.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="IrmDemo.html">Infinite relational model</a></li>
+              <li><a class="dropdown-item" href="AdditiveClusteringDemo.html">Indian Buffet Process</a></li>
               <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
             </ul>
           </li>
@@ -263,32 +265,32 @@ laziness</h1>
 Extensions and imports for this Literate Haskell file
 </summary>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">ControlFlowDemo</span> <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">module</span> <span class="dt">ControlFlowDemo</span> <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Control.Monad</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
 </details>
 <p><br></p>
 We consider a simple but slightly contrived model to illustrate how
 control flow transformations and laziness can be advantageous. Our first
 prior on pairs of booleans.
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">prior1 ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>prior1 <span class="ot">=</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> x <span class="ot">&lt;-</span> bernoulli <span class="fl">0.5</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>     y <span class="ot">&lt;-</span> <span class="kw">if</span> x <span class="kw">then</span> bernoulli <span class="fl">0.4</span> <span class="kw">else</span> bernoulli <span class="fl">0.7</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> (x,y)</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; prior1 ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> prior1 <span class="ot">=</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> x <span class="ot">&lt;-</span> bernoulli <span class="fl">0.5</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      y <span class="ot">&lt;-</span> <span class="kw">if</span> x <span class="kw">then</span> bernoulli <span class="fl">0.4</span> <span class="kw">else</span> bernoulli <span class="fl">0.7</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">return</span> (x,y)</span></code></pre></div>
 Our model conditions on the two booleans being equal. This means that if
 <code>x</code> changes, <code>y</code> has to change too, and vice
 versa.
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">model ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model prior <span class="ot">=</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> (x,y) <span class="ot">&lt;-</span> sample prior</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>     score (<span class="kw">if</span> x<span class="op">==</span>y <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> x</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; model ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> model prior <span class="ot">=</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> (x,y) <span class="ot">&lt;-</span> sample prior</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      score (<span class="kw">if</span> x<span class="op">==</span>y <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">return</span> x</span></code></pre></div>
 <p>The posterior probability of <code>(model prior1)</code> returning
 true is 4/7.</p>
 <p>Since <code>x</code> and <code>y</code> are correlated, it is not a
@@ -298,16 +300,18 @@ probabilistic programs that do benefit from Metropolis Hastings
 simulation, where the correlations are not known in advance.</p>
 Here is a second implementation of the prior. It is mathematically
 equivalent, and computationally equivalent on each run, because of
-laziness. But it works better with Metropolis Hastings because it
+laziness. With Metropolis-Hastings, it is asymptotically the same (of
+course, as long as the proposal is irreducible – see below). But in
+practice this prior works better with Metropolis-Hastings because it
 explicitly uses different sites for the two different conditional
 branches.
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">prior2 ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>prior2 <span class="ot">=</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> x <span class="ot">&lt;-</span> bernoulli <span class="fl">0.5</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     ytrue <span class="ot">&lt;-</span> bernoulli <span class="fl">0.4</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     yfalse <span class="ot">&lt;-</span> bernoulli <span class="fl">0.7</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> (<span class="kw">if</span> x <span class="kw">then</span> (x,ytrue) <span class="kw">else</span> (x,yfalse)) </span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; prior2 ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> prior2 <span class="ot">=</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> x <span class="ot">&lt;-</span> bernoulli <span class="fl">0.5</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      ytrue <span class="ot">&lt;-</span> bernoulli <span class="fl">0.4</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      yfalse <span class="ot">&lt;-</span> bernoulli <span class="fl">0.7</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">return</span> (<span class="kw">if</span> x <span class="kw">then</span> (x,ytrue) <span class="kw">else</span> (x,yfalse)) </span></code></pre></div>
 <p>Of course, we could solve this particular program analytically. The
 point is rather that we have a universal program transformation
 manipulation that could be applied automatically.</p>
@@ -321,42 +325,42 @@ contrived problem. <img src="images/controlflow-essA.png" />
 (Code for precision of estimators)
 </summary>
 <div class="sourceCode" id="cb5"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Take a sampler (m)  returning reals, regarded as an estimator,</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- and calculate the mean and precision for the estimator.</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- k is the number of samples to use in the estimator.</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- n is the number of runs to average over to approximate the mean, variance and ess.</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ot">meanPrec ::</span> <span class="dt">IO</span> [(<span class="dt">Double</span>,a)] <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Double</span>,<span class="dt">Double</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>meanPrec m n k <span class="ot">=</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> xwss <span class="ot">&lt;-</span> replicateM n m</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> as <span class="ot">=</span> <span class="fu">map</span> ((\x <span class="ot">-&gt;</span> x <span class="op">/</span> (<span class="fu">fromIntegral</span> k))<span class="op">.</span> <span class="fu">sum</span> <span class="op">.</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">.</span> <span class="fu">take</span> k) xwss</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> mean <span class="ot">=</span> (<span class="fu">sum</span> as) <span class="op">/</span> (<span class="fu">fromIntegral</span> n) <span class="co">-- sample mean</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> var <span class="ot">=</span> (<span class="fu">sum</span> (<span class="fu">map</span> (\x <span class="ot">-&gt;</span> (x <span class="op">-</span> mean)<span class="op">^</span><span class="dv">2</span>) as)) <span class="op">/</span> (<span class="fu">fromIntegral</span> n) <span class="co">-- sample variance</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> (mean,<span class="dv">1</span><span class="op">/</span>var)</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="co">-- Take a sampler (m)  returning reals, regarded as an estimator,</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="co">-- and calculate the mean and precision for the estimator.</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="co">-- k is the number of samples to use in the estimator.</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="co">-- n is the number of runs to average over to approximate the mean, variance and ess.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; meanPrec ::</span> <span class="dt">IO</span> [(<span class="dt">Double</span>,a)] <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Double</span>,<span class="dt">Double</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> meanPrec m n k <span class="ot">=</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> xwss <span class="ot">&lt;-</span> replicateM n m</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> as <span class="ot">=</span> <span class="fu">map</span> ((\x <span class="ot">-&gt;</span> x <span class="op">/</span> (<span class="fu">fromIntegral</span> k))<span class="op">.</span> <span class="fu">sum</span> <span class="op">.</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">.</span> <span class="fu">take</span> k) xwss</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> mean <span class="ot">=</span> (<span class="fu">sum</span> as) <span class="op">/</span> (<span class="fu">fromIntegral</span> n) <span class="co">-- sample mean</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> var <span class="ot">=</span> (<span class="fu">sum</span> (<span class="fu">map</span> (\x <span class="ot">-&gt;</span> (x <span class="op">-</span> mean)<span class="op">^</span><span class="dv">2</span>) as)) <span class="op">/</span> (<span class="fu">fromIntegral</span> n) <span class="co">-- sample variance</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">return</span> (mean,<span class="dv">1</span><span class="op">/</span>var)</span></code></pre></div>
 </details>
 <details class="code-details">
 <summary>
 (Plotting code)
 </summary>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plotESSA <span class="ot">=</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">&quot;Plotting images/controlflow-essA.png...&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">1000</span>,<span class="dv">10000</span>]</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- A rejection sampler where the scores are known to be 0 or 1.</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> rejectionsampler m <span class="ot">=</span> <span class="fu">fmap</span> (<span class="fu">filter</span> (\(_,w) <span class="ot">-&gt;</span> w<span class="op">&gt;</span><span class="fl">0.00001</span>)) <span class="op">$</span> weightedsamples <span class="op">$</span> m</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> truevar <span class="ot">=</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>) <span class="op">-</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>)<span class="op">^</span><span class="dv">2</span> <span class="co">-- variance for one true sample</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Tests to plot</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>     as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="fl">0.3</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>     cs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="fl">0.33</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior2) <span class="dv">100</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>     es <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="dv">1</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>     fs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (rejectionsampler <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>     file <span class="st">&quot;images/controlflow-essA.png&quot;</span> <span class="op">$</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>       plot xs as <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh 0.3 with prior1&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;tomato&quot;</span>] <span class="op">%</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>       plot xs cs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh 0.3 with prior2&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;firebrick&quot;</span>] <span class="op">%</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>       plot xs es <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;all sites mh&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;forestgreen&quot;</span>] <span class="op">%</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>       plot xs fs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;rejection sampling&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;black&quot;</span>] <span class="op">%</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>       ylim (<span class="dv">1</span><span class="ot">::</span><span class="dt">Double</span>) (<span class="dv">500</span><span class="ot">::</span><span class="dt">Double</span>) <span class="op">%</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>       xlabel <span class="st">&quot;Samples&quot;</span> <span class="op">%</span> ylabel <span class="st">&quot;Effective sample size&quot;</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">&quot;loc&quot;</span> <span class="st">&quot;upper right&quot;</span>]</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="st">&quot;done.&quot;</span></span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotESSA <span class="ot">=</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">&quot;Plotting images/controlflow-essA.png...&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">1000</span>,<span class="dv">10000</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="co">-- A rejection sampler where the scores are known to be 0 or 1.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> rejectionsampler m <span class="ot">=</span> <span class="fu">fmap</span> (<span class="fu">filter</span> (\(_,w) <span class="ot">-&gt;</span> w<span class="op">&gt;</span><span class="fl">0.00001</span>)) <span class="op">$</span> weightedsamples <span class="op">$</span> m</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> truevar <span class="ot">=</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>) <span class="op">-</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>)<span class="op">^</span><span class="dv">2</span> <span class="co">-- variance for one true sample</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="co">-- Tests to plot</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="fl">0.3</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      cs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="fl">0.33</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior2) <span class="dv">100</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      es <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="dv">1</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      fs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (rejectionsampler <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      file <span class="st">&quot;images/controlflow-essA.png&quot;</span> <span class="op">$</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs as <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh 0.3 with prior1&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;tomato&quot;</span>] <span class="op">%</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs cs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh 0.3 with prior2&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;firebrick&quot;</span>] <span class="op">%</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs es <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;all sites mh&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;forestgreen&quot;</span>] <span class="op">%</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs fs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;rejection sampling&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;black&quot;</span>] <span class="op">%</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        ylim (<span class="dv">1</span><span class="ot">::</span><span class="dt">Double</span>) (<span class="dv">500</span><span class="ot">::</span><span class="dt">Double</span>) <span class="op">%</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        xlabel <span class="st">&quot;Samples&quot;</span> <span class="op">%</span> ylabel <span class="st">&quot;Effective sample size&quot;</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">&quot;loc&quot;</span> <span class="st">&quot;upper right&quot;</span>]</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">putStrLn</span> <span class="st">&quot;done.&quot;</span></span></code></pre></div>
 </details>
 <h2 id="irreducibility">Irreducibility</h2>
 This example also illustrates the issue with potential irreducibility in
@@ -366,30 +370,30 @@ proposals will be rejected except perhaps one. This irreducibility
 arises from the hard constraints (scores of <code>0</code>) and is
 avoided to some extent with a softer constraint:
 <div class="sourceCode" id="cb7"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">softModel ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>softModel prior <span class="ot">=</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> (x,y) <span class="ot">&lt;-</span> sample prior</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>     score (<span class="kw">if</span> x<span class="op">==</span>y <span class="kw">then</span> <span class="fl">0.9</span> <span class="kw">else</span> <span class="fl">0.1</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> x</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; softModel ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> softModel prior <span class="ot">=</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> (x,y) <span class="ot">&lt;-</span> sample prior</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      score (<span class="kw">if</span> x<span class="op">==</span>y <span class="kw">then</span> <span class="fl">0.9</span> <span class="kw">else</span> <span class="fl">0.1</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">return</span> x</span></code></pre></div>
 <img src="images/controlflow-essB.png" />
 <details class="code-details">
 <summary>
 (Plotting code)
 </summary>
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fromBool b <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="fl">1.0</span> <span class="kw">else</span> <span class="fl">0.0</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plotESSB <span class="ot">=</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">&quot;Plotting images/controlflow-essB.png...&quot;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>,<span class="dv">80</span>,<span class="dv">90</span>,<span class="dv">100</span>]</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> truevar <span class="ot">=</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>) <span class="op">-</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>)<span class="op">^</span><span class="dv">2</span> <span class="co">-- variance for one true sample</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Tests to plot</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>     as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">1000</span> </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>     bs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> softModel prior1) <span class="dv">1000</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>     file <span class="st">&quot;images/controlflow-essB.png&quot;</span> <span class="op">$</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>       plot xs as <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh1 with hard constraint&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;mediumblue&quot;</span>] <span class="op">%</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>       plot xs bs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh1 with soft constraint&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;deepskyblue&quot;</span>] <span class="op">%</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>       xlabel <span class="st">&quot;Samples&quot;</span> <span class="op">%</span> ylabel <span class="st">&quot;Effective sample size&quot;</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">&quot;loc&quot;</span> <span class="st">&quot;upper right&quot;</span>]</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="st">&quot;done.&quot;</span></span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> fromBool b <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="fl">1.0</span> <span class="kw">else</span> <span class="fl">0.0</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotESSB <span class="ot">=</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">&quot;Plotting images/controlflow-essB.png...&quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>,<span class="dv">80</span>,<span class="dv">90</span>,<span class="dv">100</span>]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> truevar <span class="ot">=</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>) <span class="op">-</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>)<span class="op">^</span><span class="dv">2</span> <span class="co">-- variance for one true sample</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="co">-- Tests to plot</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">1000</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      bs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (\(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> softModel prior1) <span class="dv">1000</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      file <span class="st">&quot;images/controlflow-essB.png&quot;</span> <span class="op">$</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs as <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh1 with hard constraint&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;mediumblue&quot;</span>] <span class="op">%</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs bs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh1 with soft constraint&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;deepskyblue&quot;</span>] <span class="op">%</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        xlabel <span class="st">&quot;Samples&quot;</span> <span class="op">%</span> ylabel <span class="st">&quot;Effective sample size&quot;</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">&quot;loc&quot;</span> <span class="st">&quot;upper right&quot;</span>]</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">putStrLn</span> <span class="st">&quot;done.&quot;</span></span></code></pre></div>
 </details>
 <h2
 id="note-about-different-metropolis-hastings-kernels-in-general">Note
@@ -400,14 +404,14 @@ Metropolis-Hastings algorithms of LazyPPL in general. To emphasise this,
 we plot the precision in the intercept for a linear regression example
 (similar to <a href="Regression.html">here</a>).
 <div class="sourceCode" id="cb9"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">linreg ::</span> <span class="dt">Meas</span> (<span class="dt">Double</span>,<span class="dt">Double</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>linreg <span class="ot">=</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sample <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> sample <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> dataset <span class="ot">=</span> [(<span class="dv">0</span>,<span class="dv">5</span>), (<span class="fl">0.1</span>,<span class="dv">10</span>), (<span class="fl">0.2</span>,<span class="dv">0</span>)]</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapM</span> (\(x, y) <span class="ot">-&gt;</span> score <span class="op">$</span> normalPdf (a<span class="op">*</span>x <span class="op">+</span> b) <span class="fl">0.5</span> y) dataset</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (a,b)</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; linreg ::</span> <span class="dt">Meas</span> (<span class="dt">Double</span>,<span class="dt">Double</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> linreg <span class="ot">=</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     a <span class="ot">&lt;-</span> sample <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     b <span class="ot">&lt;-</span> sample <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> dataset <span class="ot">=</span> [(<span class="dv">0</span>,<span class="dv">5</span>), (<span class="fl">0.1</span>,<span class="dv">10</span>), (<span class="fl">0.2</span>,<span class="dv">0</span>)]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="fu">mapM</span> (\(x, y) <span class="ot">-&gt;</span> score <span class="op">$</span> normalPdf (a<span class="op">*</span>x <span class="op">+</span> b) <span class="fl">0.5</span> y) dataset</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="fu">return</span> (a,b)</span></code></pre></div>
 <p><img src="images/controlflow-prec.png" /></p>
 <p>(Here we plot precision, which is proportional to effective sample
 size, because a general effective sample size analysis isn’t written
@@ -417,29 +421,29 @@ yet.) <br></p>
 (Plotting code)
 </summary>
 <div class="sourceCode" id="cb10"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plotPrec <span class="ot">=</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">&quot;Plotting images/controlflow-prec.png...&quot;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">400</span>,<span class="dv">700</span>,<span class="dv">1000</span>]</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Tests to plot</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>     as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh <span class="fl">0.5</span> <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>     bs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>     es <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh <span class="dv">1</span> <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>     file <span class="st">&quot;images/controlflow-prec.png&quot;</span> <span class="op">$</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>       plot xs bs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh1&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;mediumblue&quot;</span>] <span class="op">%</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>       plot xs as <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh 0.5&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;firebrick&quot;</span>] <span class="op">%</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>       plot xs es <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;all sites mh&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;forestgreen&quot;</span>] <span class="op">%</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>       xlabel <span class="st">&quot;Samples&quot;</span> <span class="op">%</span> ylabel <span class="st">&quot;Precision for mean b&quot;</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">&quot;loc&quot;</span> <span class="st">&quot;upper right&quot;</span>]</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="st">&quot;done.&quot;</span></span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotPrec <span class="ot">=</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">&quot;Plotting images/controlflow-prec.png...&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">400</span>,<span class="dv">700</span>,<span class="dv">1000</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="co">-- Tests to plot</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh <span class="fl">0.5</span> <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      bs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      es <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh <span class="dv">1</span> <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      file <span class="st">&quot;images/controlflow-prec.png&quot;</span> <span class="op">$</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs bs <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh1&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;mediumblue&quot;</span>] <span class="op">%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs as <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;mh 0.5&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;firebrick&quot;</span>] <span class="op">%</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        plot xs es <span class="op">@@</span> [o2 <span class="st">&quot;label&quot;</span> <span class="st">&quot;all sites mh&quot;</span>, o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;forestgreen&quot;</span>] <span class="op">%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        xlabel <span class="st">&quot;Samples&quot;</span> <span class="op">%</span> ylabel <span class="st">&quot;Precision for mean b&quot;</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">&quot;loc&quot;</span> <span class="st">&quot;upper right&quot;</span>]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>      <span class="fu">putStrLn</span> <span class="st">&quot;done.&quot;</span></span></code></pre></div>
 </details>
 <details class="code-details">
 <summary>
 (Epilogue code)
 </summary>
 <div class="sourceCode" id="cb11"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  plotESSA</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  plotESSB</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  plotPrec</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotESSA</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotESSB</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotPrec</span></code></pre></div>
 </details>
 <br>
 <hr>

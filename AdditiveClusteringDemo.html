@@ -247,6 +247,8 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="ClusteringDemo.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="IrmDemo.html">Infinite relational model</a></li>
+              <li><a class="dropdown-item" href="AdditiveClusteringDemo.html">Indian Buffet Process</a></li>
               <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
             </ul>
           </li>
@@ -284,11 +286,12 @@ class="sourceCode literatehaskell literate"><code class="sourceCode literatehask
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.Maybe</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
 </details>
-<p>Additive clustering is a method for assigning features to a set of of
-objects using similarity data. The number of possible features is
-unknown and inferred using the Indian Buffet Process. Each feature has
-an associated “saliency” weight indicating how much it contributes to
-the similarity coefficient. We also infer the saliency weights.</p>
+<p>Additive clustering is a method for inferring features over a set of
+of objects using similarity data. The nature of the features is unknown,
+and the number of possible features is unknown, and inferred using the
+Indian Buffet Process. Each feature has an associated “saliency” weight
+indicating how much it contributes to the similarity coefficient. We
+also infer the saliency weights.</p>
 <h2 id="data-set">Data set</h2>
 <div class="sourceCode" id="cb6"><pre
 class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Country</span> <span class="ot">=</span> <span class="dt">China</span> <span class="op">|</span> <span class="dt">Cuba</span> <span class="op">|</span> <span class="dt">Germany</span> <span class="op">|</span> <span class="dt">Indonesia</span> <span class="op">|</span> <span class="dt">Iraq</span> <span class="op">|</span> <span class="dt">Italy</span> <span class="op">|</span> <span class="dt">Jamaica</span> <span class="op">|</span> <span class="dt">Japan</span> <span class="op">|</span> <span class="dt">Libya</span> <span class="op">|</span> <span class="dt">Nigeria</span> <span class="op">|</span> <span class="dt">Philippines</span> <span class="op">|</span> <span class="dt">Russia</span> <span class="op">|</span> <span class="dt">Spain</span> <span class="op">|</span> <span class="dt">US</span> <span class="op">|</span> <span class="dt">Vietnam</span> <span class="op">|</span> <span class="dt">Zimbabwe</span> <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Show</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>, <span class="dt">Ix</span>)</span></code></pre></div>
@@ -321,47 +324,72 @@ class="sourceCode literatehaskell literate"><code class="sourceCode literatehask
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   [<span class="fl">0.30</span>, <span class="fl">0.11</span>, <span class="fl">0.42</span>, <span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.20</span>, <span class="fl">0.12</span>, <span class="fl">0.46</span>, <span class="fl">0.02</span>, <span class="fl">0.04</span>, <span class="fl">0.01</span>, <span class="fl">0.43</span>, <span class="fl">0.20</span>],</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   [<span class="fl">0.60</span>, <span class="fl">0.12</span>, <span class="fl">0.03</span>, <span class="fl">0.55</span>, <span class="fl">0.12</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.45</span>, <span class="fl">0.10</span>, <span class="fl">0.03</span>, <span class="fl">0.57</span>, <span class="fl">0.08</span>, <span class="fl">0.02</span>, <span class="fl">0.12</span>],</span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   [<span class="fl">0.01</span>, <span class="fl">0.08</span>, <span class="fl">0.01</span>, <span class="fl">0.11</span>, <span class="fl">0.15</span>, <span class="fl">0.02</span>, <span class="fl">0.29</span>, <span class="fl">0.01</span>, <span class="fl">0.31</span>, <span class="fl">0.83</span>, <span class="fl">0.08</span>, <span class="fl">0.01</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>, <span class="fl">0.03</span>]]</span></code></pre></div>
+<p>Data set taken from <a
+href="https://digital.library.adelaide.edu.au/dspace/handle/2440/21902">Representing
+Stimulus Similarity</a>, PhD thesis, D. J. Navarro. Department of
+Psychology University of Adelaide. December, 2002</p>
 </details>
 <h2 id="additive-clustering-model">Additive clustering model</h2>
+<p>The Indian Buffet Process provides abstract types <code
+class="sourceCode haskell"><span class="dt">Restaurant</span></code> and
+<code class="sourceCode haskell"><span class="dt">Dish</span></code>,
+and the following interface:</p>
+<ul>
+<li><p><code
+class="sourceCode haskell"><span class="ot">newRestaurant ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Restaurant</span></code>
+opens a new restaurant;</p></li>
+<li><p><code
+class="sourceCode haskell"><span class="ot">newCustomer ::</span> <span class="dt">Restaurant</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> [<span class="dt">Dish</span>]</code>
+assigns a finite set of dishes to a new customer.</p></li>
+</ul>
 <p>Our additive clustering models has three parameters
 (<code>alpha</code>, <code>lambda1</code> and <code>lambda2</code>) and
 produces a mapping from countries to lists of features. We use an Indian
 Buffet Process abstraction, so we imagine that each country arrives as a
-customer at a buffet, and takes some dishes, which are the features.</p>
+customer at a buffet, and takes some dishes, which are the features. We
+can then assess which countries took similar dishes to see which
+countries are similar.</p>
 <div class="sourceCode" id="cb10"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; additiveClustering ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Array</span> (<span class="dt">Country</span>,<span class="dt">Country</span>) <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Meas</span> (<span class="dt">Array</span> <span class="dt">Country</span> [<span class="dt">Dish</span>])</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> additiveClustering alpha lambda1 lambda2 similarityData <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (<span class="ot">restaurant ::</span> <span class="dt">Restaurant</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant alpha</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; additiveClustering ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                    <span class="ot">-&gt;</span> <span class="dt">Array</span> (<span class="dt">Country</span>,<span class="dt">Country</span>) <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Meas</span> (<span class="dt">Array</span> <span class="dt">Country</span> [<span class="dt">Dish</span>])</span></code></pre></div>
+<p>(Recall that in Haskell, the type <code
+class="sourceCode haskell">(<span class="dt">Array</span> a b)</code>
+comprises <code class="sourceCode haskell">a</code>-indexed arrays of
+things of type <code class="sourceCode haskell">b</code>.)</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> additiveClustering alpha lambda1 lambda2 similarityData <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (<span class="ot">restaurant ::</span> <span class="dt">Restaurant</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant alpha</span></code></pre></div>
 <p>Each dish is randomly assigned a weight, which is how important it is
 to the similarities between countries.</p>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (<span class="ot">weights ::</span> <span class="dt">Dish</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize (\d <span class="ot">-&gt;</span> gamma lambda1 lambda2)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (<span class="ot">weights ::</span> <span class="dt">Dish</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize (\d <span class="ot">-&gt;</span> gamma lambda1 lambda2)</span></code></pre></div>
 <p>Each country is assigned a list of dishes, by regarding it as a new
 customer in the restaurant.</p>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (<span class="ot">features ::</span> <span class="dt">Array</span> <span class="dt">Country</span> [<span class="dt">Dish</span>])</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>            <span class="ot">&lt;-</span> listArray (<span class="fu">minBound</span>,<span class="fu">maxBound</span>) <span class="op">&lt;$&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>               (replicateM (<span class="fu">fromEnum</span> (<span class="fu">maxBound</span><span class="ot"> ::</span> <span class="dt">Country</span>) <span class="op">+</span> <span class="dv">1</span>) <span class="op">$</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>               sample <span class="op">$</span> newCustomer restaurant)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (<span class="ot">features ::</span> <span class="dt">Array</span> <span class="dt">Country</span> [<span class="dt">Dish</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>            <span class="ot">&lt;-</span> listArray (<span class="fu">minBound</span>,<span class="fu">maxBound</span>) <span class="op">&lt;$&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>               (replicateM (<span class="fu">fromEnum</span> (<span class="fu">maxBound</span><span class="ot"> ::</span> <span class="dt">Country</span>) <span class="op">+</span> <span class="dv">1</span>) <span class="op">$</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>               sample <span class="op">$</span> newCustomer restaurant)</span></code></pre></div>
 <p>We define a function that calculates the similarity of two countries
 given the dishes that they share.</p>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span><span class="ot"> similarity ::</span> <span class="dt">Country</span> <span class="ot">-&gt;</span> <span class="dt">Country</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>         similarity i j <span class="ot">=</span> <span class="fu">sum</span> [weights a <span class="op">|</span> a <span class="ot">&lt;-</span> features<span class="op">!</span>j, a <span class="ot">`elem`</span> features<span class="op">!</span>i]</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span><span class="ot"> similarity ::</span> <span class="dt">Country</span> <span class="ot">-&gt;</span> <span class="dt">Country</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>         similarity i j <span class="ot">=</span> <span class="fu">sum</span> [weights a <span class="op">|</span> a <span class="ot">&lt;-</span> features<span class="op">!</span>j, a <span class="ot">`elem`</span> features<span class="op">!</span>i]</span></code></pre></div>
 <p>We score based on how closely this similarity matches the
 experimental data.</p>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="fu">mapM_</span> (\(i, j) <span class="ot">-&gt;</span> score <span class="op">$</span> normalPdf (similarityData<span class="op">!</span>(i,j)) <span class="fl">0.1</span> (similarity i j)) [ (i, j) <span class="op">|</span> i <span class="ot">&lt;-</span> countries, j <span class="ot">&lt;-</span> countries, j <span class="op">&lt;</span> i ]</span></code></pre></div>
-<p>We return the feature assignment.</p>
 <div class="sourceCode" id="cb15"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="fu">return</span> features</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="fu">mapM_</span> (\(i, j) <span class="ot">-&gt;</span> score <span class="op">$</span> normalPdf (similarityData<span class="op">!</span>(i,j)) <span class="fl">0.1</span> (similarity i j)) [ (i, j) <span class="op">|</span> i <span class="ot">&lt;-</span> countries, j <span class="ot">&lt;-</span> countries, j <span class="op">&lt;</span> i ]</span></code></pre></div>
+<p>We return the feature assignment.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="fu">return</span> features</span></code></pre></div>
 <h2 id="simulation">Simulation</h2>
 <p>We sample from this using Metropolis Hastings simulation, and plot
-some MAP features.</p>
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> test <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   samples <span class="ot">&lt;-</span> mhirreducible <span class="fl">0.2</span> <span class="fl">0.01</span> <span class="op">$</span> additiveClustering <span class="dv">3</span> <span class="dv">6</span> <span class="fl">0.3</span> similarityData</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">return</span> <span class="op">$</span> plotFeatureMatrix <span class="op">$</span> maxap <span class="op">$</span> <span class="fu">take</span> <span class="dv">10000</span> samples</span></code></pre></div>
+some MAP features. The columns represent the found features, with a
+coloured box if the country has that feature.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> test <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   samples <span class="ot">&lt;-</span> mhirreducible <span class="fl">0.2</span> <span class="fl">0.01</span> <span class="op">$</span> additiveClustering <span class="dv">2</span> <span class="dv">6</span> <span class="fl">0.3</span> similarityData</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">return</span> <span class="op">$</span> plotFeatureMatrix <span class="op">$</span> maxap <span class="op">$</span> <span class="fu">take</span> <span class="dv">100000</span> samples</span></code></pre></div>
 <figure>
 <img src="images/additiveclustering-matrix.svg"
 alt="Inferred feature matrices." />
@@ -375,23 +403,23 @@ geographic, history, development status.</p>
 <summary>
 Plotting routines
 </summary>
-<div class="sourceCode" id="cb17"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> maxap samples <span class="ot">=</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>         <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span> samples) <span class="kw">in</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>         fromJust <span class="op">$</span> Data.List.lookup maxw <span class="op">$</span> <span class="fu">map</span> (\(z,w) <span class="ot">-&gt;</span> (w,z)) samples </span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; plotFeatureMatrix ::</span> (<span class="dt">Ix</span> x,<span class="dt">Enum</span> x,<span class="dt">Bounded</span> x,<span class="dt">Eq</span> y) <span class="ot">=&gt;</span> <span class="dt">Array</span> x [y] <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotFeatureMatrix features <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> ys <span class="ot">=</span> nub <span class="op">$</span> <span class="fu">concat</span> <span class="op">$</span> elems features</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> matrix <span class="ot">=</span> [[ <span class="kw">if</span> <span class="fu">elem</span> y (features <span class="op">!</span> x) <span class="kw">then</span> fromJust (elemIndex y ys) <span class="kw">else</span> <span class="dv">0</span> <span class="op">|</span> y <span class="ot">&lt;-</span> ys] <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="fu">minBound</span><span class="op">..</span><span class="fu">maxBound</span>] ]</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   matShow matrix <span class="op">@@</span> [o2 <span class="st">&quot;cmap&quot;</span> <span class="op">$</span> raw <span class="st">&quot;twilight&quot;</span>] <span class="op">%</span> yticks (<span class="fu">map</span> <span class="fu">fromEnum</span> countries) <span class="op">%</span> ytickLabels (<span class="fu">map</span> (raw <span class="op">.</span> <span class="fu">show</span>) countries) </span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> maxap samples <span class="ot">=</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>         <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span> samples) <span class="kw">in</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>         fromJust <span class="op">$</span> Data.List.lookup maxw <span class="op">$</span> <span class="fu">map</span> (\(z,w) <span class="ot">-&gt;</span> (w,z)) samples </span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> combinePlots filename fs <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   file filename <span class="op">$</span> <span class="fu">foldl</span> (\p i <span class="ot">-&gt;</span> p <span class="op">%</span> setSubplot i <span class="op">%</span> fs <span class="op">!!</span> i) (subplots <span class="op">@@</span> [o2 <span class="st">&quot;ncols&quot;</span> (<span class="fu">length</span> fs), o2 <span class="st">&quot;sharey&quot;</span> <span class="dt">True</span>, o2 <span class="st">&quot;gridspec_kw&quot;</span> <span class="op">$</span> lit <span class="st">&quot;{&#39;width_ratios&#39;: [1, 1, 1]}&quot;</span>]) [<span class="dv">0</span><span class="op">..</span>(<span class="fu">length</span> fs <span class="op">-</span><span class="dv">1</span>)] </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; plotFeatureMatrix ::</span> (<span class="dt">Ix</span> x,<span class="dt">Enum</span> x,<span class="dt">Bounded</span> x,<span class="dt">Eq</span> y) <span class="ot">=&gt;</span> <span class="dt">Array</span> x [y] <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotFeatureMatrix features <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> ys <span class="ot">=</span> nub <span class="op">$</span> <span class="fu">concat</span> <span class="op">$</span> elems features</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> matrix <span class="ot">=</span> [[ <span class="kw">if</span> <span class="fu">elem</span> y (features <span class="op">!</span> x) <span class="kw">then</span> fromJust (elemIndex y ys) <span class="kw">else</span> <span class="dv">0</span> <span class="op">|</span> y <span class="ot">&lt;-</span> ys] <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="fu">minBound</span><span class="op">..</span><span class="fu">maxBound</span>] ]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   matShow matrix <span class="op">@@</span> [o2 <span class="st">&quot;cmap&quot;</span> <span class="op">$</span> raw <span class="st">&quot;twilight&quot;</span>] <span class="op">%</span> yticks (<span class="fu">map</span> <span class="fu">fromEnum</span> countries) <span class="op">%</span> ytickLabels (<span class="fu">map</span> (raw <span class="op">.</span> <span class="fu">show</span>) countries) </span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> main <span class="ot">=</span> <span class="kw">do</span> { ps <span class="ot">&lt;-</span> replicateM <span class="dv">3</span> test ; combinePlots <span class="st">&quot;images/additiveclustering-matrix.svg&quot;</span> ps }</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> combinePlots filename fs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   file filename <span class="op">$</span> <span class="fu">foldl</span> (\p i <span class="ot">-&gt;</span> p <span class="op">%</span> setSubplot i <span class="op">%</span> fs <span class="op">!!</span> i) (subplots <span class="op">@@</span> [o2 <span class="st">&quot;ncols&quot;</span> (<span class="fu">length</span> fs), o2 <span class="st">&quot;sharey&quot;</span> <span class="dt">True</span>, o2 <span class="st">&quot;gridspec_kw&quot;</span> <span class="op">$</span> lit <span class="st">&quot;{&#39;width_ratios&#39;: [1, 1, 1]}&quot;</span>]) [<span class="dv">0</span><span class="op">..</span>(<span class="fu">length</span> fs <span class="op">-</span><span class="dv">1</span>)] </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> main <span class="ot">=</span> <span class="kw">do</span> { ps <span class="ot">&lt;-</span> replicateM <span class="dv">3</span> test ; combinePlots <span class="st">&quot;images/additiveclustering-matrix.svg&quot;</span> ps }</span></code></pre></div>
 </details>
 <br>
 <hr>

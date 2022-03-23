@@ -247,6 +247,8 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="ClusteringDemo.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="IrmDemo.html">Infinite relational model</a></li>
+              <li><a class="dropdown-item" href="AdditiveClusteringDemo.html">Indian Buffet Process</a></li>
               <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
             </ul>
           </li>
@@ -304,50 +306,50 @@ href="https://bitbucket.org/lazyppl">Bitbucket repository</a>.</p>
 Extensions and imports for this Literate Haskell file
 </summary>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Index</span> <span class="kw">where</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span></span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">module</span> <span class="dt">Index</span> <span class="kw">where</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.List</span></span></code></pre></div>
 </details>
 <br> Suppose we we know that there are fewer buses on Sundays than on
 other days. I notice 4 buses in an hour, what is the probability it is a
 Sunday?
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">model ::</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Prior belief: it is Sunday with prob. 1/7</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  sunday <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli (<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- I know the rates of buses on the different days:</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> rate <span class="ot">=</span> <span class="kw">if</span> sunday <span class="kw">then</span> <span class="dv">3</span> <span class="kw">else</span> <span class="dv">10</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- observe 4 buses</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  score <span class="op">$</span> poissonPdf rate <span class="dv">4</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> sunday</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; model ::</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> model <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="co">-- Prior belief: it is Sunday with prob. 1/7</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   sunday <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli (<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="co">-- I know the rates of buses on the different days:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> rate <span class="ot">=</span> <span class="kw">if</span> sunday <span class="kw">then</span> <span class="dv">3</span> <span class="kw">else</span> <span class="dv">10</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="co">-- observe 4 buses</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   score <span class="op">$</span> poissonPdf rate <span class="dv">4</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">return</span> sunday</span></code></pre></div>
 We run a Metropolis-Hastings simulation to get a stream of draws from
 this unnormalized measure. We plot a histogram of the results, which
 shows the posterior probability that it is Sunday, given that we saw 4
 buses.
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">inference ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>inference <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  xws <span class="ot">&lt;-</span> mh <span class="dv">1</span> model</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  plotHistogram <span class="st">&quot;images/index-posterior.svg&quot;</span> (<span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> xws)</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; inference ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> inference <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   xws <span class="ot">&lt;-</span> mh <span class="dv">1</span> model</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotHistogram <span class="st">&quot;images/index-posterior.svg&quot;</span> (<span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> xws)</span></code></pre></div>
 <img src="images/index-posterior.svg" />
 <details class="code-details">
 <summary>
 Code for plotting histograms.
 </summary>
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> categories <span class="ot">=</span> nub xs</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (\c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (\n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {inference}</span></code></pre></div>
+class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> categories <span class="ot">=</span> nub xs</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (\c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (\n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> main <span class="ot">=</span> <span class="kw">do</span> {inference}</span></code></pre></div>
 </details>
 <br>
 <hr>
