@@ -236,9 +236,10 @@
               Regression examples
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li>
+              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li> 
+              <li><a class="dropdown-item" href="GaussianProcessDemo.html">Gaussian process regression</a></li>
               <li><a class="dropdown-item" href="WienerDemo.html">Wiener process regression</a></li>
-              <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
+             <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -270,19 +271,19 @@ model.</p>
 Extensions and imports for this Literate Haskell file
 </summary>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE FlexibleInstances #-}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE MultiParamTypeClasses #-}</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">module</span> <span class="dt">IrmDemo</span> <span class="kw">where</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr.DirichletP</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.List</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">LazyPPL</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE FlexibleInstances #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE MultiParamTypeClasses #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">IrmDemo</span> <span class="kw">where</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.DirichletP</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
 </details>
 <p>We have six people, and we know that some of them talk to each other,
 and some of them don’t talk to each other. We want to infer the social
@@ -290,8 +291,8 @@ groups. This is non-parametric in that we don’t assume a fixed number of
 social groups.</p>
 <p>We set up a data type inhabited by the people of interest.</p>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Person</span> <span class="ot">=</span> <span class="dt">Tom</span> <span class="op">|</span> <span class="dt">Fred</span> <span class="op">|</span> <span class="dt">Jim</span> <span class="op">|</span> <span class="dt">Mary</span> <span class="op">|</span> <span class="dt">Sue</span> <span class="op">|</span> <span class="dt">Ann</span> <span class="kw">deriving</span> (<span class="dt">Show</span> , <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">instance</span> <span class="dt">MonadMemo</span> <span class="dt">Prob</span> <span class="dt">Person</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Person</span> <span class="ot">=</span> <span class="dt">Tom</span> <span class="op">|</span> <span class="dt">Fred</span> <span class="op">|</span> <span class="dt">Jim</span> <span class="op">|</span> <span class="dt">Mary</span> <span class="op">|</span> <span class="dt">Sue</span> <span class="op">|</span> <span class="dt">Ann</span> <span class="kw">deriving</span> (<span class="dt">Show</span> , <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">MonadMemo</span> <span class="dt">Prob</span> <span class="dt">Person</span></span></code></pre></div>
 <h2 id="the-model">The model</h2>
 <p>The model is set up by building a Chinese Restaurant and placing the
 people at tables in it. Here we are using our Chinese Restaurant process
@@ -311,47 +312,47 @@ which says which table a new customer will sit at.</li>
 <p>The model describes an unnormalized probability measure on functions
 assigning tables to people.</p>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; model ::</span> <span class="dt">Meas</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> model <span class="ot">=</span> <span class="kw">do</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">model ::</span> <span class="dt">Meas</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="kw">do</span></span></code></pre></div>
 <p>We first set up a new restaurant. Behind the scenes, this initiates
 lazy stick-breaking.</p>
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;   r ::</span> <span class="dt">Restaurant</span> <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant <span class="fl">1.0</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">  r ::</span> <span class="dt">Restaurant</span> <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant <span class="fl">1.0</span></span></code></pre></div>
 <p>We define two memoized functions: the first, <code>table</code>,
 assigns a table to each person. Memoization is defined using
 laziness.</p>
 <div class="sourceCode" id="cb5"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;   table ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> \person <span class="ot">-&gt;</span> newCustomer r</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">  table ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> \person <span class="ot">-&gt;</span> newCustomer r</span></code></pre></div>
 <p>The second memoized function, <code>near</code>, assigns to each pair
 of tables the chance that people on those tables will talk to each
 other.</p>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;   near ::</span> ((<span class="dt">Table</span>, <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> \(tableA, tableB) <span class="ot">-&gt;</span> beta <span class="fl">0.5</span> <span class="fl">0.5</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">  near ::</span> ((<span class="dt">Table</span>, <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> \(tableA, tableB) <span class="ot">-&gt;</span> beta <span class="fl">0.5</span> <span class="fl">0.5</span></span></code></pre></div>
 <p>We define two helper functions, <code>talks</code> and
 <code>nottalks</code>, which we then map over the observations about
 various people talking or not talking to each other.</p>
 <div class="sourceCode" id="cb7"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span><span class="ot"> talks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> \(personA, personB) <span class="ot">-&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                             score <span class="op">$</span> near (table personA, table personB)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span><span class="ot"> nottalks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> \(personA, personB) <span class="ot">-&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                               score <span class="op">$</span> <span class="dv">1</span> <span class="op">-</span> near (table personA, table personB)</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span><span class="ot"> talks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> \(personA, personB) <span class="ot">-&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                                            score <span class="op">$</span> near (table personA, table personB)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span><span class="ot"> nottalks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> \(personA, personB) <span class="ot">-&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                                              score <span class="op">$</span> <span class="dv">1</span> <span class="op">-</span> near (table personA, table personB)</span></code></pre></div>
 <p>The data set:</p>
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">mapM_</span> talks [(<span class="dt">Tom</span>, <span class="dt">Fred</span>), (<span class="dt">Tom</span>, <span class="dt">Jim</span>), (<span class="dt">Jim</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Sue</span>), (<span class="dt">Mary</span>, <span class="dt">Ann</span>), (<span class="dt">Ann</span>, <span class="dt">Sue</span>)]</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">mapM_</span> nottalks [(<span class="dt">Mary</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Jim</span>), (<span class="dt">Sue</span>, <span class="dt">Fred</span>), (<span class="dt">Sue</span>, <span class="dt">Tom</span>), (<span class="dt">Ann</span>, <span class="dt">Jim</span>), (<span class="dt">Ann</span>, <span class="dt">Tom</span>)]</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapM_</span> talks [(<span class="dt">Tom</span>, <span class="dt">Fred</span>), (<span class="dt">Tom</span>, <span class="dt">Jim</span>), (<span class="dt">Jim</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Sue</span>), (<span class="dt">Mary</span>, <span class="dt">Ann</span>), (<span class="dt">Ann</span>, <span class="dt">Sue</span>)]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapM_</span> nottalks [(<span class="dt">Mary</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Jim</span>), (<span class="dt">Sue</span>, <span class="dt">Fred</span>), (<span class="dt">Sue</span>, <span class="dt">Tom</span>), (<span class="dt">Ann</span>, <span class="dt">Jim</span>), (<span class="dt">Ann</span>, <span class="dt">Tom</span>)]</span></code></pre></div>
 <p>Finally we return the assignment of tables to people.</p>
 <div class="sourceCode" id="cb9"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">return</span> table</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> table</span></code></pre></div>
 <h2 id="running-the-model">Running the model</h2>
 <p>We sample from this unnormalized measure using a Metropolis-Hastings
 simulation. We calculate the probability of Tom/Fred and Tom/Mary
 sitting together, and also plot a graph of the MAP sample.</p>
 <div class="sourceCode" id="cb10"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> main <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   tws <span class="ot">&lt;-</span> <span class="fu">take</span> <span class="dv">10000</span> <span class="op">&lt;$&gt;</span> mh <span class="fl">0.2</span> model</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotHistogram <span class="st">&quot;images/irm-tom-fred.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> (\(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Fred</span>) <span class="op">$</span> tws</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   plotHistogram <span class="st">&quot;images/irm-tom-mary.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> (\(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Mary</span>) <span class="op">$</span> tws</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">writeFile</span> <span class="st">&quot;images/irm-tables.dot&quot;</span> <span class="op">$</span> <span class="fu">show</span> <span class="op">$</span> maxap tws</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  tws <span class="ot">&lt;-</span> <span class="fu">take</span> <span class="dv">10000</span> <span class="op">&lt;$&gt;</span> mh <span class="fl">0.2</span> model</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  plotHistogram <span class="st">&quot;images/irm-tom-fred.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> (\(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Fred</span>) <span class="op">$</span> tws</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  plotHistogram <span class="st">&quot;images/irm-tom-mary.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> (\(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Mary</span>) <span class="op">$</span> tws</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeFile</span> <span class="st">&quot;images/irm-tables.dot&quot;</span> <span class="op">$</span> <span class="fu">show</span> <span class="op">$</span> maxap tws</span></code></pre></div>
 <figure>
 <img src="images/irm-tom-fred.svg"
 alt="The posterior probability of Tom and Fred sitting together." />
@@ -379,26 +380,26 @@ rejection sampling agrees with our histograms.</p>
 Plotting code
 </summary>
 <div class="sourceCode" id="cb11"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="co">-- Maximum a priori from a list of weighted samples</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> maxap xws <span class="ot">=</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span> xws) <span class="kw">in</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> (<span class="dt">Just</span> x) <span class="ot">=</span> Data.List.lookup maxw <span class="op">$</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                     <span class="fu">map</span> (\(z, w) <span class="ot">-&gt;</span> (w, z)) xws <span class="kw">in</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>    x</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Maximum a priori from a list of weighted samples</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>maxap xws <span class="ot">=</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span> xws) <span class="kw">in</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> (<span class="dt">Just</span> x) <span class="ot">=</span> Data.List.lookup maxw <span class="op">$</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">map</span> (\(z, w) <span class="ot">-&gt;</span> (w, z)) xws <span class="kw">in</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   x</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; tableToDot ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> tableToDot f <span class="ot">=</span> <span class="st">&quot;graph tables {&quot;</span> <span class="op">++</span> <span class="fu">concat</span> [ <span class="fu">show</span> a <span class="op">++</span> <span class="st">&quot; -- &quot;</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">&quot;; &quot;</span> <span class="op">|</span> a <span class="ot">&lt;-</span> people , b <span class="ot">&lt;-</span> people , a <span class="op">&lt;</span> b, f a <span class="op">==</span> f b] <span class="op">++</span> <span class="st">&quot;}&quot;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="kw">where</span> dotLine a b <span class="dt">True</span> <span class="ot">=</span> <span class="fu">show</span> a <span class="op">++</span> <span class="st">&quot; -- &quot;</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">&quot;\n&quot;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        people <span class="ot">=</span> [<span class="fu">minBound</span><span class="op">..</span><span class="fu">maxBound</span>]</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">instance</span> <span class="dt">Show</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="kw">where</span> <span class="fu">show</span> f <span class="ot">=</span> tableToDot f</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">tableToDot ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>tableToDot f <span class="ot">=</span> <span class="st">&quot;graph tables {&quot;</span> <span class="op">++</span> <span class="fu">concat</span> [ <span class="fu">show</span> a <span class="op">++</span> <span class="st">&quot; -- &quot;</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">&quot;; &quot;</span> <span class="op">|</span> a <span class="ot">&lt;-</span> people , b <span class="ot">&lt;-</span> people , a <span class="op">&lt;</span> b, f a <span class="op">==</span> f b] <span class="op">++</span> <span class="st">&quot;}&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">where</span> dotLine a b <span class="dt">True</span> <span class="ot">=</span> <span class="fu">show</span> a <span class="op">++</span> <span class="st">&quot; -- &quot;</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">&quot;\n&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>       people <span class="ot">=</span> [<span class="fu">minBound</span><span class="op">..</span><span class="fu">maxBound</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Show</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="kw">where</span> <span class="fu">show</span> f <span class="ot">=</span> tableToDot f</span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="kw">let</span> categories <span class="ot">=</span> nub xs</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (\c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (\n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> <span class="kw">let</span> categories <span class="ot">=</span> nub xs</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (\c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a> file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (\n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
 </details>
 <br>
 <hr>

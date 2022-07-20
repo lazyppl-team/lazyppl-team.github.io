@@ -236,9 +236,10 @@
               Regression examples
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li>
+              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li> 
+              <li><a class="dropdown-item" href="GaussianProcessDemo.html">Gaussian process regression</a></li>
               <li><a class="dropdown-item" href="WienerDemo.html">Wiener process regression</a></li>
-              <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
+             <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -267,39 +268,39 @@ points and we try to group them into clusters that make sense.</p>
 Extensions and imports for this Literate Haskell file
 </summary>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">module</span> <span class="dt">ClusteringDemo</span> <span class="kw">where</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Control.Monad</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.Colour.RGBSpace.HSV</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.Colour.SRGB</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.List</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Data.Monoid</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr.DirichletP</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">LazyPPL</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Numeric.Log</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> <span class="co">-- In Ghci you will need to :set -fobject-code</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">ClusteringDemo</span> <span class="kw">where</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour.RGBSpace.HSV</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Colour.SRGB</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Monoid</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.DirichletP</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Numeric.Log</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">-- In Ghci you will need to :set -fobject-code</span></span></code></pre></div>
 </details>
 <br> In our example, the data points are on the plane and clusters
 contain points that are closer to each other. To illustrate this, we
 consider a synthetic example data set:<br />
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> dataset <span class="ot">=</span> [(<span class="fl">7.7936387</span>, <span class="fl">7.469271</span>), (<span class="fl">5.3105156</span>, <span class="fl">7.891521</span>), (<span class="fl">5.4320135</span>, <span class="fl">5.135559</span>), (<span class="fl">7.3844196</span>, <span class="fl">7.478719</span>), (<span class="fl">6.7382938</span>, <span class="fl">7.476735</span>), (<span class="fl">0.6663453</span>, <span class="fl">4.460257</span>), (<span class="fl">3.2001898</span>, <span class="fl">2.653919</span>), (<span class="fl">2.1231227</span>, <span class="fl">3.758051</span>), (<span class="fl">3.3734472</span>, <span class="fl">2.420528</span>), (<span class="fl">0.4699408</span>, <span class="fl">1.835277</span>)]</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">=</span> [(<span class="fl">7.7936387</span>, <span class="fl">7.469271</span>), (<span class="fl">5.3105156</span>, <span class="fl">7.891521</span>), (<span class="fl">5.4320135</span>, <span class="fl">5.135559</span>), (<span class="fl">7.3844196</span>, <span class="fl">7.478719</span>), (<span class="fl">6.7382938</span>, <span class="fl">7.476735</span>), (<span class="fl">0.6663453</span>, <span class="fl">4.460257</span>), (<span class="fl">3.2001898</span>, <span class="fl">2.653919</span>), (<span class="fl">2.1231227</span>, <span class="fl">3.758051</span>), (<span class="fl">3.3734472</span>, <span class="fl">2.420528</span>), (<span class="fl">0.4699408</span>, <span class="fl">1.835277</span>)]</span></code></pre></div>
 <img src="images/clustering-dataset.svg" />
 <details class="code-details">
 <summary>
 Code for plotting the data points.
 </summary>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; plotDataset ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotDataset <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> filename <span class="ot">=</span> <span class="st">&quot;images/clustering-dataset.svg&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   file filename <span class="op">$</span> mplBivarNormal <span class="dv">0</span> <span class="dv">0</span> <span class="dv">100</span> <span class="dv">0</span> (scatter [<span class="dv">0</span>,<span class="dv">8</span>] [<span class="dv">0</span>,<span class="dv">8</span>] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;white&quot;</span>]) <span class="op">%</span> scatter (<span class="fu">map</span> <span class="fu">fst</span> dataset) (<span class="fu">map</span> <span class="fu">snd</span> dataset) <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;black&quot;</span>]</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotDataset ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plotDataset <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> filename <span class="ot">=</span> <span class="st">&quot;images/clustering-dataset.svg&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  file filename <span class="op">$</span> mplBivarNormal <span class="dv">0</span> <span class="dv">0</span> <span class="dv">100</span> <span class="dv">0</span> (scatter [<span class="dv">0</span>,<span class="dv">8</span>] [<span class="dv">0</span>,<span class="dv">8</span>] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;white&quot;</span>]) <span class="op">%</span> scatter (<span class="fu">map</span> <span class="fu">fst</span> dataset) (<span class="fu">map</span> <span class="fu">snd</span> dataset) <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;black&quot;</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
 </details>
 <p>We first define a generic clustering model that uses a Chinese
 Restaurant process. The parameters for our generic clustering model
@@ -318,23 +319,23 @@ parameterized likelihood function, which we use to score the cluster
 assignment for each data point</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; cluster ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Prob</span> b <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> [(a, <span class="dt">Double</span>, b)]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> cluster xs pparam like <span class="ot">=</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="co">-- sample a distribution from a Dirichlet process  </span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     rest <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant <span class="fl">0.3</span>        </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="co">-- lazily sample an infinite list of cluster parameters    </span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     param <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="fu">const</span> pparam    </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="co">-- lazily sample an infinite list of colors </span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     color <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="fu">const</span> <span class="op">$</span> uniformbounded <span class="fl">0.2</span> <span class="dv">1</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="co">-- for each data point, sample a cluster and return </span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="co">--   the corresponding color and parameter  </span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     forM xs</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>       ( \x <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>           i <span class="ot">&lt;-</span> sample <span class="op">$</span> newCustomer rest   </span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>           score <span class="op">$</span> like (param i) x</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>           <span class="fu">return</span> (x, color i, param i)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>       )</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">cluster ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Prob</span> b <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> [(a, <span class="dt">Double</span>, b)]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cluster xs pparam like <span class="ot">=</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- sample a distribution from a Dirichlet process  </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    rest <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant <span class="fl">0.3</span>        </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- lazily sample an infinite list of cluster parameters    </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    param <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="fu">const</span> pparam    </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- lazily sample an infinite list of colors </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    color <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="fu">const</span> <span class="op">$</span> uniformbounded <span class="fl">0.2</span> <span class="dv">1</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- for each data point, sample a cluster and return </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">--   the corresponding color and parameter  </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    forM xs</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      ( \x <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>          i <span class="ot">&lt;-</span> sample <span class="op">$</span> newCustomer rest   </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>          score <span class="op">$</span> like (param i) x</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">return</span> (x, color i, param i)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      )</span></code></pre></div>
 <p>Here we are using our Chinese Restaurant process interface
 (<code>Distr.DirichletP</code>). It involves abstract types <code
 class="sourceCode haskell"><span class="dt">Restaurant</span></code> and
@@ -361,24 +362,24 @@ The code below is the model. The return value is a list where each data
 point is tagged with a color and the parameters for the cluster we
 assigned it (coordinates of mean and standard deviation).<br />
 <div class="sourceCode" id="cb5"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; example ::</span> <span class="dt">Meas</span> [((<span class="dt">Double</span>, <span class="dt">Double</span>), <span class="dt">Double</span>, (<span class="dt">Double</span>, <span class="dt">Double</span>, <span class="dt">Double</span>))]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> example <span class="ot">=</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   cluster</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     dataset</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (<span class="kw">do</span> x <span class="ot">&lt;-</span> normal <span class="dv">5</span> <span class="dv">4</span>; y <span class="ot">&lt;-</span> normal <span class="dv">5</span> <span class="dv">4</span>; prec <span class="ot">&lt;-</span> gamma <span class="dv">2</span> <span class="dv">4</span>;</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                         <span class="fu">return</span> (x, y, <span class="dv">1</span> <span class="op">/</span> <span class="fu">sqrt</span> prec))</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     (\(x, y, s) (x&#39;, y&#39;) <span class="ot">-&gt;</span> normalPdf x s x&#39; <span class="op">*</span> normalPdf y s y&#39;)</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">example ::</span> <span class="dt">Meas</span> [((<span class="dt">Double</span>, <span class="dt">Double</span>), <span class="dt">Double</span>, (<span class="dt">Double</span>, <span class="dt">Double</span>, <span class="dt">Double</span>))]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>example <span class="ot">=</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  cluster</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    dataset</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">do</span> x <span class="ot">&lt;-</span> normal <span class="dv">5</span> <span class="dv">4</span>; y <span class="ot">&lt;-</span> normal <span class="dv">5</span> <span class="dv">4</span>; prec <span class="ot">&lt;-</span> gamma <span class="dv">2</span> <span class="dv">4</span>;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                                        <span class="fu">return</span> (x, y, <span class="dv">1</span> <span class="op">/</span> <span class="fu">sqrt</span> prec))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    (\(x, y, s) (x&#39;, y&#39;) <span class="ot">-&gt;</span> normalPdf x s x&#39; <span class="op">*</span> normalPdf y s y&#39;)</span></code></pre></div>
 Then the inference code is as follows:
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> infer <span class="ot">=</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">do</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     xycws&#39; <span class="ot">&lt;-</span> mh1 example</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> xycws <span class="ot">=</span> <span class="fu">take</span> <span class="dv">20000</span> xycws&#39;</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span><span class="ot"> xycws ::</span> <span class="dt">Product</span> (<span class="dt">Log</span> <span class="dt">Double</span>))</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="kw">let</span> (<span class="dt">Just</span> xyc) <span class="ot">=</span> Data.List.lookup maxw <span class="op">$</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                                      <span class="fu">map</span> (\(z, w) <span class="ot">-&gt;</span> (w, z)) xycws</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     <span class="co">-- for illustration we plot the MAP sample</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>     plotCoords <span class="st">&quot;images/clustering-map.svg&quot;</span> xyc </span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>infer <span class="ot">=</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    xycws&#39; <span class="ot">&lt;-</span> mh1 example</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> xycws <span class="ot">=</span> <span class="fu">take</span> <span class="dv">20000</span> xycws&#39;</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span><span class="ot"> xycws ::</span> <span class="dt">Product</span> (<span class="dt">Log</span> <span class="dt">Double</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> (<span class="dt">Just</span> xyc) <span class="ot">=</span> Data.List.lookup maxw <span class="op">$</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="fu">map</span> (\(z, w) <span class="ot">-&gt;</span> (w, z)) xycws</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- for illustration we plot the MAP sample</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    plotCoords <span class="st">&quot;images/clustering-map.svg&quot;</span> xyc </span></code></pre></div>
 <p>This produces the following cluster asssignment:</p>
 <p><img src="images/clustering-map.svg" /></p>
 <details class="code-details">
@@ -386,40 +387,40 @@ class="sourceCode literatehaskell literate"><code class="sourceCode literatehask
 Code for plotting the data points and clusters.
 </summary>
 <div class="sourceCode" id="cb7"><pre
-class="sourceCode literatehaskell literate"><code class="sourceCode literatehaskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; plotCoords ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [((<span class="dt">Double</span>, <span class="dt">Double</span>), <span class="dt">Double</span>, (<span class="dt">Double</span>, <span class="dt">Double</span>, <span class="dt">Double</span>))] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> plotCoords filename dataset <span class="ot">=</span> <span class="kw">do</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> starterplot <span class="ot">=</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>        scatter [<span class="dv">0</span>,<span class="dv">8</span>] [<span class="dv">0</span>,<span class="dv">8</span>] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;white&quot;</span>]</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> gaussians <span class="ot">=</span> (<span class="fu">foldl</span> (\p (c,x,y,s) <span class="ot">-&gt;</span> mplBivarNormal x y s c p) starterplot (nub <span class="op">$</span> <span class="fu">map</span> (\(_,c,(x,y,s))<span class="ot">-&gt;</span>(c,x,y,s)) dataset))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">let</span> plot <span class="ot">=</span> <span class="fu">foldl</span> </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>              (\p <span class="ot">-&gt;</span> \((x,y),c,_) <span class="ot">-&gt;</span> <span class="kw">let</span> c&#39; <span class="ot">=</span> hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span> <span class="kw">in</span> </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                          p <span class="op">%</span> scatter [x] [y] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> [channelRed c&#39;,channelGreen c&#39;,channelBlue c&#39;]])</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>              gaussians</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>              dataset</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   file filename plot</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; mplBivarNormal ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span> <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> mplBivarNormal mux muy sigma c p <span class="ot">=</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>           p <span class="op">%</span> imshow ws <span class="op">@@</span> [o2 <span class="st">&quot;interpolation&quot;</span> <span class="st">&quot;bilinear&quot;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                ,o2 <span class="st">&quot;origin&quot;</span> <span class="st">&quot;lower&quot;</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                ,o2 <span class="st">&quot;extent&quot;</span> [<span class="dv">0</span><span class="ot">::</span><span class="dt">Double</span>, <span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">8</span>]]</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                  <span class="kw">where</span> delta <span class="ot">=</span> <span class="fl">0.025</span><span class="ot">::</span><span class="dt">Double</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                        xs <span class="ot">=</span> [<span class="fl">0.0</span><span class="op">+</span>delta<span class="op">..</span><span class="fl">8.0</span>]</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                        ys <span class="ot">=</span> [<span class="fl">0.0</span><span class="op">+</span>delta<span class="op">..</span><span class="fl">8.0</span>]</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                        r <span class="ot">=</span> channelRed(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                        g <span class="ot">=</span> channelGreen(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                        b <span class="ot">=</span> channelBlue(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>                        ws <span class="ot">=</span> [[[r,g,b,pdfBivariateNormal x y sigma sigma mux muy <span class="fl">0.0</span>] <span class="op">|</span> x <span class="ot">&lt;-</span> xs] <span class="op">|</span> y <span class="ot">&lt;-</span> ys]</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> pdfBivariateNormal x y sigmax sigmay mux muy sigmaxy <span class="ot">=</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="dv">1</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span><span class="fu">pi</span><span class="op">*</span>sigmax<span class="op">*</span>sigmay<span class="op">*</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>)))<span class="op">*</span><span class="fu">exp</span>(<span class="op">-</span>z<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>)))</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>   <span class="kw">where</span> rho <span class="ot">=</span> sigmaxy<span class="op">/</span>(sigmax<span class="op">*</span>sigmay)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span>         z <span class="ot">=</span> (x<span class="op">-</span>mux)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>sigmax<span class="op">^</span><span class="dv">2</span><span class="op">-</span>(<span class="dv">2</span><span class="op">*</span>rho<span class="op">*</span>(x<span class="op">-</span>mux)<span class="op">*</span>(y<span class="op">-</span>muy))<span class="op">/</span>(sigmax<span class="op">*</span>sigmay)<span class="op">+</span>(y<span class="op">-</span>muy)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>sigmay<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> </span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt; main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="ot">&gt;</span> main <span class="ot">=</span> <span class="kw">do</span> { plotDataset ; infer }</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotCoords ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [((<span class="dt">Double</span>, <span class="dt">Double</span>), <span class="dt">Double</span>, (<span class="dt">Double</span>, <span class="dt">Double</span>, <span class="dt">Double</span>))] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plotCoords filename dataset <span class="ot">=</span> <span class="kw">do</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> starterplot <span class="ot">=</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       scatter [<span class="dv">0</span>,<span class="dv">8</span>] [<span class="dv">0</span>,<span class="dv">8</span>] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> <span class="st">&quot;white&quot;</span>]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gaussians <span class="ot">=</span> (<span class="fu">foldl</span> (\p (c,x,y,s) <span class="ot">-&gt;</span> mplBivarNormal x y s c p) starterplot (nub <span class="op">$</span> <span class="fu">map</span> (\(_,c,(x,y,s))<span class="ot">-&gt;</span>(c,x,y,s)) dataset))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> plot <span class="ot">=</span> <span class="fu">foldl</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>             (\p <span class="ot">-&gt;</span> \((x,y),c,_) <span class="ot">-&gt;</span> <span class="kw">let</span> c&#39; <span class="ot">=</span> hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span> <span class="kw">in</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                         p <span class="op">%</span> scatter [x] [y] <span class="op">@@</span> [o2 <span class="st">&quot;color&quot;</span> [channelRed c&#39;,channelGreen c&#39;,channelBlue c&#39;]])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>             gaussians</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>             dataset</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  file filename plot</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ot">mplBivarNormal ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span> <span class="ot">-&gt;</span> <span class="dt">Matplotlib</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>mplBivarNormal mux muy sigma c p <span class="ot">=</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>          p <span class="op">%</span> imshow ws <span class="op">@@</span> [o2 <span class="st">&quot;interpolation&quot;</span> <span class="st">&quot;bilinear&quot;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>               ,o2 <span class="st">&quot;origin&quot;</span> <span class="st">&quot;lower&quot;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>               ,o2 <span class="st">&quot;extent&quot;</span> [<span class="dv">0</span><span class="ot">::</span><span class="dt">Double</span>, <span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">8</span>]]</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                 <span class="kw">where</span> delta <span class="ot">=</span> <span class="fl">0.025</span><span class="ot">::</span><span class="dt">Double</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                       xs <span class="ot">=</span> [<span class="fl">0.0</span><span class="op">+</span>delta<span class="op">..</span><span class="fl">8.0</span>]</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                       ys <span class="ot">=</span> [<span class="fl">0.0</span><span class="op">+</span>delta<span class="op">..</span><span class="fl">8.0</span>]</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                       r <span class="ot">=</span> channelRed(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>                       g <span class="ot">=</span> channelGreen(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                       b <span class="ot">=</span> channelBlue(hsv (c <span class="op">*</span> <span class="dv">365</span>) <span class="dv">1</span> <span class="dv">1</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                       ws <span class="ot">=</span> [[[r,g,b,pdfBivariateNormal x y sigma sigma mux muy <span class="fl">0.0</span>] <span class="op">|</span> x <span class="ot">&lt;-</span> xs] <span class="op">|</span> y <span class="ot">&lt;-</span> ys]</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>pdfBivariateNormal x y sigmax sigmay mux muy sigmaxy <span class="ot">=</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span><span class="fu">pi</span><span class="op">*</span>sigmax<span class="op">*</span>sigmay<span class="op">*</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>)))<span class="op">*</span><span class="fu">exp</span>(<span class="op">-</span>z<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>)))</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> rho <span class="ot">=</span> sigmaxy<span class="op">/</span>(sigmax<span class="op">*</span>sigmay)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        z <span class="ot">=</span> (x<span class="op">-</span>mux)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>sigmax<span class="op">^</span><span class="dv">2</span><span class="op">-</span>(<span class="dv">2</span><span class="op">*</span>rho<span class="op">*</span>(x<span class="op">-</span>mux)<span class="op">*</span>(y<span class="op">-</span>muy))<span class="op">/</span>(sigmax<span class="op">*</span>sigmay)<span class="op">+</span>(y<span class="op">-</span>muy)<span class="op">^</span><span class="dv">2</span><span class="op">/</span>sigmay<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> { plotDataset ; infer }</span></code></pre></div>
 </details>
 <br>
 <hr>
