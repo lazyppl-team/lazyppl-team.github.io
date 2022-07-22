@@ -1,0 +1,5 @@
+{
+    "markdown.marp.themes": [
+      "./act2022-slideshow/dracula.css"
+    ]
+  }
