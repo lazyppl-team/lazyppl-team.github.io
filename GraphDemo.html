@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Graph inference</title>
+<style>
+  html {
+    line-height: 1.5;
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    background-color: #fdfdfd;
+  }
+  body {
+    margin: 0 auto;
+    max-width: 56em;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+  @media (max-width: 600px) {
+    body {
+      font-size: 0.9em;
+      padding: 1em;
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+  }
+  @media print {
+    body {
+      background-color: transparent;
+      color: black;
+      font-size: 12pt;
+    }
+    p, h2, h3 {
+      orphans: 3;
+      widows: 3;
+    }
+    h2, h3, h4 {
+      page-break-after: avoid;
+    }
+  }
+  p {
+    margin: 1em 0;
+  }
+  a {
+    color: #1a1a1a;
+  }
+  a:visited {
+    color: #1a1a1a;
+  }
+  img {
+    max-width: 100%;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.4em;
+  }
+  h5, h6 {
+    font-size: 1em;
+    font-style: italic;
+  }
+  h6 {
+    font-weight: normal;
+  }
+  ol, ul {
+    padding-left: 1.7em;
+  }
+  li > ol, li > ul {
+    margin-top: 0;
+  }
+  blockquote {
+    margin: 1em 0 1em 1.7em;
+    padding-left: 1em;
+    border-left: 2px solid #e6e6e6;
+    color: #606060;
+  }
+  code {
+    font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+    font-size: 85%;
+    margin: 0;
+  }
+  pre {
+    margin: 1em 0;
+    overflow: auto;
+  }
+  pre code {
+    padding: 0;
+    overflow: visible;
+    overflow-wrap: normal;
+  }
+  .sourceCode {
+   background-color: transparent;
+   overflow: visible;
+  }
+  hr {
+    background-color: #1a1a1a;
+    border: none;
+    height: 1px;
+    margin: 1em 0;
+  }
+  table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  table caption {
+    margin-bottom: 0.75em;
+  }
+  tbody {
+    margin-top: 0.5em;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  th {
+    border-top: 1px solid #1a1a1a;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+  }
+  td {
+    padding: 0.125em 0.5em 0.25em 0.5em;
+  }
+  header {
+    margin-bottom: 4em;
+    text-align: center;
+  }
+  #TOC li {
+    list-style: none;
+  }
+  #TOC ul {
+    padding-left: 1.3em;
+  }
+  #TOC > ul {
+    padding-left: 0;
+  }
+  #TOC a:not(:hover) {
+    text-decoration: none;
+  }
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+  pre > code.sourceCode { white-space: pre; position: relative; }
+  pre > code.sourceCode > span { line-height: 1.25; }
+  pre > code.sourceCode > span:empty { height: 1.2em; }
+  .sourceCode { overflow: visible; }
+  code.sourceCode > span { color: inherit; text-decoration: inherit; }
+  div.sourceCode { margin: 1em 0; }
+  pre.sourceCode { margin: 0; }
+  @media screen {
+  div.sourceCode { overflow: auto; }
+  }
+  @media print {
+  pre > code.sourceCode { white-space: pre-wrap; }
+  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+  }
+  pre.numberSource code
+    { counter-reset: source-line 0; }
+  pre.numberSource code > span
+    { position: relative; left: -4em; counter-increment: source-line; }
+  pre.numberSource code > span > a:first-child::before
+    { content: counter(source-line);
+      position: relative; left: -1em; text-align: right; vertical-align: baseline;
+      border: none; display: inline-block;
+      -webkit-touch-callout: none; -webkit-user-select: none;
+      -khtml-user-select: none; -moz-user-select: none;
+      -ms-user-select: none; user-select: none;
+      padding: 0 4px; width: 4em;
+      color: #aaaaaa;
+    }
+  pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+  div.sourceCode
+    {   }
+  @media screen {
+  pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+  }
+  code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+  code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+  code span.at { color: #7d9029; } /* Attribute */
+  code span.bn { color: #40a070; } /* BaseN */
+  code span.bu { color: #008000; } /* BuiltIn */
+  code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+  code span.ch { color: #4070a0; } /* Char */
+  code span.cn { color: #880000; } /* Constant */
+  code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+  code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+  code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+  code span.dt { color: #902000; } /* DataType */
+  code span.dv { color: #40a070; } /* DecVal */
+  code span.er { color: #ff0000; font-weight: bold; } /* Error */
+  code span.ex { } /* Extension */
+  code span.fl { color: #40a070; } /* Float */
+  code span.fu { color: #06287e; } /* Function */
+  code span.im { color: #008000; font-weight: bold; } /* Import */
+  code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+  code span.op { color: #666666; } /* Operator */
+  code span.ot { color: #007020; } /* Other */
+  code span.pp { color: #bc7a00; } /* Preprocessor */
+  code span.sc { color: #4070a0; } /* SpecialChar */
+  code span.ss { color: #bb6688; } /* SpecialString */
+  code span.st { color: #4070a0; } /* String */
+  code span.va { color: #19177c; } /* Variable */
+  code span.vs { color: #4070a0; } /* VerbatimString */
+  code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  #title-logo {
+    margin-right: 30px;
+  }</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="images/logo.png" width="45" height="45" class="align-top d-inline-block" alt="LazyPPL"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="mb-2 navbar-nav me-auto mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Regression examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li> 
+              <li><a class="dropdown-item" href="GaussianProcessDemo.html">Gaussian process regression</a></li>
+              <li><a class="dropdown-item" href="WienerDemo.html">Wiener process regression</a></li>
+             <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Other examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="ClusteringDemo.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="IrmDemo.html">Infinite relational model</a></li>
+              <li><a class="dropdown-item" href="AdditiveClusteringDemo.html">Indian Buffet Process</a></li>
+              <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
+              <li><a class="dropdown-item" href="GraphDemo.html">Graph inference</a></li>
+            </ul>
+          </li>
+              <li class="nav-item"><a href="https://dl.acm.org/doi/abs/10.1145/3571239" class="nav-link"><i class="ai ai-acm"></i>
+  </a></li>
+  <li class="nav-item"><a href="https://arxiv.org/abs/2212.07250" class="nav-link"><i class="ai ai-arxiv"></i>
+  </a></li>
+              <li class="nav-item"><a href="https://github.com/lazyppl-team/lazyppl" class="nav-link"><i class="fa-brands fa-github"></i></a></li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>  <header id="title-block-header">
+<h1 class="title">Graph inference</h1>
+</header>
+<p>We discuss graph inference. The key idea is to work against an
+abstract interface with a type <code>Vertex</code> of vertices, a
+distribution <code>new</code> on <code>Vertex</code>, and an edge
+relation <code>edge :: Vertex -&gt; Vertex -&gt; Bool</code>.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE FlexibleInstances #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE MultiParamTypeClasses #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE FunctionalDependencies #-}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE UndecidableInstances #-}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">RegressionDemo</span> <span class="kw">where</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Maybe</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">MonadMemo</span> <span class="dt">Prob</span> <span class="dt">Double</span> <span class="kw">where</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  memoize <span class="ot">=</span> generalmemoize</span></code></pre></div>
+</details>
+<h2 id="graph-inference-problem">Graph inference problem</h2>
+<p>Consider the following graph. We will ask, which kinds of vertices
+and distribution on vertices likely generated it?</p>
+<p><img src="images/graph-data.svg" /></p>
+<details class="code-details">
+<summary>
+Adjacency matrix
+</summary>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">test ::</span> [[<span class="dt">Bool</span>]]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> <span class="fu">map</span> (<span class="fu">map</span> <span class="op">$</span> \x <span class="ot">-&gt;</span> x<span class="op">==</span><span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> [[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>], </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>]]</span></code></pre></div>
+</details>
+<h2 id="graph-basics">Graph basics</h2>
+We define a class of random graphs, that include a parameter
+<code>p</code>, a type <code>v</code> of vertices, and <code>new</code>
+and <code>edge</code> functions.
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Show</span> v <span class="ot">=&gt;</span> <span class="dt">RandomGraph</span> p v <span class="op">|</span> p <span class="ot">-&gt;</span> v <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  new ::</span> p <span class="ot">-&gt;</span> <span class="dt">Prob</span> v</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  edge ::</span> p <span class="ot">-&gt;</span> v <span class="ot">-&gt;</span> v <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
+<p>The first kind of instance is a <a
+href="https://en.wikipedia.org/wiki/Random_geometric_graph">geometric
+graph on a sphere</a>, parameterized by <code>n :: Int</code> and
+<code>theta :: Double</code>. Vertices are uniformly distributed on the
+sphere, and there is an edge between two vertices if their angle is less
+than <code>theta</code>.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">SphGrph</span> <span class="ot">=</span> <span class="dt">SG</span> <span class="dt">Int</span> <span class="dt">Double</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">SphVert</span> <span class="ot">=</span> <span class="dt">SV</span> [<span class="dt">Double</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">SphVert</span> <span class="kw">where</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show</span> (<span class="dt">SV</span> (x<span class="op">:</span>y<span class="op">:</span>xs)) <span class="ot">=</span> <span class="fu">show</span> x <span class="op">++</span> <span class="st">&quot;,&quot;</span> <span class="op">++</span> <span class="fu">show</span> (<span class="dt">SV</span> (y<span class="op">:</span>xs))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show</span> (<span class="dt">SV</span> (x<span class="op">:</span>[])) <span class="ot">=</span> <span class="fu">show</span> x</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">RandomGraph</span> <span class="dt">SphGrph</span> <span class="dt">SphVert</span> <span class="kw">where</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">SG</span> d theta) <span class="ot">=</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>   <span class="kw">do</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>     xs <span class="ot">&lt;-</span> replicateM d <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">1</span> </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> r <span class="ot">=</span> <span class="fu">sqrt</span> <span class="op">$</span> <span class="fu">sum</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">^</span> <span class="dv">2</span>) xs</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> <span class="op">$</span> <span class="dt">SV</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">/</span> r) xs</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">SG</span> n theta) (<span class="dt">SV</span> xs) (<span class="dt">SV</span> ys) <span class="ot">=</span> theta <span class="op">&gt;</span> (<span class="fu">acos</span> <span class="op">$</span> <span class="fu">sum</span> <span class="op">$</span> (<span class="fu">zipWith</span> (<span class="op">*</span>) xs ys))</span></code></pre></div>
+<p>Here, we have encoded the sphere using Eucildean coordinates. We are
+generating the points uniformly, by normalizing coordinates from a
+d-variate normal distribution. (This implementation detail could be
+hidden, by putting this in a separate file and not exporting the
+<code>SV</code> constructor.)</p>
+Another kind of instance is specified by a <a
+href="https://en.wikipedia.org/wiki/Graphon">graphon</a>, which is a
+function <span
+class="math inline">[0,1]<sup>2</sup> → [0,1]</span>.<br />
+
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Graphon</span> <span class="ot">=</span> <span class="dt">Graphon</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">GraphonVertex</span> <span class="ot">=</span> <span class="dt">GV</span> <span class="dt">Double</span> (<span class="dt">Double</span><span class="ot">-&gt;</span><span class="dt">Bool</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">GraphonVertex</span> <span class="kw">where</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show</span> (<span class="dt">GV</span> x _) <span class="ot">=</span> <span class="fu">show</span> x</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">RandomGraph</span> <span class="dt">Graphon</span> <span class="dt">GraphonVertex</span> <span class="kw">where</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">Graphon</span> f) <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> uniform</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> memoize <span class="op">$</span> \y <span class="ot">-&gt;</span> bernoulli <span class="op">$</span> <span class="fu">sqrt</span> <span class="op">$</span> f x y</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="op">$</span> <span class="dt">GV</span> x p</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  edge _ (<span class="dt">GV</span> x p) (<span class="dt">GV</span> y q) <span class="ot">=</span> p y <span class="op">&amp;&amp;</span> q x</span></code></pre></div>
+The Erdos-Renyi graphon is a constantly grey graphon.
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>erdosRenyi r <span class="ot">=</span> <span class="dt">Graphon</span> (\_ _ <span class="ot">-&gt;</span> r)</span></code></pre></div>
+We also have coproducts of instances:
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> (<span class="dt">RandomGraph</span> a v,<span class="dt">RandomGraph</span> b w) <span class="ot">=&gt;</span> <span class="dt">RandomGraph</span> (<span class="dt">Either</span> a b) (<span class="dt">Either</span> v w) <span class="kw">where</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">Left</span> a) <span class="ot">=</span> <span class="kw">do</span> {x <span class="ot">&lt;-</span> new a ; <span class="fu">return</span> <span class="op">$</span> <span class="dt">Left</span> x}</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">Right</span> a) <span class="ot">=</span> <span class="kw">do</span> {x <span class="ot">&lt;-</span> new a ; <span class="fu">return</span> <span class="op">$</span> <span class="dt">Right</span> x}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">Left</span> p) (<span class="dt">Left</span> x) (<span class="dt">Left</span> y) <span class="ot">=</span> edge p x y</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">Right</span> p) (<span class="dt">Right</span> x) (<span class="dt">Right</span> y) <span class="ot">=</span> edge p x y </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  edge _ _ _ <span class="ot">=</span> <span class="dt">False</span></span></code></pre></div>
+<h2 id="graph-inference">Graph inference</h2>
+<p>We define a function that generates a graph from any given
+implementation of the <code>RandomGraph</code> interface.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">ngraph ::</span> <span class="dt">RandomGraph</span> p v <span class="ot">=&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> p <span class="ot">-&gt;</span> <span class="dt">Prob</span> ([[<span class="dt">Bool</span>]],<span class="dt">String</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ngraph n p <span class="ot">=</span> <span class="kw">do</span> vs <span class="ot">&lt;-</span> replicateM n <span class="op">$</span> new p</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> matrix <span class="ot">=</span> [[edge p v w <span class="op">|</span> w <span class="ot">&lt;-</span> vs] <span class="op">|</span> v <span class="ot">&lt;-</span> vs]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> csv <span class="ot">=</span> <span class="fu">concat</span> [<span class="fu">show</span> v <span class="op">++</span> <span class="st">&quot;\n&quot;</span> <span class="op">|</span> v <span class="ot">&lt;-</span> vs]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">return</span> (matrix,csv)</span></code></pre></div>
+We suppose that matrix <code>a</code> was generated by the same process
+as <code>b</code> but where the chance of error is <code>r</code>. The
+<code>like</code> function scores by this error, and returns the number
+of correct cells in the adjacency matrix.
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">like ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> [[<span class="dt">Bool</span>]] <span class="ot">-&gt;</span> [[<span class="dt">Bool</span>]] <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Int</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>like r a b <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>   <span class="kw">let</span> n <span class="ot">=</span> <span class="fu">sum</span> [<span class="kw">if</span> a<span class="op">!!</span>i<span class="op">!!</span>j<span class="op">==</span>b<span class="op">!!</span>i<span class="op">!!</span>j <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span> <span class="op">|</span> i <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="fu">length</span> a<span class="op">-</span><span class="dv">1</span>] , j <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span>(i<span class="op">-</span><span class="dv">1</span>)]]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>   score <span class="op">$</span> r <span class="op">^</span> n <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>r) <span class="op">^</span> ((<span class="fu">floor</span> <span class="op">$</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu">fromIntegral</span> (<span class="fu">length</span> a <span class="op">*</span> (<span class="fu">length</span> a<span class="op">-</span><span class="dv">1</span>)))<span class="op">-</span>n)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span> n</span></code></pre></div>
+<details class="code-details">
+<summary>
+Optimized uniform sampling
+</summary>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>superuniformbounded n a b <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   xs <span class="ot">&lt;-</span> replicateM n uniform</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>   <span class="kw">let</span> x <span class="ot">=</span> <span class="fu">sum</span> xs</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span> <span class="op">$</span> x <span class="op">*</span> (b <span class="op">-</span> a) <span class="op">+</span> a</span></code></pre></div>
+</details>
+A statistical model that describes the distribution on
+<code>theta</code> on a sphere, conditioned on the graph at the
+beginning of this page.
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>exampleA <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>     theta <span class="ot">&lt;-</span> sample (superuniformbounded <span class="dv">3</span> <span class="dv">0</span> <span class="fu">pi</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="dt">SG</span> <span class="dv">3</span> theta</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     (x,csv) <span class="ot">&lt;-</span> sample (ngraph <span class="dv">15</span> p)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>     n <span class="ot">&lt;-</span> like <span class="fl">0.999</span> test x</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> ((n,theta),(x,csv))</span></code></pre></div>
+<details class="code-details">
+<summary>
+Metropolis Hastings call, prints a CSV of the coordinates of the points.
+</summary>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>testA <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>     tws <span class="ot">&lt;-</span> mh <span class="fl">0.1</span> exampleA</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> tws&#39; <span class="ot">=</span> <span class="fu">take</span> <span class="dv">20</span> <span class="op">$</span> every <span class="dv">1000</span> <span class="op">$</span> tws</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     forM tws&#39; <span class="op">$</span> <span class="fu">print</span> <span class="op">.</span> <span class="fu">fst</span> <span class="op">.</span> <span class="fu">fst</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="op">$</span> <span class="fu">snd</span> <span class="op">$</span> <span class="fu">snd</span> <span class="op">$</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">last</span> tws&#39;</span></code></pre></div>
+</details>
+<p>This produces the following points on the sphere, matching the graph:
+<iframe height=500 width=100% src="images/graph-sphere.html">
+</iframe></p>
+<h2 id="inferring-between-different-kinds-of-graph">Inferring between
+different kinds of graph</h2>
+We check that the chance of an edge is the same in the Erdos-Renyi graph
+with <code>r=0.5</code> and the geometric graph with
+<code>theta=pi/2</code>.
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>exampleB <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>     b <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli <span class="fl">0.5</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="dt">Left</span> (erdosRenyi <span class="fl">0.5</span>) <span class="kw">else</span> <span class="dt">Right</span> (<span class="dt">SG</span> <span class="dv">2</span> (<span class="fu">pi</span> <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>     c <span class="ot">&lt;-</span> sample <span class="op">$</span> <span class="kw">do</span> {a <span class="ot">&lt;-</span> new p ; b <span class="ot">&lt;-</span> new p ; <span class="fu">return</span> <span class="op">$</span> edge p a b}</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">if</span> c <span class="kw">then</span> score <span class="dv">1</span> <span class="kw">else</span> score <span class="dv">0</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> b</span></code></pre></div>
+<details class="code-details">
+<summary>
+Metropolis Hastings call.
+</summary>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>testB <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>      bws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> exampleB</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;graph-edge.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100000</span> bws</span></code></pre></div>
+</details>
+<p><img src="images/graph-edge.svg" /></p>
+<p>Next: If we see a triangle, what is the chance that we are in the
+Erdos-Renyi graph?</p>
+<p>The following code tests whether we have a triangle.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">isTriangle ::</span> <span class="dt">RandomGraph</span> p v <span class="ot">=&gt;</span> p <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Bool</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>isTriangle p <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>           x <span class="ot">&lt;-</span> new p</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>           y <span class="ot">&lt;-</span> new p</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>           z <span class="ot">&lt;-</span> new p</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">return</span> (edge p x y <span class="op">&amp;&amp;</span> edge p y z <span class="op">&amp;&amp;</span> edge p x z)</span></code></pre></div>
+Now, given that we have a triangle, did it come from a sphere or from
+the Erdos-Renyi graph? We do this by rejecting the non-triangles.
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>exampleC <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     b <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli <span class="fl">0.5</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="dt">Left</span> (erdosRenyi <span class="fl">0.5</span>) <span class="kw">else</span> <span class="dt">Right</span> (<span class="dt">SG</span> <span class="dv">2</span> (<span class="fu">pi</span> <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     c <span class="ot">&lt;-</span> sample <span class="op">$</span> isTriangle p</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">if</span> c <span class="kw">then</span> score <span class="dv">1</span> <span class="kw">else</span> score <span class="dv">0</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> b</span></code></pre></div>
+<details class="code-details">
+<summary>
+Metropolis Hastings call.
+</summary>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>testC <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      bws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> exampleC</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;graph-triangle.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100000</span> bws</span></code></pre></div>
+</details>
+<p>We see that it is more likely to have come from the Erdos-Renyi
+graph. <img src="images/graph-triangle.svg" /></p>
+<details class="code-details">
+<summary>
+Plotting code.
+</summary>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ot">graphToDot ::</span> [[<span class="dt">Bool</span>]] <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>graphToDot g <span class="ot">=</span> <span class="kw">let</span> vs <span class="ot">=</span> [<span class="dv">0</span><span class="op">..</span><span class="fu">length</span> g <span class="op">-</span><span class="dv">1</span>] <span class="kw">in</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;graph {node[shape=point] \n edge[len=0.5] \n &quot;</span> <span class="op">++</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">concat</span> [<span class="fu">show</span> v <span class="op">++</span> <span class="st">&quot;\n&quot;</span> <span class="op">|</span> v <span class="ot">&lt;-</span> vs] <span class="op">++</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">concat</span> [<span class="fu">show</span> v <span class="op">++</span> <span class="st">&quot; -- &quot;</span> <span class="op">++</span> <span class="fu">show</span> w <span class="op">++</span> <span class="st">&quot;\n&quot;</span> <span class="op">|</span> v <span class="ot">&lt;-</span> vs , w <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span>v] , g <span class="op">!!</span> v <span class="op">!!</span> w]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>               <span class="op">++</span> <span class="st">&quot;}&quot;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="ot">plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Generating &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a> <span class="kw">let</span> categories <span class="ot">=</span> <span class="fu">sort</span> <span class="op">$</span> nub xs</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a> <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (\c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a> file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (\n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="fu">show</span> <span class="op">$</span> <span class="fu">zip</span> categories <span class="op">$</span> <span class="fu">map</span> (\n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">-- Plot histographs of chances of triangles in different graphs.</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>testD <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>      onER <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> isTriangle <span class="op">$</span> erdosRenyi    <span class="fl">0.5</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>      onCircle <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> isTriangle <span class="op">$</span> <span class="dt">SG</span> <span class="dv">2</span> (<span class="fu">pi</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>      onSphere <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> isTriangle <span class="op">$</span> <span class="dt">SG</span> <span class="dv">3</span> (<span class="fu">pi</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>      onSphereFour <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> isTriangle <span class="op">$</span> <span class="dt">SG</span> <span class="dv">4</span> (<span class="fu">pi</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;tris-ER&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">10000</span> onER</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;tris-s1&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">10000</span> onCircle</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;tris-s2&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">10000</span> onSphere</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;tris-s3&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">10000</span> onSphereFour</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {testA; testB; testC}</span></code></pre></div>
+</details>
+<br>
+<hr>
+<small><i>  Generated by Pandoc from Literate Haskell. Full source on <a href="https://github.com/lazyppl-team/lazyppl"><i class="fa-brands fa-github"></i></a>.</i></small>
+  
+</body>
+</html>
