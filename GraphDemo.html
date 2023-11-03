@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <title>Graph inference</title>
+  <title>Probabilistic programming with graphs, and graph inference</title>
 <style>
   html {
     line-height: 1.5;
@@ -223,6 +223,11 @@
   #title-logo {
     margin-right: 30px;
   }</style>
+  <style>
+  code.sourceCode.haskell {
+      overflow: auto;
+  }
+  </style>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -269,12 +274,23 @@
       </div>
     </div>
   </nav>  <header id="title-block-header">
-<h1 class="title">Graph inference</h1>
+<h1 class="title">Probabilistic programming with graphs, and graph
+inference</h1>
 </header>
-<p>We discuss graph inference. The key idea is to work against an
-abstract interface with a type <code>Vertex</code> of vertices, a
-distribution <code>new</code> on <code>Vertex</code>, and an edge
-relation <code>edge :: Vertex -&gt; Vertex -&gt; Bool</code>.</p>
+<p>We discuss probabilistic programming with graphs and graph inference.
+The key idea is to work with an abstract interface with an abstract
+<code>Vertex</code> of vertices, a probability distribution
+<code>new</code> on <code>Vertex</code>, and an edge relation
+<code>edge :: Vertex -&gt; Vertex -&gt; Bool</code>.</p>
+<p>This file is a literate Haskell file, see the <a
+href="https://anonymous.4open.science/r/lazypplgraphs-B18E/README.md">readme
+file</a> for details.</p>
+<p>The code uses the <a href="https://lazyppl-team.github.io">LazyPPL
+library</a> for Haskell which provides an affine probability monad
+<code>Prob</code> and Metropolis-Hastings inference methods. Similar
+code would work in many other probabilistic programming languages; the
+advantage of LazyPPL is that it has types, supports memoization, and has
+an explicitly separate affine monad <code>Prob</code>.</p>
 <details class="code-details">
 <summary>
 Extensions and imports for this Literate Haskell file
@@ -286,7 +302,7 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE UndecidableInstances #-}</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">RegressionDemo</span> <span class="kw">where</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">GraphDemo</span> <span class="kw">where</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
@@ -300,13 +316,15 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">MonadMemo</span> <span class="dt">Prob</span> <span class="dt">Double</span> <span class="kw">where</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  memoize <span class="ot">=</span> generalmemoize</span></code></pre></div>
 </details>
-<h2 id="graph-inference-problem">Graph inference problem</h2>
-<p>Consider the following graph. We will ask, which kinds of vertices
-and distribution on vertices likely generated it?</p>
+<h2 id="intro-graph-inference-problem">Intro: graph inference
+problem</h2>
+<p>For an example inference problem, consider the following graph, which
+we call <code>test</code>. We will ask, which kinds of vertices and
+distribution on vertices likely generated it?</p>
 <p><img src="images/graph-data.svg" /></p>
 <details class="code-details">
 <summary>
-Adjacency matrix
+Code for adjacency matrix
 </summary>
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">test ::</span> [[<span class="dt">Bool</span>]]</span>
@@ -325,25 +343,40 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], </span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>], </span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], </span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>]]</span></code></pre></div>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>]]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>showTestData <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                <span class="fu">putStrLn</span> <span class="st">&quot;Generating graph-data.dot&quot;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                <span class="fu">writeFile</span> <span class="st">&quot;graph-data.dot&quot;</span> <span class="op">$</span> graphToDot test</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">-- Convert the dot file to an svg using GraphViz, e.g. via</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">-- https://dreampuf.github.io/GraphvizOnline</span></span></code></pre></div>
 </details>
-<h2 id="graph-basics">Graph basics</h2>
-We define a class of random graphs, that include a parameter
-<code>p</code>, a type <code>v</code> of vertices, and <code>new</code>
-and <code>edge</code> functions.
+<p>As we will show, we can, for example, infer some parameters to see
+whether it arises as a geometric graph, such as the following, or as an
+Erdős-Rényi graph, and so on.</p>
+<iframe height="500" width="100%" src="images/graph-sphere.html">
+</iframe>
+<h1 id="basics-of-the-graph-interface">Basics of the graph
+interface</h1>
+We define a type class that describes our interface for random graphs,
+that include a parameter <code>p</code>, a type <code>v</code> of
+vertices, and <code>new</code> and <code>edge</code> functions.
 <div class="sourceCode" id="cb3"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Show</span> v <span class="ot">=&gt;</span> <span class="dt">RandomGraph</span> p v <span class="op">|</span> p <span class="ot">-&gt;</span> v <span class="kw">where</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  new ::</span> p <span class="ot">-&gt;</span> <span class="dt">Prob</span> v</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  edge ::</span> p <span class="ot">-&gt;</span> v <span class="ot">-&gt;</span> v <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
-<p>The first kind of instance is a <a
+<h2 id="example-random-graph-geometric">Example random graph:
+geometric</h2>
+<p>The first kind of instance of this type class is a <a
 href="https://en.wikipedia.org/wiki/Random_geometric_graph">geometric
-graph on a sphere</a>, parameterized by <code>n :: Int</code> and
-<code>theta :: Double</code>. Vertices are uniformly distributed on the
-sphere, and there is an edge between two vertices if their angle is less
-than <code>theta</code>.</p>
+graph on a sphere</a>, parameterized by a dimension
+<code>d :: Int</code> and distance <code>theta :: Double</code>.
+Vertices are uniformly distributed on the sphere, and there is an edge
+between two vertices if their angle is less than <code>theta</code>.</p>
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">SphGrph</span> <span class="ot">=</span> <span class="dt">SG</span> <span class="dt">Int</span> <span class="dt">Double</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">SphVert</span> <span class="ot">=</span> <span class="dt">SV</span> [<span class="dt">Double</span>]</span>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">SphGrph</span> <span class="ot">=</span> <span class="dt">SG</span> <span class="dt">Int</span> <span class="dt">Double</span> <span class="co">-- Graph parameters with dimension and distance</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">SphVert</span> <span class="ot">=</span> <span class="dt">SV</span> [<span class="dt">Double</span>]   <span class="co">-- Vertices are coordinates</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">SphVert</span> <span class="kw">where</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show</span> (<span class="dt">SV</span> (x<span class="op">:</span>y<span class="op">:</span>xs)) <span class="ot">=</span> <span class="fu">show</span> x <span class="op">++</span> <span class="st">&quot;,&quot;</span> <span class="op">++</span> <span class="fu">show</span> (<span class="dt">SV</span> (y<span class="op">:</span>xs))</span>
@@ -352,16 +385,24 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">RandomGraph</span> <span class="dt">SphGrph</span> <span class="dt">SphVert</span> <span class="kw">where</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">SG</span> d theta) <span class="ot">=</span> </span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>   <span class="kw">do</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>     xs <span class="ot">&lt;-</span> replicateM d <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">1</span> </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> r <span class="ot">=</span> <span class="fu">sqrt</span> <span class="op">$</span> <span class="fu">sum</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">^</span> <span class="dv">2</span>) xs</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> <span class="op">$</span> <span class="dt">SV</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">/</span> r) xs</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">SG</span> n theta) (<span class="dt">SV</span> xs) (<span class="dt">SV</span> ys) <span class="ot">=</span> theta <span class="op">&gt;</span> (<span class="fu">acos</span> <span class="op">$</span> <span class="fu">sum</span> <span class="op">$</span> (<span class="fu">zipWith</span> (<span class="op">*</span>) xs ys))</span></code></pre></div>
-<p>Here, we have encoded the sphere using Eucildean coordinates. We are
-generating the points uniformly, by normalizing coordinates from a
-d-variate normal distribution. (This implementation detail could be
-hidden, by putting this in a separate file and not exporting the
-<code>SV</code> constructor.)</p>
-Another kind of instance is specified by a <a
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- sample d-dimensional isotropic normal vectors</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>     xs <span class="ot">&lt;-</span> replicateM d <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">1</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- compute the length</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> r <span class="ot">=</span> <span class="fu">sqrt</span> <span class="op">$</span> <span class="fu">sum</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">^</span> <span class="dv">2</span>) xs</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- normalize, to get something on the sphere</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> <span class="op">$</span> <span class="dt">SV</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">/</span> r) xs</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">SG</span> d theta) (<span class="dt">SV</span> xs) (<span class="dt">SV</span> ys) <span class="ot">=</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>   theta <span class="op">&gt;</span> (<span class="fu">acos</span> <span class="op">$</span> <span class="fu">sum</span> <span class="op">$</span> (<span class="fu">zipWith</span> (<span class="op">*</span>) xs ys))</span></code></pre></div>
+<p>Here, we have encoded the <span
+class="math inline">(<em>d</em>−1)</span>-sphere using <span
+class="math inline"><em>d</em></span>-dimensional Euclidean coordinates.
+We are generating the points uniformly, by normalizing coordinates from
+a d-variate normal distribution. (Note that in Haskell this
+implementation detail could be hidden, by putting the implementation in
+a separate file and not exporting the <code>SV</code> constructor.)</p>
+<h2 id="example-random-graph-graphons">Example random graph:
+graphons</h2>
+Another way of specifying a random graph is by a <a
 href="https://en.wikipedia.org/wiki/Graphon">graphon</a>, which is a
 function <span
 class="math inline">[0,1]<sup>2</sup> → [0,1]</span>.<br />
@@ -380,30 +421,58 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> memoize <span class="op">$</span> \y <span class="ot">-&gt;</span> bernoulli <span class="op">$</span> <span class="fu">sqrt</span> <span class="op">$</span> f x y</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="op">$</span> <span class="dt">GV</span> x p</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  edge _ (<span class="dt">GV</span> x p) (<span class="dt">GV</span> y q) <span class="ot">=</span> p y <span class="op">&amp;&amp;</span> q x</span></code></pre></div>
-The Erdos-Renyi graphon is a constantly grey graphon.
+<p>We use an encoding of vertices, firstly a number in the unit interval
+<span class="math inline">[0,1]</span> and secondly a function <span
+class="math inline">[0,1] → 2</span>.</p>
+The <a
+href="https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model">Erdős-Rényi
+graphon</a> is a constantly grey graphon, and we can use this to build
+the Erdős-Rényi graph.
 <div class="sourceCode" id="cb6"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>erdosRenyi r <span class="ot">=</span> <span class="dt">Graphon</span> (\_ _ <span class="ot">-&gt;</span> r)</span></code></pre></div>
-We also have coproducts of instances:
+<h1 id="simple-examples-of-programs-that-use-the-graph-interface">Simple
+examples of programs that use the graph interface</h1>
+<p><strong>Querying triangles:</strong> The following code picks three
+nodes and asks whether they form a triangle.</p>
 <div class="sourceCode" id="cb7"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> (<span class="dt">RandomGraph</span> a v,<span class="dt">RandomGraph</span> b w) <span class="ot">=&gt;</span> <span class="dt">RandomGraph</span> (<span class="dt">Either</span> a b) (<span class="dt">Either</span> v w) <span class="kw">where</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">Left</span> a) <span class="ot">=</span> <span class="kw">do</span> {x <span class="ot">&lt;-</span> new a ; <span class="fu">return</span> <span class="op">$</span> <span class="dt">Left</span> x}</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">Right</span> a) <span class="ot">=</span> <span class="kw">do</span> {x <span class="ot">&lt;-</span> new a ; <span class="fu">return</span> <span class="op">$</span> <span class="dt">Right</span> x}</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">Left</span> p) (<span class="dt">Left</span> x) (<span class="dt">Left</span> y) <span class="ot">=</span> edge p x y</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">Right</span> p) (<span class="dt">Right</span> x) (<span class="dt">Right</span> y) <span class="ot">=</span> edge p x y </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  edge _ _ _ <span class="ot">=</span> <span class="dt">False</span></span></code></pre></div>
-<h2 id="graph-inference">Graph inference</h2>
-<p>We define a function that generates a graph from any given
-implementation of the <code>RandomGraph</code> interface.</p>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">isTriangle ::</span> <span class="dt">RandomGraph</span> p v <span class="ot">=&gt;</span> p <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Bool</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>isTriangle p <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           x <span class="ot">&lt;-</span> new p</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           y <span class="ot">&lt;-</span> new p</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           z <span class="ot">&lt;-</span> new p</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">return</span> (edge p x y <span class="op">&amp;&amp;</span> edge p y z <span class="op">&amp;&amp;</span> edge p x z)</span></code></pre></div>
+<p>In the Erdős-Rényi graph, this will return true with probability
+<span class="math inline">1/<em>r</em><sup>3</sup></span>. In other
+graphs, including the geometric graphs, it will be more complicated.</p>
+<p><strong>Building adjacency matrices:</strong> We define a function
+that generates an adjacency matrix for a finite graph with <span
+class="math inline"><em>n</em></span> nodes. This works for any given
+implementation of the <code>RandomGraph</code> interface, and just uses
+<code>new</code> and <code>edge</code>.</p>
 <div class="sourceCode" id="cb8"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">ngraph ::</span> <span class="dt">RandomGraph</span> p v <span class="ot">=&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> p <span class="ot">-&gt;</span> <span class="dt">Prob</span> ([[<span class="dt">Bool</span>]],<span class="dt">String</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ngraph n p <span class="ot">=</span> <span class="kw">do</span> vs <span class="ot">&lt;-</span> replicateM n <span class="op">$</span> new p</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> matrix <span class="ot">=</span> [[edge p v w <span class="op">|</span> w <span class="ot">&lt;-</span> vs] <span class="op">|</span> v <span class="ot">&lt;-</span> vs]</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> csv <span class="ot">=</span> <span class="fu">concat</span> [<span class="fu">show</span> v <span class="op">++</span> <span class="st">&quot;\n&quot;</span> <span class="op">|</span> v <span class="ot">&lt;-</span> vs]</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">return</span> (matrix,csv)</span></code></pre></div>
-We suppose that matrix <code>a</code> was generated by the same process
-as <code>b</code> but where the chance of error is <code>r</code>. The
-<code>like</code> function scores by this error, and returns the number
-of correct cells in the adjacency matrix.
+<h1 id="graph-inference">Graph inference</h1>
+<p>In this section we describe some simple graph inference using the
+Metropolis-Hastings methods of lazyppl. For this we use the
+<code>Meas</code> monad of unnormalized measures, and <code>score</code>
+to weight by likelihood.</p>
+<p>In the first example, we suppose that the <code>test</code> graph at
+the beginning of this page has been induced by some 3d geometric graph
+with distance parameter <code>theta</code>, and we infer
+<code>theta</code>. Our model is Bayesian: we have a uniform prior on
+<code>theta</code>, and we suppose that there is some noise in the test
+graph. From the posterior, we will sample a <code>theta</code> of high
+posterior probability.</p>
+First, to handle the noise, we define a likelihood function
+<code>like</code>. This function takes two adjacency matrices,
+<code>a</code> and <code>b</code>, along with the error probability,
+<code>1-r</code>. The <code>like</code> function scores based on this
+error probability, and returns the number of cells in the adjacency
+matrix that match.
 <div class="sourceCode" id="cb9"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">like ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> [[<span class="dt">Bool</span>]] <span class="ot">-&gt;</span> [[<span class="dt">Bool</span>]] <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Int</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>like r a b <span class="ot">=</span> <span class="kw">do</span></span>
@@ -412,7 +481,7 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span> n</span></code></pre></div>
 <details class="code-details">
 <summary>
-Optimized uniform sampling
+Optimized uniform sampling: a trick to improve LazyPPL performance.
 </summary>
 <div class="sourceCode" id="cb10"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>superuniformbounded n a b <span class="ot">=</span> <span class="kw">do</span></span>
@@ -420,71 +489,106 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>   <span class="kw">let</span> x <span class="ot">=</span> <span class="fu">sum</span> xs</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span> <span class="op">$</span> x <span class="op">*</span> (b <span class="op">-</span> a) <span class="op">+</span> a</span></code></pre></div>
 </details>
-A statistical model that describes the distribution on
-<code>theta</code> on a sphere, conditioned on the graph at the
-beginning of this page.
+Here is our statistical model that describes the distribution on
+<code>theta</code> on a sphere, conditioned on the graph
+<code>test</code> at the beginning of this page.
 <div class="sourceCode" id="cb11"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>exampleA <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>     theta <span class="ot">&lt;-</span> sample (superuniformbounded <span class="dv">3</span> <span class="dv">0</span> <span class="fu">pi</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="dt">SG</span> <span class="dv">3</span> theta</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     (x,csv) <span class="ot">&lt;-</span> sample (ngraph <span class="dv">15</span> p)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>     n <span class="ot">&lt;-</span> like <span class="fl">0.999</span> test x</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> ((n,theta),(x,csv))</span></code></pre></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- theta is uniformly distributed in [0,pi]</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     theta <span class="ot">&lt;-</span> sample (superuniformbounded <span class="dv">3</span> <span class="dv">0</span> <span class="fu">pi</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- We are looking at the 3d geometric graph</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="dt">SG</span> <span class="dv">3</span> theta</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Sample a 15 vertex graph x from this p</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>     (x,csv) <span class="ot">&lt;-</span> sample (ngraph <span class="dv">15</span> p)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Observe that the test graph is very similar to x</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>     n <span class="ot">&lt;-</span> like <span class="fl">0.999</span> test x</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> ((n,theta),(x,csv))</span></code></pre></div>
 <details class="code-details">
 <summary>
-Metropolis Hastings call, prints a CSV of the coordinates of the points.
+Metropolis Hastings call, produces coordinates of the points in one
+sample of high posterior probability.
 </summary>
 <div class="sourceCode" id="cb12"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>testA <span class="ot">=</span> <span class="kw">do</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>     tws <span class="ot">&lt;-</span> mh <span class="fl">0.1</span> exampleA</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> tws&#39; <span class="ot">=</span> <span class="fu">take</span> <span class="dv">20</span> <span class="op">$</span> every <span class="dv">1000</span> <span class="op">$</span> tws</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     forM tws&#39; <span class="op">$</span> <span class="fu">print</span> <span class="op">.</span> <span class="fu">fst</span> <span class="op">.</span> <span class="fu">fst</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="op">$</span> <span class="fu">snd</span> <span class="op">$</span> <span class="fu">snd</span> <span class="op">$</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">last</span> tws&#39;</span></code></pre></div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="st">&quot;Generating graph-sphere.csv&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">writeFile</span> <span class="st">&quot;graph-sphere.csv&quot;</span> <span class="op">$</span> <span class="fu">snd</span> <span class="op">$</span> <span class="fu">snd</span> <span class="op">$</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">last</span> tws&#39;</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Theta: &quot;</span> <span class="op">++</span> (<span class="fu">show</span> <span class="op">$</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">last</span> tws&#39;)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- This can then be plotted using geometric_graph_plot.py</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- giving a picture like graph-sphere.html. </span></span></code></pre></div>
 </details>
-<p>This produces the following points on the sphere, matching the graph:
-<iframe height=500 width=100% src="images/graph-sphere.html">
-</iframe></p>
-<h2 id="inferring-between-different-kinds-of-graph">Inferring between
-different kinds of graph</h2>
-We check that the chance of an edge is the same in the Erdos-Renyi graph
-with <code>r=0.5</code> and the geometric graph with
-<code>theta=pi/2</code>.
+<p>This provides a probability distribution on the distance
+<code>theta</code>, and produces the positions of the vertices on the
+sphere. One of high posterior probability looks as follows, and gives a
+geometric graph that totally agrees with the data:
+<iframe height=500 width="100%" src="images/graph-sphere.html">
+</iframe> (This is the same figure as in the introduction, and was
+generated by the Metropolis-Hastings inference above.)</p>
+<p><em>Note.</em> The reader might wonder why we use an error
+probability of <code>0.001</code> rather than just <code>0</code>. This
+error makes the model more interesting, and also makes
+Metropolis-Hastings much faster.</p>
+<h1 id="inferring-between-different-kinds-of-graph">Inferring between
+different kinds of graph</h1>
+<p>For another illustration of inference, we look at problems where we
+are investigating whether some particular graph comes from a geometric
+graph or an Erdős-Rényi graph. This is a form of Bayesian model
+selection.</p>
+As a first step, we consider instances of the <code>RandomGraph</code>
+interface that can be one of two different types. We can consider for
+instance a parameterized graph that is either an Erdős-Rényi graph or a
+geometric graph.
 <div class="sourceCode" id="cb13"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>exampleB <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>     b <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli <span class="fl">0.5</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="dt">Left</span> (erdosRenyi <span class="fl">0.5</span>) <span class="kw">else</span> <span class="dt">Right</span> (<span class="dt">SG</span> <span class="dv">2</span> (<span class="fu">pi</span> <span class="op">/</span> <span class="dv">2</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>     c <span class="ot">&lt;-</span> sample <span class="op">$</span> <span class="kw">do</span> {a <span class="ot">&lt;-</span> new p ; b <span class="ot">&lt;-</span> new p ; <span class="fu">return</span> <span class="op">$</span> edge p a b}</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">if</span> c <span class="kw">then</span> score <span class="dv">1</span> <span class="kw">else</span> score <span class="dv">0</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> b</span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> (<span class="dt">RandomGraph</span> a v,<span class="dt">RandomGraph</span> b w) </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">=&gt;</span> <span class="dt">RandomGraph</span> (<span class="dt">Either</span> a b) (<span class="dt">Either</span> v w) <span class="kw">where</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">Left</span> a) <span class="ot">=</span> <span class="kw">do</span> {x <span class="ot">&lt;-</span> new a ; <span class="fu">return</span> <span class="op">$</span> <span class="dt">Left</span> x}</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  new (<span class="dt">Right</span> b) <span class="ot">=</span> <span class="kw">do</span> {x <span class="ot">&lt;-</span> new b ; <span class="fu">return</span> <span class="op">$</span> <span class="dt">Right</span> x}</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">Left</span> a) (<span class="dt">Left</span> x) (<span class="dt">Left</span> y) <span class="ot">=</span> edge a x y</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  edge (<span class="dt">Right</span> b) (<span class="dt">Right</span> x) (<span class="dt">Right</span> y) <span class="ot">=</span> edge b x y </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  edge _ _ _ <span class="ot">=</span> <span class="dt">False</span></span></code></pre></div>
+<strong>Observing an edge.</strong> For a first example, we check that
+the chance of an edge is the same in the Erdős-Rényi graph with
+<code>r=0.5</code> and the geometric graph with <code>theta=pi/2</code>.
+We do this by putting a prior of <code>0.5</code> on the graph either
+being Erdős-Rényi or geometric, and then including the observation that
+there is an edge between two nodes. In this example we do not consider
+noise: we observe that there definitely is an edge.
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>exampleB <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Prior on the type of graph</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>     b <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli <span class="fl">0.5</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="dt">Left</span> (erdosRenyi <span class="fl">0.5</span>) <span class="kw">else</span> <span class="dt">Right</span> (<span class="dt">SG</span> <span class="dv">2</span> (<span class="fu">pi</span> <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Randomly sample two vertices and ask whether there is an edge</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>     c <span class="ot">&lt;-</span> sample <span class="op">$</span> <span class="kw">do</span> {a <span class="ot">&lt;-</span> new p ; b <span class="ot">&lt;-</span> new p ; <span class="fu">return</span> <span class="op">$</span> edge p a b}</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Observation that there is in fact an edge</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>     <span class="kw">if</span> c <span class="kw">then</span> score <span class="dv">1</span> <span class="kw">else</span> score <span class="dv">0</span> </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> b</span></code></pre></div>
+<p>(In a Metropolis-Hastings simulation, <code>score 0</code> has the
+effect of rejecting that run of the program.)</p>
 <details class="code-details">
 <summary>
 Metropolis Hastings call.
 </summary>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>testB <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>      bws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> exampleB</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;graph-edge.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100000</span> bws</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>testB <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      bws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> exampleB</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;graph-edge.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100000</span> bws</span></code></pre></div>
 </details>
 <p><img src="images/graph-edge.svg" /></p>
-<p>Next: If we see a triangle, what is the chance that we are in the
-Erdos-Renyi graph?</p>
-<p>The following code tests whether we have a triangle.</p>
-<div class="sourceCode" id="cb15"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ot">isTriangle ::</span> <span class="dt">RandomGraph</span> p v <span class="ot">=&gt;</span> p <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Bool</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>isTriangle p <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>           x <span class="ot">&lt;-</span> new p</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>           y <span class="ot">&lt;-</span> new p</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>           z <span class="ot">&lt;-</span> new p</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">return</span> (edge p x y <span class="op">&amp;&amp;</span> edge p y z <span class="op">&amp;&amp;</span> edge p x z)</span></code></pre></div>
-Now, given that we have a triangle, did it come from a sphere or from
-the Erdos-Renyi graph? We do this by rejecting the non-triangles.
+<strong>Observing a triangle.</strong> Next: If we see a triangle, did
+it come from a sphere or from the Erdős-Rényi graph? We calculate the
+probability by rejecting the non-triangles.
 <div class="sourceCode" id="cb16"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>exampleC <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     b <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli <span class="fl">0.5</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="dt">Left</span> (erdosRenyi <span class="fl">0.5</span>) <span class="kw">else</span> <span class="dt">Right</span> (<span class="dt">SG</span> <span class="dv">2</span> (<span class="fu">pi</span> <span class="op">/</span> <span class="dv">2</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     c <span class="ot">&lt;-</span> sample <span class="op">$</span> isTriangle p</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">if</span> c <span class="kw">then</span> score <span class="dv">1</span> <span class="kw">else</span> score <span class="dv">0</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> b</span></code></pre></div>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Prior on the type of graph</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     b <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli <span class="fl">0.5</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="dt">Left</span> (erdosRenyi <span class="fl">0.5</span>) <span class="kw">else</span> <span class="dt">Right</span> (<span class="dt">SG</span> <span class="dv">2</span> (<span class="fu">pi</span> <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Randomly sample three vertices and ask whether they form a triangle</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>     c <span class="ot">&lt;-</span> sample <span class="op">$</span> isTriangle p</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Observation that there is a triangle</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>     <span class="kw">if</span> c <span class="kw">then</span> score <span class="dv">1</span> <span class="kw">else</span> score <span class="dv">0</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> b</span></code></pre></div>
 <details class="code-details">
 <summary>
 Metropolis Hastings call.
@@ -494,8 +598,69 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      bws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> exampleC</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;graph-triangle.svg&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100000</span> bws</span></code></pre></div>
 </details>
-<p>We see that it is more likely to have come from the Erdos-Renyi
-graph. <img src="images/graph-triangle.svg" /></p>
+<p>We see that a triangle is more likely to have come from the
+Erdős-Rényi graph. <img src="images/graph-triangle.svg" /></p>
+<p>For this particular example we can also do an pen-on-paper
+calculation to solve the problem, which gives probabilities <span
+class="math inline">0.6</span> and <span class="math inline">0.4</span>
+respectively, matching this output from the probabilistic programming
+inference.</p>
+<details class="code-details">
+<summary>
+Pen-on-paper calculation.
+</summary>
+<p><em>Indeed</em>: Given that the probability of observing a triangle
+in an Erdős-Rényi graph with <span
+class="math inline"><em>r</em> = 0.5</span> is <span
+class="math inline">$\left(\frac{1}{2}\right)^3 = \frac{1}{8}$</span>,
+let’s understand the probability of observing a triangle in a geometric
+graph on the unit circle.</p>
+<p>The probability of having an edge between two points on the unit
+circle – <em>i.e.</em> the probability that they are at a distance of at
+most <span class="math inline">$θ ≝ \frac{\pi}{2}$</span> from each
+other – is <span class="math inline">$\frac{2 θ}{2\pi} =
+\frac{1}{2}$</span>. Therefore, since the samples are independent, <span
+class="math inline"><em>P</em>(triangle)</span> is the product of</p>
+<p><span class="math display">$$P\big(\underbrace{\text{``first two
+points at distance } ≤ π/2 \text{ from each other"}}_{≝
+A}\big)$$</span></p>
+<p>and</p>
+<p><span class="math display"><em>P</em>(“third point at distance
+ ≤ <em>π</em>/2 from the first two" ∣ <em>A</em>)</span></p>
+<p>By uniformity, the latter probability is the average length (divided
+by the total circumference of the unit circle) of the arc where the
+third point can land (expected value of the indicator random variable).
+This arc can range (linearly) between two extremes:</p>
+<ol type="1">
+<li>When the first two points are as far apart as possible
+(<em>i.e.</em>, there’s a distance of <span class="math inline">$θ ≝
+\frac{\pi}{2}$</span> between them): in this case, the third point has
+to be between the two, in this <span
+class="math inline">$\frac{\pi}{2}$</span> arc (corresponding to <span
+class="math inline">$\frac{1}{4}$</span> of the circle
+circumference).</li>
+<li>When the first two points overlap: in this case, the third point can
+be anywhere <span class="math inline">$\pm θ ≝ \pm \frac{\pi}{2}$</span>
+around them, <em>i.e.</em>, on an arc length of <span
+class="math inline">2<em>θ</em> = <em>π</em></span>, which is <span
+class="math inline">$\frac{1}{2}$</span> of the circle
+circumference.</li>
+</ol>
+<p>Thus, the probability of observing a triangle in the geometric graph
+is:</p>
+<p><span class="math display">$$\frac{1}{2} \times \frac{\frac{1}{4} +
+\frac{1}{2}}{2} = \frac{3}{16}$$</span></p>
+<p>Renormalizing the probabilities from both scenarios, we get, as
+expected:</p>
+<ul>
+<li>Geometric graph scenario: <span
+class="math inline">$\frac{\frac{3}{16}}{\frac{3}{16}+\frac{1}{8}} =
+0.4$</span></li>
+<li>Erdős-Rényi scenario: <span
+class="math inline">$\frac{\frac{1}{8}}{\frac{3}{16}+\frac{1}{8}} =
+0.6$</span></li>
+</ul>
+</details>
 <details class="code-details">
 <summary>
 Plotting code.
@@ -530,7 +695,7 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>      plotHistogram <span class="st">&quot;tris-s3&quot;</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">10000</span> onSphereFour</span>
 <span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {testA; testB; testC}</span></code></pre></div>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {showTestData; testA; testB; testC}</span></code></pre></div>
 </details>
 <br>
 <hr>
