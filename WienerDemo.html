@@ -378,10 +378,12 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>                           <span class="dt">Just</span> m <span class="ot">-&gt;</span> <span class="kw">do</span> </span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                                          <span class="kw">if</span> x <span class="op">&gt;</span> m <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> d <span class="kw">then</span> <span class="dt">Just</span> x <span class="kw">else</span> <span class="dt">Just</span> m </span></code></pre></div>
 </details>
-<p>We can apply the splice function
-<code>Prob (Double -&gt; Double) -&gt; Prob (Double -&gt; Double)</code>
-from <a href="RegressionDemo.html">the linear regression example</a> to
-the Wiener process, to get a jump diffusion process.</p>
+<p>Recall the splice function
+<code>splice :: Prob [Double] -&gt; Prob (Double -&gt; Double) -&gt; Prob (Double -&gt; Double)</code>
+from <a href="RegressionDemo.html">the linear regression example</a>,
+which pieces together draws from a random function using a point
+process. We can immediately apply this to the Wiener process, to get a
+jump diffusion process.</p>
 <details class="code-details">
 <summary>
 Recalling splice function and Poisson point process
