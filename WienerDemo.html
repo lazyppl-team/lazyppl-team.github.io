@@ -378,12 +378,13 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>                           <span class="dt">Just</span> m <span class="ot">-&gt;</span> <span class="kw">do</span> </span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                                          <span class="kw">if</span> x <span class="op">&gt;</span> m <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> d <span class="kw">then</span> <span class="dt">Just</span> x <span class="kw">else</span> <span class="dt">Just</span> m </span></code></pre></div>
 </details>
+<h2 id="jump">Jump diffusion compositionally</h2>
 <p>Recall the splice function
 <code>splice :: Prob [Double] -&gt; Prob (Double -&gt; Double) -&gt; Prob (Double -&gt; Double)</code>
-from <a href="RegressionDemo.html">the linear regression example</a>,
-which pieces together draws from a random function using a point
-process. We can immediately apply this to the Wiener process, to get a
-jump diffusion process.</p>
+from <a href="RegressionDemo.html#piecewiseLinearRegression">the linear
+regression example</a>, which pieces together draws from a random
+function using a point process. We can immediately apply this to the
+Wiener process, to get a jump diffusion process.</p>
 <details class="code-details">
 <summary>
 Recalling splice function and Poisson point process
@@ -416,38 +417,51 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    forM_ dataset (\(x, y) <span class="ot">-&gt;</span> score <span class="op">$</span> normalPdf (f x) sigma y)</span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> f</span></code></pre></div>
 </details>
-We use a slightly different dataset to illustrate this.
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">datasetB ::</span> [(<span class="dt">Double</span>, <span class="dt">Double</span>)]</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>datasetB <span class="ot">=</span> [(<span class="dv">0</span>,<span class="fl">0.6</span>), (<span class="dv">1</span>, <span class="fl">0.7</span>), (<span class="dv">2</span>,<span class="fl">8.2</span>), (<span class="dv">3</span>,<span class="fl">9.1</span>), (<span class="dv">4</span>,<span class="fl">3.2</span>), (<span class="dv">5</span>,<span class="fl">4.9</span>), (<span class="dv">6</span>,<span class="fl">2.9</span>)]</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ot">jump ::</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>jump <span class="ot">=</span> <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">do</span> f <span class="ot">&lt;-</span> wiener</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                  a <span class="ot">&lt;-</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">return</span> <span class="op">$</span> \x <span class="ot">-&gt;</span> a <span class="op">+</span> f x</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>       <span class="kw">in</span> splice (poissonPP <span class="dv">0</span> <span class="fl">0.2</span>) p</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plotJump <span class="ot">=</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    fws <span class="ot">&lt;-</span> mhirreducible <span class="fl">0.2</span> <span class="fl">0.1</span> (regress <span class="fl">0.3</span> jump datasetB)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> xys <span class="ot">=</span> <span class="fu">map</span> (\f <span class="ot">-&gt;</span> <span class="fu">map</span> (\x <span class="ot">-&gt;</span> (x,f x)) [<span class="dv">0</span>,<span class="fl">0.02</span><span class="op">..</span><span class="dv">6</span>]) <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100</span> <span class="op">$</span> every <span class="dv">1000</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">300000</span> <span class="op">$</span> fws</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    plotCoords <span class="st">&quot;images/wiener-jump-reg.svg&quot;</span> datasetB xys (<span class="op">-</span><span class="dv">2</span>) <span class="dv">10</span> <span class="fl">0.1</span></span></code></pre></div>
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">jump ::</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>jump <span class="ot">=</span> <span class="kw">let</span> p <span class="ot">=</span> <span class="kw">do</span> f <span class="ot">&lt;-</span> wiener</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                  a <span class="ot">&lt;-</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">return</span> <span class="op">$</span> \x <span class="ot">-&gt;</span> a <span class="op">+</span> f x</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="kw">in</span> splice (poissonPP <span class="dv">0</span> <span class="fl">0.2</span>) p</span></code></pre></div>
+Here are six samples from this distribution. <img
+src="images/wiener-jump-prior.svg" />
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>plotJumpPrior <span class="ot">=</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    fws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample jump</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> xys <span class="ot">=</span> <span class="fu">map</span> (\f <span class="ot">-&gt;</span> <span class="fu">map</span> (\x <span class="ot">-&gt;</span> (x,f x)) [<span class="dv">0</span>,<span class="fl">0.02</span><span class="op">..</span><span class="dv">6</span>]) <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">6</span> <span class="op">$</span> fws</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    plotCoords <span class="st">&quot;images/wiener-jump-prior.svg&quot;</span> [] xys (<span class="op">-</span><span class="dv">7</span>) <span class="dv">7</span> <span class="dv">1</span></span></code></pre></div>
+</details>
+We use a slightly different dataset to illustrate regression with this.
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">datasetB ::</span> [(<span class="dt">Double</span>, <span class="dt">Double</span>)]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>datasetB <span class="ot">=</span> [(<span class="dv">0</span>,<span class="fl">0.6</span>), (<span class="dv">1</span>, <span class="fl">0.7</span>), (<span class="dv">2</span>,<span class="fl">8.2</span>), (<span class="dv">3</span>,<span class="fl">9.1</span>), (<span class="dv">4</span>,<span class="fl">3.2</span>), (<span class="dv">5</span>,<span class="fl">4.9</span>), (<span class="dv">6</span>,<span class="fl">2.9</span>)]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plotJumpRegression <span class="ot">=</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    fws <span class="ot">&lt;-</span> mhirreducible <span class="fl">0.2</span> <span class="fl">0.1</span> (regress <span class="fl">0.3</span> jump datasetB)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> xys <span class="ot">=</span> <span class="fu">map</span> (\f <span class="ot">-&gt;</span> <span class="fu">map</span> (\x <span class="ot">-&gt;</span> (x,f x)) [<span class="dv">0</span>,<span class="fl">0.02</span><span class="op">..</span><span class="dv">6</span>]) <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100</span> <span class="op">$</span> every <span class="dv">1000</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">300000</span> <span class="op">$</span> fws</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    plotCoords <span class="st">&quot;images/wiener-jump-reg.svg&quot;</span> datasetB xys (<span class="op">-</span><span class="dv">2</span>) <span class="dv">10</span> <span class="fl">0.1</span></span></code></pre></div>
 <p><img src="images/wiener-jump-reg.svg" /></p>
 <details class="code-details">
 <summary>
 Graphing routines
 </summary>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotCoords ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>)] <span class="ot">-&gt;</span> [[(<span class="dt">Double</span>,<span class="dt">Double</span>)]] <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plotCoords filename dataset xyss ymin ymax alpha <span class="ot">=</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">do</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Plotting &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        file filename <span class="op">$</span> <span class="fu">foldl</span> (\a xys <span class="ot">-&gt;</span> a <span class="op">%</span> plot (<span class="fu">map</span> <span class="fu">fst</span> xys) (<span class="fu">map</span> <span class="fu">snd</span> xys) <span class="op">@@</span> [o1 <span class="st">&quot;go-&quot;</span>, o2 <span class="st">&quot;linewidth&quot;</span> (<span class="fl">0.5</span><span class="ot"> ::</span> <span class="dt">Double</span>), o2 <span class="st">&quot;alpha&quot;</span> alpha, o2 <span class="st">&quot;ms&quot;</span> (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>)]) (scatter (<span class="fu">map</span> <span class="fu">fst</span> dataset) (<span class="fu">map</span> <span class="fu">snd</span> dataset) <span class="op">@@</span> [o2 <span class="st">&quot;c&quot;</span> <span class="st">&quot;black&quot;</span>] <span class="op">%</span> xlim (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">6</span><span class="ot"> ::</span> <span class="dt">Int</span>) <span class="op">%</span> ylim ymin ymax) xyss</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">putStrLn</span> <span class="st">&quot;Done.&quot;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span> ()</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> { plotWienerPrior ; plotWienerRegression ; plotJump } </span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotCoords ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>)] <span class="ot">-&gt;</span> [[(<span class="dt">Double</span>,<span class="dt">Double</span>)]] <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plotCoords filename dataset xyss ymin ymax alpha <span class="ot">=</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">do</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Plotting &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        file filename <span class="op">$</span> <span class="fu">foldl</span> (\a xys <span class="ot">-&gt;</span> a <span class="op">%</span> plot (<span class="fu">map</span> <span class="fu">fst</span> xys) (<span class="fu">map</span> <span class="fu">snd</span> xys) <span class="op">@@</span> [o1 <span class="st">&quot;go-&quot;</span>, o2 <span class="st">&quot;linewidth&quot;</span> (<span class="fl">0.5</span><span class="ot"> ::</span> <span class="dt">Double</span>), o2 <span class="st">&quot;alpha&quot;</span> alpha, o2 <span class="st">&quot;ms&quot;</span> (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>)]) (scatter (<span class="fu">map</span> <span class="fu">fst</span> dataset) (<span class="fu">map</span> <span class="fu">snd</span> dataset) <span class="op">@@</span> [o2 <span class="st">&quot;c&quot;</span> <span class="st">&quot;black&quot;</span>] <span class="op">%</span> xlim (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">6</span><span class="ot"> ::</span> <span class="dt">Int</span>) <span class="op">%</span> ylim ymin ymax) xyss</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">putStrLn</span> <span class="st">&quot;Done.&quot;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span> ()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> { plotWienerPrior ; plotWienerRegression ; plotJumpPrior ; plotJumpRegression } </span></code></pre></div>
 </details>
 <br>
 <hr>
