@@ -168,7 +168,7 @@
   }
   @media print {
   pre > code.sourceCode { white-space: pre-wrap; }
-  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+  pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
   }
   pre.numberSource code
     { counter-reset: source-line 0; }
@@ -288,10 +288,11 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.DirichletP</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Distr.Memoization</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Numeric.Log</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">-- In Ghci you will need to :set -fobject-code</span></span></code></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">SingleSite</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Numeric.Log</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">-- In Ghci you will need to :set -fobject-code</span></span></code></pre></div>
 </details>
 <br> In our example, the data points are on the plane and clusters
 contain points that are closer to each other. To illustrate this, we
