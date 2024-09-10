@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Inference over a 2D physics model</title>
+<style>
+  html {
+    line-height: 1.5;
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    background-color: #fdfdfd;
+  }
+  body {
+    margin: 0 auto;
+    max-width: 56em;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+  @media (max-width: 600px) {
+    body {
+      font-size: 0.9em;
+      padding: 1em;
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+  }
+  @media print {
+    body {
+      background-color: transparent;
+      color: black;
+      font-size: 12pt;
+    }
+    p, h2, h3 {
+      orphans: 3;
+      widows: 3;
+    }
+    h2, h3, h4 {
+      page-break-after: avoid;
+    }
+  }
+  p {
+    margin: 1em 0;
+  }
+  a {
+    color: #1a1a1a;
+  }
+  a:visited {
+    color: #1a1a1a;
+  }
+  img {
+    max-width: 100%;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.4em;
+  }
+  h5, h6 {
+    font-size: 1em;
+    font-style: italic;
+  }
+  h6 {
+    font-weight: normal;
+  }
+  ol, ul {
+    padding-left: 1.7em;
+  }
+  li > ol, li > ul {
+    margin-top: 0;
+  }
+  blockquote {
+    margin: 1em 0 1em 1.7em;
+    padding-left: 1em;
+    border-left: 2px solid #e6e6e6;
+    color: #606060;
+  }
+  code {
+    font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+    font-size: 85%;
+    margin: 0;
+  }
+  pre {
+    margin: 1em 0;
+    overflow: auto;
+  }
+  pre code {
+    padding: 0;
+    overflow: visible;
+    overflow-wrap: normal;
+  }
+  .sourceCode {
+   background-color: transparent;
+   overflow: visible;
+  }
+  hr {
+    background-color: #1a1a1a;
+    border: none;
+    height: 1px;
+    margin: 1em 0;
+  }
+  table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  table caption {
+    margin-bottom: 0.75em;
+  }
+  tbody {
+    margin-top: 0.5em;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  th {
+    border-top: 1px solid #1a1a1a;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+  }
+  td {
+    padding: 0.125em 0.5em 0.25em 0.5em;
+  }
+  header {
+    margin-bottom: 4em;
+    text-align: center;
+  }
+  #TOC li {
+    list-style: none;
+  }
+  #TOC ul {
+    padding-left: 1.3em;
+  }
+  #TOC > ul {
+    padding-left: 0;
+  }
+  #TOC a:not(:hover) {
+    text-decoration: none;
+  }
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+  pre > code.sourceCode { white-space: pre; position: relative; }
+  pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+  pre > code.sourceCode > span:empty { height: 1.2em; }
+  .sourceCode { overflow: visible; }
+  code.sourceCode > span { color: inherit; text-decoration: inherit; }
+  div.sourceCode { margin: 1em 0; }
+  pre.sourceCode { margin: 0; }
+  @media screen {
+  div.sourceCode { overflow: auto; }
+  }
+  @media print {
+  pre > code.sourceCode { white-space: pre-wrap; }
+  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+  }
+  pre.numberSource code
+    { counter-reset: source-line 0; }
+  pre.numberSource code > span
+    { position: relative; left: -4em; counter-increment: source-line; }
+  pre.numberSource code > span > a:first-child::before
+    { content: counter(source-line);
+      position: relative; left: -1em; text-align: right; vertical-align: baseline;
+      border: none; display: inline-block;
+      -webkit-touch-callout: none; -webkit-user-select: none;
+      -khtml-user-select: none; -moz-user-select: none;
+      -ms-user-select: none; user-select: none;
+      padding: 0 4px; width: 4em;
+      color: #aaaaaa;
+    }
+  pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+  div.sourceCode
+    {  background-color: #f8f8f8; }
+  @media screen {
+  pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+  }
+  code span.al { color: #ef2929; } /* Alert */
+  code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+  code span.at { color: #c4a000; } /* Attribute */
+  code span.bn { color: #0000cf; } /* BaseN */
+  code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+  code span.ch { color: #4e9a06; } /* Char */
+  code span.cn { color: #000000; } /* Constant */
+  code span.co { color: #8f5902; font-style: italic; } /* Comment */
+  code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+  code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+  code span.dt { color: #204a87; } /* DataType */
+  code span.dv { color: #0000cf; } /* DecVal */
+  code span.er { color: #a40000; font-weight: bold; } /* Error */
+  code span.ex { } /* Extension */
+  code span.fl { color: #0000cf; } /* Float */
+  code span.fu { color: #000000; } /* Function */
+  code span.im { } /* Import */
+  code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+  code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+  code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+  code span.ot { color: #8f5902; } /* Other */
+  code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+  code span.sc { color: #000000; } /* SpecialChar */
+  code span.ss { color: #4e9a06; } /* SpecialString */
+  code span.st { color: #4e9a06; } /* String */
+  code span.va { color: #000000; } /* Variable */
+  code span.vs { color: #4e9a06; } /* VerbatimString */
+  code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  #title-logo {
+    margin-right: 30px;
+  }</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="images/logo.png" width="45" height="45" class="align-top d-inline-block" alt="LazyPPL"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="mb-2 navbar-nav me-auto mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Regression examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="RegressionDemo.html">Linear and piecewise linear</a></li> 
+              <li><a class="dropdown-item" href="GaussianProcessDemo.html">Gaussian process regression</a></li>
+              <li><a class="dropdown-item" href="WienerDemo.html">Wiener process regression</a></li>
+             <li><a class="dropdown-item" href="ProgramInductionDemo.html">Program induction</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Other examples
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="MinimalDemo.html">Minimal demonstration</a></li>
+              <li><a class="dropdown-item" href="ClusteringDemo.html">Non-parametric clustering</a></li>
+              <li><a class="dropdown-item" href="IrmDemo.html">Infinite relational model</a></li>
+              <li><a class="dropdown-item" href="AdditiveClusteringDemo.html">Indian Buffet Process</a></li>
+              <li><a class="dropdown-item" href="ControlFlowDemo.html">Program transformations</a></li>
+              <li><a class="dropdown-item" href="GraphDemo.html">Graph inference</a></li>
+              <li><a class="dropdown-item" href="Physics.html">Inference in a physics model</a></li>
+            </ul>
+          </li>
+              <li class="nav-item"><a href="https://dl.acm.org/doi/abs/10.1145/3571239" class="nav-link"><i class="ai ai-acm"></i>
+  </a></li>
+  <li class="nav-item"><a href="https://arxiv.org/abs/2212.07250" class="nav-link"><i class="ai ai-arxiv"></i>
+  </a></li>
+              <li class="nav-item"><a href="https://github.com/lazyppl-team/lazyppl" class="nav-link"><i class="fa-brands fa-github"></i></a></li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>  <header id="title-block-header">
+<h1 class="title">Inference over a 2D physics model</h1>
+</header>
+<p>One advantage of probabilistic programming in a general purpose
+language is that we can import existing libraries as part of our models.
+Here we follow an example due to the Anglican team with a a simple 2d
+physics problem based on the Chipmunk library. For the Anglican version
+see e.g. <a
+href="https://github.com/hongseok-yang/probprog19/blob/master/Lectures/Lecture4/PhysicsLec4.clj">here</a>.
+For more advanced physics simulations in probabilistic programming, see
+<a href="https://iris-hep.org/projects/ppx.html">PPX</a>.</p>
+<p>Thanks also to <a
+href="https://github.com/ahuoguo/lazyppl_physics">Alexander Bai</a> for
+initially adapting the Haskell implementation in Sam’s <a
+href="https://www.cs.uoregon.edu/research/summerschool/summer19/topics.php#Staton">OPLSS
+course</a> to LazyPPL.</p>
+<p>The source for this Literate Haskell file is currently <a
+href="https://github.com/samstaton/lazyppl_physics">here</a>.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE FlexibleInstances     #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE FlexibleContexts      #-}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE MultiParamTypeClasses #-}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE TemplateHaskell       #-}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Physics</span> <span class="kw">where</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Apecs.Physics</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Apecs.Physics.Gloss</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Gloss.Export</span> (exportPicturesToGif,<span class="dt">GifLooping</span>(<span class="dt">LoopingForever</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span> (replicateM, when) </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.Distributions</span> (uniformbounded, normalPdf)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Numeric.Log</span>(<span class="dt">Log</span>(<span class="dt">Exp</span>),ln)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">System.Random</span> (setStdGen, mkStdGen)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">System.IO.Unsafe</span> (unsafePerformIO)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span> (findIndex)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.Monoid</span> (<span class="dt">Product</span>(<span class="dt">Product</span>))</span></code></pre></div>
+</details>
+<p>The general idea is:</p>
+<ul>
+<li><p>There is a ball falling from a fixed position.</p></li>
+<li><p>There is a cup at a fixed position.</p></li>
+<li><p>We want to place and orient bumpers so that the ball falls in to
+the cup.</p></li>
+</ul>
+<p>Here are four possible solutions, found by LazyPPL, when there are
+two bumpers:</p>
+<p><img src="images/physics1.gif" /> <img
+src="images/physics2.gif" /></p>
+<p><img src="images/physics3.gif" /> <img
+src="images/physics4.gif" /></p>
+<h2 id="the-physics-model">The physics model</h2>
+We set up the Apecs Physics Chipmunk bindings:
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>makeWorld <span class="st">&quot;World&quot;</span> [&#39;<span class="dt">&#39;Physics</span>, &#39;<span class="dt">&#39;Camera</span>]</span></code></pre></div>
+This a routine to initialize the world a ball, a cup, and bumpers of
+given position and angle; we return the ball:
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>initialize bumpers <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  set global ( <span class="dt">Camera</span> (<span class="dt">V2</span> <span class="dv">0</span> <span class="dv">1</span>) <span class="dv">60</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>             , earthGravity )</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- The bumpers </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapM</span> (\(x,y,theta) <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>          lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Angle</span> (theta), <span class="dt">Position</span> (<span class="dt">V2</span> x y))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>          newEntity (<span class="dt">Shape</span> lineBody (hLine <span class="dv">2</span>), <span class="dt">Elasticity</span> <span class="fl">0.3</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>       ) bumpers</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- The cup</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> <span class="fl">4.5</span> (<span class="op">-</span><span class="dv">5</span>)))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> lineBody (hLine <span class="dv">1</span>), <span class="dt">Elasticity</span> <span class="fl">0.1</span>)  </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> <span class="dv">4</span> (<span class="op">-</span><span class="fl">4.5</span>)))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> lineBody (vLine <span class="dv">1</span>), <span class="dt">Elasticity</span> <span class="fl">0.1</span>)  </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> <span class="dv">5</span> (<span class="op">-</span><span class="fl">4.5</span>)))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> lineBody (vLine <span class="dv">1</span>), <span class="dt">Elasticity</span> <span class="fl">0.1</span>)  </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Border</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> <span class="dv">0</span> <span class="dv">6</span>))</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> lineBody (hLine <span class="dv">12</span>), <span class="dt">Elasticity</span> <span class="dv">0</span>)  </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> <span class="dv">0</span> (<span class="op">-</span><span class="dv">6</span>)))</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> lineBody (hLine <span class="dv">12</span>), <span class="dt">Elasticity</span> <span class="dv">0</span>)  </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> <span class="dv">6</span> <span class="dv">0</span>))</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> lineBody (vLine <span class="dv">12</span>), <span class="dt">Elasticity</span> <span class="dv">0</span>)  </span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  lineBody <span class="ot">&lt;-</span> newEntity (<span class="dt">StaticBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> (<span class="op">-</span><span class="dv">6</span>) <span class="dv">0</span>))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> lineBody (vLine <span class="dv">12</span>), <span class="dt">Elasticity</span> <span class="dv">0</span>)  </span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- The ball</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  ball <span class="ot">&lt;-</span> newEntity (<span class="dt">DynamicBody</span>, <span class="dt">Position</span> (<span class="dt">V2</span> (<span class="op">-</span><span class="fl">4.5</span>) <span class="dv">5</span>))</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  newEntity (<span class="dt">Shape</span> ball (cCircle <span class="fl">0.2</span>), <span class="dt">Density</span> <span class="dv">1</span>, <span class="dt">Elasticity</span> <span class="fl">0.9</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> ball</span></code></pre></div>
+Our criterion for ending the simulation: the ball coordinates falls
+below the bottom of the window or into the cup.
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">endCriterion ::</span> (<span class="dt">Double</span>,<span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>endCriterion (x,y) <span class="ot">=</span> y<span class="op">&lt;</span> <span class="op">-</span><span class="dv">5</span> <span class="op">||</span> (y <span class="op">&lt;</span> <span class="op">-</span><span class="fl">4.5</span> <span class="op">&amp;&amp;</span> x <span class="op">&gt;</span> <span class="dv">4</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> <span class="dv">5</span>)</span></code></pre></div>
+<details class="code-details">
+<summary>
+Routines for producing illustrations
+</summary>
+<p>Make an animated gif from a sequence of pictures using Gloss.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>exportGif filename pics <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Plotting GIF to &quot;</span> <span class="op">++</span> (<span class="fu">show</span> filename) <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>   exportPicturesToGif <span class="dv">2</span> <span class="dt">LoopingForever</span> (<span class="dv">288</span>,<span class="dv">288</span>) (makeColor <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span>) filename (\t <span class="ot">-&gt;</span> pics <span class="op">!!</span> (<span class="fu">floor</span> t)) [<span class="dv">0</span><span class="op">..</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> pics <span class="op">-</span> <span class="dv">1</span>)]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Done.&quot;</span></span></code></pre></div>
+Plot the given trajectories to an SVG file
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotCoords ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [[(<span class="dt">Double</span>,<span class="dt">Double</span>)]] <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plotCoords filename  xyss ymin ymax alpha <span class="ot">=</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">do</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Plotting &quot;</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        file filename <span class="op">$</span> mp <span class="op">#</span> <span class="st">&quot;plot.axis(&#39;off&#39;)&quot;</span> <span class="op">%</span> mp <span class="op">#</span> <span class="st">&quot;colors = plot.cm.gnuplot2(np.linspace(0,1,&quot;</span> <span class="op">#</span> (<span class="fu">floor</span> ((<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xyss) <span class="op">*</span> <span class="fl">1.5</span>)<span class="ot"> ::</span> <span class="dt">Integer</span>) <span class="op">#</span> <span class="st">&quot;)) &quot;</span> <span class="op">%</span> <span class="fu">foldl</span> (\a i <span class="ot">-&gt;</span> a <span class="op">%</span> plot (<span class="fu">map</span> <span class="fu">fst</span> (xyss <span class="op">!!</span> i)) (<span class="fu">map</span> <span class="fu">snd</span> (xyss <span class="op">!!</span> i)) <span class="op">@@</span> [o1 <span class="st">&quot;o-&quot;</span>, o2 <span class="st">&quot;color&quot;</span> (lit (<span class="st">&quot;colors[&quot;</span> <span class="op">++</span> (<span class="fu">show</span> (<span class="fu">length</span> xyss <span class="op">-</span> i)) <span class="op">++</span> <span class="st">&quot;]&quot;</span>)), o2 <span class="st">&quot;linewidth&quot;</span> (<span class="fl">1.0</span><span class="ot"> ::</span> <span class="dt">Double</span>), o2 <span class="st">&quot;alpha&quot;</span> alpha, o2 <span class="st">&quot;ms&quot;</span> (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>)]) mp [<span class="dv">0</span><span class="op">..</span>(<span class="fu">length</span> xyss <span class="op">-</span><span class="dv">1</span>)] <span class="op">%</span> (plot ([<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>]<span class="ot"> ::</span> [<span class="dt">Double</span>]) ([<span class="op">-</span><span class="dv">4</span>,<span class="op">-</span><span class="dv">5</span>,<span class="op">-</span><span class="dv">5</span>,<span class="op">-</span><span class="dv">4</span>]<span class="ot"> ::</span> [<span class="dt">Double</span>]) <span class="op">@@</span> [o1 <span class="st">&quot;o-&quot;</span>, o2 <span class="st">&quot;c&quot;</span> <span class="st">&quot;black&quot;</span>, o2 <span class="st">&quot;ms&quot;</span> (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>)] <span class="op">%</span> xlim (<span class="op">-</span><span class="dv">5</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="fl">5.1</span><span class="ot"> ::</span> <span class="dt">Double</span>) <span class="op">%</span> ylim ymin ymax) </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">putStrLn</span> <span class="st">&quot;Done.&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span> ()</span></code></pre></div>
+Given the bumper positions, return the trajectory of the ball (a list of
+(x,y) coordinates).
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">getTrajectory ::</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>,<span class="dt">Double</span>)] <span class="ot">-&gt;</span> <span class="dt">IO</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>)]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>getTrajectory bumpers <span class="ot">=</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> w <span class="ot">&lt;-</span> initWorld</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>     runWith w <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       b <span class="ot">&lt;-</span> initialize bumpers</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       xys <span class="ot">&lt;-</span> run b <span class="dv">500</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="fu">return</span> xys</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- run produces the trajectory until the endCriterion</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- or until the fuel runs out</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- (in case the ball somehow gets stuck)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    run b fuel <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      stepPhysics (<span class="dv">1</span><span class="op">/</span><span class="dv">60</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      (<span class="dt">Position</span> (<span class="dt">V2</span> x y)) <span class="ot">&lt;-</span> get b</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> fuel <span class="op">&lt;</span> <span class="dv">0</span> <span class="kw">then</span> <span class="fu">return</span> [(x,y)] <span class="kw">else</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">if</span> endCriterion (x,y) <span class="kw">then</span> <span class="fu">return</span> [(x,y)] <span class="kw">else</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">do</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>           rest <span class="ot">&lt;-</span> run b (fuel <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>           <span class="fu">return</span> <span class="op">$</span> (x,y) <span class="op">:</span> rest</span></code></pre></div>
+Given the bumper positions, return pictures showing the scenario over
+time.
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">getPics ::</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>,<span class="dt">Double</span>)] <span class="ot">-&gt;</span> <span class="dt">IO</span> [<span class="dt">Picture</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>getPics bumpers <span class="ot">=</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> w <span class="ot">&lt;-</span> initWorld</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     runWith w <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       b <span class="ot">&lt;-</span> initialize bumpers</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>       xypics <span class="ot">&lt;-</span> <span class="fu">mapM</span> (\_ <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                       stepPhysics (<span class="dv">1</span><span class="op">/</span><span class="dv">60</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                       (<span class="dt">Position</span> (<span class="dt">V2</span> x y)) <span class="ot">&lt;-</span> get b</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                       pic <span class="ot">&lt;-</span> draw </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">return</span> (x,y,pic)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                   ) [<span class="dv">1</span><span class="op">..</span><span class="dv">1000</span>]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>       <span class="kw">let</span> (<span class="dt">Just</span> n) <span class="ot">=</span> findIndex (\(x,y,_) <span class="ot">-&gt;</span> endCriterion (x,y)) xypics</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>       <span class="fu">return</span> <span class="op">$</span> <span class="fu">map</span> (\(_,_,pic) <span class="ot">-&gt;</span> pic) <span class="op">$</span> <span class="fu">take</span> (n <span class="op">+</span> <span class="dv">50</span>) xypics</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    draw <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="co">-- draw the current scene</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      pic <span class="ot">&lt;-</span> foldDrawM drawBody</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> cam <span class="ot">=</span> <span class="dt">Camera</span> (<span class="dt">V2</span> (<span class="dv">8</span>) (<span class="op">-</span><span class="dv">8</span>)) <span class="dv">9</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span> <span class="op">$</span> cameraTransform cam pic </span></code></pre></div>
+</details>
+<h2 id="the-lazyppl-model">The LazyPPL model</h2>
+<p>The model:</p>
+<ul>
+<li><p>Pick some bumper positions and angles uniformly</p></li>
+<li><p>Run the 2d physics</p></li>
+<li><p>Then observe that the ball lands more-or-less in the
+cup.</p></li>
+<li><p>Return a posterior distribution over bumper positions and
+angles.</p></li>
+</ul>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">model ::</span> <span class="dt">Meas</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>,<span class="dt">Double</span>)]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Pick the positions and angles of two bumpers</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Prior is uninformative, uniformly distributed</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  bumpers <span class="ot">&lt;-</span> sample <span class="op">$</span> replicateM <span class="dv">2</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                      x <span class="ot">&lt;-</span> uniformbounded (<span class="op">-</span><span class="dv">5</span>) <span class="dv">5</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                      y <span class="ot">&lt;-</span> uniformbounded (<span class="op">-</span><span class="dv">5</span>) <span class="dv">5</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                      theta <span class="ot">&lt;-</span> uniformbounded <span class="dv">0</span> <span class="fu">pi</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">return</span> (x,y,theta)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Run the physics simulation.</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- The last point is where the ball either leaves the scene</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- or lands in the cup. </span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> (x,y) <span class="ot">=</span> unsafePerformIO <span class="op">$</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>              <span class="kw">do</span> { pos <span class="ot">&lt;-</span> getTrajectory bumpers ; <span class="fu">return</span> <span class="op">$</span> <span class="fu">last</span> pos }</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Observe the ball is roughly in the cup at the end of the trajectory</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  score <span class="op">$</span> normalPdf <span class="fl">4.5</span> <span class="fl">0.2</span> x </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Return the bumper positions</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> bumpers</span></code></pre></div>
+<p>Note that we do not say that the ball lands exactly in the cup. We
+could consider an alternative model by replacing the score with
+<code>score $ fromEnum (x &gt; 4 &amp;&amp; x &lt; 5)</code>. This would
+lead to Metropolis-Hastings rejecting the first samples, finding the
+first success by <a href="#brute-force">brute force</a>, which takes a
+lot longer.</p>
+<h2 id="results-of-running-metropolis-hastings-inference">Results of
+running Metropolis-Hastings inference</h2>
+<details class="code-details">
+<summary>
+Code to run a Metropolis-Hastings simulation
+</summary>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>runModelMH n trajfile anifile <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Use MH with p=0.15 (0.15 ~= 1/6, and approx six samples needed)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  samples <span class="ot">&lt;-</span> mh <span class="fl">0.15</span> model</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- The ball enters the cup when the likelihood is &gt; 0.0876</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> p <span class="ot">=</span> <span class="dt">Product</span> <span class="op">$</span> <span class="dt">Exp</span> <span class="op">$</span> ln <span class="op">$</span> <span class="fl">0.0876415</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> (<span class="dt">Just</span> i) <span class="ot">=</span> findIndex (\(_,w) <span class="ot">-&gt;</span> w <span class="op">&gt;</span> p) samples</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;[MH] Ball entered the cup after &quot;</span> <span class="op">++</span> <span class="fu">show</span> i <span class="op">++</span> <span class="st">&quot; samples.&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Output illustrations to files:</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  when (trajfile <span class="op">/=</span> <span class="st">&quot;&quot;</span>) <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Extract the trajectories of the first n samples</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>     xyss <span class="ot">&lt;-</span> <span class="fu">mapM</span> getTrajectory (<span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> n samples)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Plot the trajectories together</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>     plotCoords trajfile xyss (<span class="op">-</span><span class="dv">5</span>) <span class="dv">5</span> <span class="fl">0.01</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  when (anifile <span class="op">/=</span> <span class="st">&quot;&quot;</span>) <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Plot the last trajectory</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    pics <span class="ot">&lt;-</span> getPics <span class="op">$</span> <span class="fu">fst</span> <span class="op">$</span> samples <span class="op">!!</span> n</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    exportGif anifile pics</span></code></pre></div>
+</details>
+<p>The four simulations at the <a href="#top">top of the page</a> were
+found by Metropolis-Hastings simulation.</p>
+<p>Running the model with the LazyPPL Metropolis-Hastings gives
+trajectories like this (this is 1000 samples; the very last sample is
+the bottom-right animation at the top of the page):</p>
+<p><img src="images/physics4.svg" /></p>
+<p>The lighter colors (pink) are earlier samples from the Markov chain.
+We can see the “burn-in” process as the initial samples have low
+likelihood: they do not land in the cup. The ball begins landing in the
+pot after around 100 samples (68, 109, 118, 163 in the above
+animations).</p>
+<p>The entire distribution will eventually be explored but only
+asymptotically. For simplicity we just restarted the simulation to get
+the four different animations at the <a href="#top">top of the page</a>,
+rather than waiting for one M-H chain to randomly enter many different
+modes.</p>
+<h2 id="brute-force">Results of brute force search</h2>
+<details class="code-details">
+<summary>
+Code to run a brute force search
+</summary>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>runModelBruteForce n trajfile <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  samples <span class="ot">&lt;-</span> weightedsamples model</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- The ball enters the cup when the likelihood is &gt; 0.0876</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> p <span class="ot">=</span> <span class="dt">Exp</span> <span class="op">$</span> ln <span class="op">$</span> <span class="fl">0.0876415</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> (<span class="dt">Just</span> i) <span class="ot">=</span> findIndex (\(_,w) <span class="ot">-&gt;</span> w <span class="op">&gt;</span> p) samples</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;[BF] Ball entered the cup after &quot;</span> <span class="op">++</span> <span class="fu">show</span> i <span class="op">++</span> <span class="st">&quot; samples.&quot;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Extract the trajectories of the first n samples</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  xyss <span class="ot">&lt;-</span> <span class="fu">mapM</span> getTrajectory (<span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> n samples)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Plot the trajectories together</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  plotCoords trajfile xyss (<span class="op">-</span><span class="dv">5</span>) <span class="dv">5</span> <span class="fl">0.1</span></span></code></pre></div>
+</details>
+<p>Running the model with a brute-force search takes many more samples
+than Metropolis-Hastings. In this example there were 3343 before the
+ball landed in the cup. Here are 4000 samples:</p>
+<p><img src="images/physics5.svg" /></p>
+<details class="code-details">
+<summary>
+Main function
+</summary>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- The distribution is multimodal,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- so let&#39;s restart four times for four examples.</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- (Statistically better to use mhirreducible.)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- We plot the trajectories of the last run.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>     setStdGen (mkStdGen <span class="dv">1</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>     runModelMH <span class="dv">1000</span> <span class="st">&quot;&quot;</span> <span class="st">&quot;images/physics1.gif&quot;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>     setStdGen (mkStdGen <span class="dv">42</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>     runModelMH <span class="dv">1000</span> <span class="st">&quot;&quot;</span> <span class="st">&quot;images/physics2.gif&quot;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>     setStdGen (mkStdGen <span class="dv">47</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>     runModelMH <span class="dv">1000</span> <span class="st">&quot;&quot;</span> <span class="st">&quot;images/physics3.gif&quot;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>     setStdGen (mkStdGen <span class="dv">57</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>     runModelMH <span class="dv">1000</span> <span class="st">&quot;images/physics4.svg&quot;</span> <span class="st">&quot;images/physics4.gif&quot;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- We also plot what brute force looks like with 4000 trials</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>     runModelBruteForce <span class="dv">4000</span> <span class="st">&quot;images/physics5.svg&quot;</span></span></code></pre></div>
+</details>
+<br>
+<hr>
+<small><i>  Generated by Pandoc from Literate Haskell. Full source on <a href="https://github.com/lazyppl-team/lazyppl"><i class="fa-brands fa-github"></i></a>.</i></small>
+  
+</body>
+</html>
