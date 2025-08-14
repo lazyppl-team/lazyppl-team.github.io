@@ -156,8 +156,9 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
+  html { -webkit-text-size-adjust: 100%; }
   pre > code.sourceCode { white-space: pre; position: relative; }
-  pre > code.sourceCode > span { line-height: 1.25; }
+  pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
   pre > code.sourceCode > span:empty { height: 1.2em; }
   .sourceCode { overflow: visible; }
   code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -168,7 +169,7 @@
   }
   @media print {
   pre > code.sourceCode { white-space: pre-wrap; }
-  pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
   }
   pre.numberSource code
     { counter-reset: source-line 0; }
@@ -383,49 +384,14 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <p>Note that it might often be better to use the LazyPPL
 <code>poisson</code> distribution than to use this simulation method.
 This simple example is just for illustration. <br></br></p>
-We can simulate the Poisson distribution by counting how many points in
-the unit interval of a Poisson point process.
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">bernoulliPi4 ::</span> <span class="dt">Prob</span> <span class="dt">Bool</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>bernoulliPi4 <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> uniform</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> uniform</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> <span class="op">$</span> x <span class="op">*</span> x <span class="op">+</span> y <span class="op">*</span> y <span class="op">&lt;</span> <span class="dv">1</span></span></code></pre></div>
-<details class="code-details">
-<summary>
-(Simulation code)
-</summary>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>runPi <span class="ot">=</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    bws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> bernoulliPi4</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> n<span class="ot">=</span><span class="dv">1000000</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> bs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> n <span class="op">$</span> bws</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- histogram generator</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;pi = &quot;</span> <span class="op">++</span> (<span class="fu">show</span> <span class="op">$</span> <span class="dv">4</span> <span class="op">*</span> (<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> <span class="fu">id</span> bs) <span class="op">/</span> (<span class="fu">fromIntegral</span> n))</span></code></pre></div>
-</details>
-<p>When run, this should print a Poisson distribution table
-(approximately).</p>
-<pre><code>  k       poisson(k)
-  --      ----------
-  0       0.3679
-  1       0.3679
-  2       0.1839
-  3       6.13e-2
-  4       1.53e-2
-  5       3.1e-3
-  6       0.5e-3
-  7       1.0e-4</code></pre>
-<p>Note that it might often be better to use the LazyPPL
-<code>poisson</code> distribution than to use this simulation method.
-This simple example is just for illustration. <br></br></p>
+<p>\end{code}</p>
 <details class="code-details">
 <summary>
 (Main function)
 </summary>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {runVoteModel ; <span class="fu">putStrLn</span> <span class="st">&quot;&quot;</span> ; runPoissonSim }</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {runVoteModel ; <span class="fu">putStrLn</span> <span class="st">&quot;&quot;</span> ; runPoissonSim }</span></code></pre></div>
 </details>
 <br>
 <hr>
