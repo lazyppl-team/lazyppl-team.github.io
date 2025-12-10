@@ -2657,6 +2657,12 @@
     justify-content: center;
     min-height: 220px;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-preview::after {
+    display: none !important;
   }
 
   .card-preview img {
@@ -2948,9 +2954,7 @@ Several aspects are now incorporated into MonadBayes (see
 </p>
 <div class="examples-grid">
 <article class="example-card">
-<div class="card-preview">
-<img src="images/regression-piecewise-reg.svg" alt="Linear and piecewise linear regression">
-</div>
+<a href="RegressionDemo.html" class="card-preview"><img src="images/regression-piecewise-reg.svg" alt="Linear and piecewise linear regression"></a>
 <div class="card-content">
 <span class="card-tag">Regression</span>
 <h3>
@@ -2963,9 +2967,7 @@ models using a Poisson point process.
 </div>
 </article>
 <article class="example-card">
-<div class="card-preview">
-<img src="images/wiener-reg.svg" alt="Wiener process regression">
-</div>
+<a href="WienerDemo.html" class="card-preview"><img src="images/wiener-reg.svg" alt="Wiener process regression"></a>
 <div class="card-content">
 <span class="card-tag">Stochastic Processes</span>
 <h3>
@@ -2978,9 +2980,7 @@ nowhere-differentiable random functions.
 </div>
 </article>
 <article class="example-card">
-<div class="card-preview">
-<img src="images/programinduction-reg.svg" alt="Program induction">
-</div>
+<a href="ProgramInductionDemo.html" class="card-preview"><img src="images/programinduction-reg.svg" alt="Program induction"></a>
 <div class="card-content">
 <span class="card-tag">Program Induction</span>
 <h3>
@@ -2993,9 +2993,7 @@ probabilistic program induction.
 </div>
 </article>
 <article class="example-card">
-<div class="card-preview">
-<img src="images/clustering-map.svg" alt="Dirichlet Process clustering">
-</div>
+<a href="ClusteringDemo.html" class="card-preview"><img src="images/clustering-map.svg" alt="Dirichlet Process clustering"></a>
 <div class="card-content">
 <span class="card-tag">Clustering</span>
 <h3>
@@ -3008,9 +3006,7 @@ automatically.
 </div>
 </article>
 <article class="example-card">
-<div class="card-preview">
-<img src="images/graph-data.svg" alt="Observed graph for inference">
-</div>
+<a href="GraphDemo.html" class="card-preview"><img src="images/graph-data.svg" alt="Observed graph for inference"></a>
 <div class="card-content">
 <span class="card-tag">Graph Inference</span>
 <h3>
@@ -3023,9 +3019,7 @@ versus Erdős–Rényi models, from observed adjacency data.
 </div>
 </article>
 <article class="example-card">
-<div class="card-preview">
-<img src="images/physics4.svg" alt="2D physics bumper configuration">
-</div>
+<a href="Physics.html" class="card-preview"><img src="images/physics4.svg" alt="2D physics bumper configuration"></a>
 <div class="card-content">
 <span class="card-tag">Physics</span>
 <h3>
