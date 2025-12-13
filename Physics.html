@@ -3665,7 +3665,7 @@ initially adapting the Haskell implementation in Sam’s <a
 href="https://www.cs.uoregon.edu/research/summerschool/summer19/topics.php#Staton">OPLSS
 course</a> to LazyPPL.</p>
 <p>The source for this Literate Haskell file is currently <a
-href="https://github.com/samstaton/lazyppl_physics">here</a>.</p>
+href="https://github.com/lazyppl-team/lazyppl_physics">here</a>.</p>
 <details class="code-details">
 <summary>
 Extensions and imports for this Literate Haskell file
@@ -3704,13 +3704,17 @@ class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="c
 <li><p>We want to place and orient bumpers so that the ball falls in to
 the cup.</p></li>
 </ul>
-<p>Here are four possible solutions, found by LazyPPL, when there are
-two bumpers:</p>
-<p><img src="images/physics1.gif" /> <img
-src="images/physics2.gif" /></p>
-<p><img src="images/physics3.gif" /> <img
-src="images/physics4.gif" /></p>
-<h2 id="the-physics-model">The physics model</h2>
+<p class="centered-intro">
+Here are four possible solutions, found by LazyPPL, when there are two
+bumpers:
+</p>
+<p class="centered-intro">
+<img src="images/physics1.gif" /> <img src="images/physics2.gif" />
+</p>
+<p class="centered-intro">
+<img src="images/physics3.gif" /> <img src="images/physics4.gif" />
+</p>
+<h2 class="centered-intro" id="the-physics-model">The physics model</h2>
 We set up the Apecs Physics Chipmunk bindings:
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>makeWorld <span class="st">&quot;World&quot;</span> [&#39;<span class="dt">&#39;Physics</span>, &#39;<span class="dt">&#39;Camera</span>]</span></code></pre></div>
