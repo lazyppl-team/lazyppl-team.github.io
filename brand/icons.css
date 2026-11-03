@@ -1,0 +1,22 @@
+.lucide { display: none; }
+.lucide:is(.lucide-panel-left,.lucide-sidebar,.lucide-menu,.lucide-x,.lucide-search,.lucide-copy,.lucide-check,.lucide-chevron-down,.lucide-chevron-right,.lucide-chevron-left,.lucide-external-link) {
+  display: inline-block; inline-size: 1em; block-size: 1em; flex: none;
+  background: currentColor; mask: var(--control-icon) center / contain no-repeat;
+}
+.lucide > * { visibility: hidden; }
+.lucide-panel-left,.lucide-sidebar,.lucide-menu { --control-icon: url('./icons/Menu01Icon.svg'); }
+.lucide-x { --control-icon: url('./icons/Cancel01Icon.svg'); }
+.lucide-search { --control-icon: url('./icons/Search01Icon.svg'); }
+.lucide-copy { --control-icon: url('./icons/Copy01Icon.svg'); }
+.lucide-check { --control-icon: url('./icons/Tick02Icon.svg'); }
+.lucide-chevron-down { --control-icon: url('./icons/ArrowDown01Icon.svg'); }
+.lucide-chevron-right,.lucide-chevron-left { --control-icon: url('./icons/ArrowRight01Icon.svg'); }
+.lucide-chevron-left { transform: rotate(180deg); }
+.page-breadcrumb .lucide-chevron-right { --control-icon: url('./icons/SlashIcon.svg'); }
+.page-breadcrumb a { opacity: 1; }
+.lucide-external-link { --control-icon: url('./icons/LinkSquare01Icon.svg'); }
+a[data-brand-external="true"]:not(:has([data-brand-icon="LinkSquare01Icon"],.lucide-external-link))::after {
+  content: ''; display: inline-block; inline-size: 1em; block-size: 1em;
+  margin-inline-start: .25em; vertical-align: -.15em; background: currentColor;
+  mask: url('./icons/LinkSquare01Icon.svg') center / contain no-repeat;
+}

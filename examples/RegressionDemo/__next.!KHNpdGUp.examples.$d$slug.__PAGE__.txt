@@ -1,0 +1,273 @@
+3:"$Sreact.fragment"
+4:"/_next/static/chunks/1-ol2ef1ddu2b.js"
+5:"/_next/static/chunks/33h3p3ej_q-ge.js"
+6:"/_next/static/chunks/3_kgrjt-u8yex.js"
+7:"/_next/static/chunks/1eojptqeebioj.js"
+8:"/_next/static/chunks/40fkv-h9ukgn0.js"
+9:"/_next/static/chunks/0je5e4llskhyr.js"
+a:I[29274,["$4","$5","$6","$7","$8","$9"],"default"]
+b:I[701385,["$4","$5","$6","$7","$8","$9"],"default"]
+12:"/_next/static/chunks/0q-jzvo51nq8h.js"
+13:"/_next/static/chunks/1-exvwzivqn2f.js"
+14:"/_next/static/chunks/28agsd8y-f5jf.js"
+15:"/_next/static/chunks/418z_15_pusa2.js"
+16:"/_next/static/chunks/2y4ttzp40s8et.js"
+17:"/_next/static/chunks/2mt1lletn-11b.js"
+18:"/_next/static/chunks/1c7mkzd2an55e.js"
+19:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsPage"]
+1a:I[79215,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],""]
+1b:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsTitle"]
+24:"ViewportBoundary"
+25:I[80768,["$4","$5","$6","$7","$8","$9"],"$24"]
+26:"MetadataBoundary"
+27:I[80768,["$4","$5","$6","$7","$8","$9"],"$26"]
+28:"$Sreact.suspense"
+29:I[466521,["$4","$5","$6","$7","$8","$9"],"IconMark"]
+d:X
+d:C
+e:X
+11:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$3","c",{"children":[["$","$L19",null,{"full":true,"className":"demo-page","toc":[{"title":"Linear regression","url":"#linearRegression","depth":2},{"title":"Piecewise linear regression and Poisson point processes","url":"#piecewiseLinearRegression","depth":2}],"breadcrumb":{"enabled":false},"tableOfContent":{"single":true},"children":[["$","div",null,{"id":"main-content","className":"demo-header","children":[["$","nav",null,{"className":"page-breadcrumb","aria-label":"Breadcrumb","children":["$","ol",null,{"children":[[["$","li","/",{"children":[["$","$L1a",null,{"prefetch":false,"href":"/","children":"Home"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}],["$","li","/examples/",{"children":[["$","$L1a",null,{"prefetch":false,"href":"/examples/","children":"Examples"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}]],["$","li",null,{"children":["$","span",null,{"aria-current":"page","title":"Linear and piecewise linear regression with LazyPPL","children":"Linear and piecewise linear regression with LazyPPL"}]}]]}]}],["$","$L1b",null,{"children":"Linear and piecewise linear regression with LazyPPL"}],["$","div",null,{"className":"example-actions","children":[["$","a",null,{"className":"primary-link","href":"#live-demo","children":["Run ",["$","span",null,{"className":"brand-icon","data-brand-icon":"PlayCircleIcon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"1.5\"></circle><path d=\"M15.9453 12.3948C15.7686 13.0215 14.9333 13.4644 13.2629 14.3502C11.648 15.2064 10.8406 15.6346 10.1899 15.4625C9.9209 15.3913 9.6758 15.2562 9.47812 15.0701C9 14.6198 9 13.7465 9 12C9 10.2535 9 9.38018 9.47812 8.92995C9.6758 8.74381 9.9209 8.60868 10.1899 8.53753C10.8406 8.36544 11.648 8.79357 13.2629 9.64983C14.9333 10.5356 15.7686 10.9785 15.9453 11.6052C16.0182 11.8639 16.0182 12.1361 15.9453 12.3948Z\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],["$","$L1a",null,{"prefetch":false,"className":"source-link","href":"/playground/#regression-title","children":["Try in your browser ",["$","span",null,{"className":"brand-icon","data-brand-icon":"ArrowRight01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],false,["$","$L1a",null,{"prefetch":false,"className":"source-link","href":"/editor/?example=regression","children":["Open in the full editor ",["$","span",null,{"className":"brand-icon","data-brand-icon":"ArrowRight01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],["$","a",null,{"className":"source-link","href":"https://github.com/lazyppl-team/lazyppl/blob/859ee06149d0866068fd9e20e02e7f9efa7a4ccc/examples/models/RegressionDemo.lhs","children":["Read the Haskell source ",["$","span",null,{"className":"brand-icon","data-brand-icon":"LinkSquare01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M11.1004 3.00208C7.4515 3.00864 5.54073 3.09822 4.31962 4.31931C3.00183 5.63706 3.00183 7.75796 3.00183 11.9997C3.00183 16.2415 3.00183 18.3624 4.31962 19.6801C5.6374 20.9979 7.75836 20.9979 12.0003 20.9979C16.2421 20.9979 18.3631 20.9979 19.6809 19.6801C20.902 18.4591 20.9916 16.5484 20.9982 12.8996\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path><path d=\"M20.4803 3.51751L14.931 9.0515M20.4803 3.51751C19.9863 3.023 16.6587 3.0691 15.9552 3.0791M20.4803 3.51751C20.9742 4.01202 20.9282 7.34329 20.9182 8.04754\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}]]}]]}],"$L1c"]}],["$L1d","$L1e","$L1f","$L20","$L21"],"$L22"]}],"p":"$@23","v":null,"s":"$e"}}]]
+f:[["children",{"s":{"n":"slug","t":"d","k":"RegressionDemo","s":[]},"h":65632,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@10","v":"$d","s":"$e"},"c":"$Q11"}]]
+2:[["children",{"s":"examples","h":131136,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@c","v":"$d","s":"$e"},"c":"$Qf"}]]
+1:[["children",{"s":"(site)","h":131072,"c":"$Q2"}]]
+0:{"t":{"t":{"s":"","h":131088,"c":"$Q1"},"h":{"r":["$","$3","h",{"children":[null,["$","$L25",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L27",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$28",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Linear and piecewise linear regression with LazyPPL | LazyPPL"}],["$","meta","1",{"name":"description","content":"We discuss Bayesian linear regression and piecewise linear regression."}],["$","link","2",{"rel":"manifest","href":"/manifest.webmanifest"}],["$","meta","3",{"property":"og:title","content":"Linear and piecewise linear regression with LazyPPL | LazyPPL"}],["$","meta","4",{"property":"og:description","content":"We discuss Bayesian linear regression and piecewise linear regression."}],["$","meta","5",{"property":"og:image","content":"https://lazyppl.org/brand/social.png"}],["$","meta","6",{"property":"og:image:width","content":"1200"}],["$","meta","7",{"property":"og:image:height","content":"630"}],["$","meta","8",{"property":"og:image:alt","content":"LazyPPL: Laziness for Bayesian nonparametrics."}],["$","meta","9",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","10",{"name":"twitter:title","content":"Linear and piecewise linear regression with LazyPPL | LazyPPL"}],["$","meta","11",{"name":"twitter:description","content":"We discuss Bayesian linear regression and piecewise linear regression."}],["$","meta","12",{"name":"twitter:image","content":"https://lazyppl.org/brand/social.png"}],["$","link","13",{"rel":"icon","href":"/brand/favicon-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: light)"}],["$","link","14",{"rel":"icon","href":"/brand/favicon-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: light)"}],["$","link","15",{"rel":"icon","href":"/brand/favicon-dark-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: dark)"}],["$","link","16",{"rel":"icon","href":"/brand/favicon-dark-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: dark)"}],["$","link","17",{"rel":"icon","href":"/brand/favicon.svg","type":"image/svg+xml","sizes":"any"}],["$","link","18",{"rel":"apple-touch-icon","href":"/brand/favicon-180.png","type":"image/png","sizes":"180x180"}],["$","$L29","19",{}]]}]}],null]}],null]}],"p":"$@2a","v":null,"s":"$e"}},"a":"$@2b","u":"$@2c","b":"iEbMTFRueLJcGwvmD3PiQ"}
+2d:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsBody"]
+2e:I[886378,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"Literate"]
+32:I[80768,["$4","$5","$6","$7","$8","$9"],"OutletBoundary"]
+2f:T2dc8,<p>We discuss Bayesian <a href="#linearRegression">linear regression</a> and <a href="#piecewiseLinearRegression">piecewise linear regression</a>. Our piecewise linear regression uses an infinite Poisson process as the set of change points. The laziness of Haskell effectively truncates the infinite process as needed. The examples also demonstrate that <span class="prose-compound">higher-order</span> functions (such as <code>regress</code> and <code>splice</code>) are very useful.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode code-block" id="cb1"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE CPP #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">RegressionDemo</span> <span class="kw">where</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.Distributions</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Numeric.Log</span> (<span class="dt">Log</span>(<span class="dt">Exp</span>))</span></code></pre></div>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb2"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<h2 id="linearRegression">Linear regression</h2>
+<p>Regression is about finding a fitting function to some data. Bayesian regression is about finding a posterior distribution on functions, given the data.</p>
+<p>We start with a random linear function:</p>
+<div class="sourceCode code-block" id="cb3"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">linear ::</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>linear <span class="ot">=</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="ot">=</span> <span class="op">\</span>x <span class="ot">-&gt;</span> a <span class="op">*</span> x <span class="op">+</span> b</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> f</span></code></pre></div>
+<p>Note that this returns a random function. Here are 1000 draws from the distribution. <img src="/images/regression-linear-prior.svg" width="614" height="506" loading="lazy" decoding="async" alt="Linear functions drawn from the prior."></p>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb4"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plotLinearPrior <span class="ot">=</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    fs' <span class="ot">&lt;-</span> mh <span class="dv">1</span> (sample linear)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> <span class="op">$</span> fs'</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">"images/regression-linear-prior.svg"</span> [] fs <span class="fl">0.1</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<p><br><br></p>
+Here is a sample dataset that we will find a function for:
+<div class="sourceCode code-block" id="cb5"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">dataset ::</span> [(<span class="dt">Double</span>, <span class="dt">Double</span>)]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">=</span> [(<span class="dv">0</span>,<span class="fl">0.6</span>), (<span class="dv">1</span>, <span class="fl">0.7</span>), (<span class="dv">2</span>,<span class="fl">1.2</span>), (<span class="dv">3</span>,<span class="fl">3.2</span>), (<span class="dv">4</span>,<span class="fl">6.8</span>), (<span class="dv">5</span>, <span class="fl">8.2</span>), (<span class="dv">6</span>,<span class="fl">8.4</span>)]</span></code></pre></div>
+<p><img src="/images/regression-dataset.svg" width="614" height="461" loading="lazy" decoding="async" alt="The observed data points for the regression examples."></p>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb6"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plotDataset <span class="ot">=</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">"images/regression-dataset.svg"</span> dataset [] <span class="fl">0.1</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<p><br><br></p>
+<p>Our regression here is noisy: the function has not <em>precisely</em> generated this data set, because the points are not colinear.</p>
+Our generic regression function takes a random function <code>prior</code>, and some input/output observations <code>dataset</code>, which are assumed to be noisy according to <code>sigma</code>, returns a conditioned random linear function (unnormalized).
+<div class="sourceCode code-block" id="cb7"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">regress ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> (a <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> [(a, <span class="dt">Double</span>)] <span class="ot">-&gt;</span> <span class="dt">Meas</span> (a <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>regress sigma prior dataset <span class="ot">=</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    f <span class="ot">&lt;-</span> sample prior</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    forM_ dataset (<span class="op">\</span>(x, y) <span class="ot">-&gt;</span> scoreLog <span class="op">$</span> <span class="dt">Exp</span> <span class="op">$</span> normalLogPdf (f x) sigma y)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> f</span></code></pre></div>
+Now we can run Bayesian linear regression by sampling from the unnormalized measure using Metropolis-Hastings. The result is the posterior distribution over linear functions. <!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb8"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plotLinReg <span class="ot">=</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> fs' <span class="ot">&lt;-</span> mh <span class="fl">0.5</span> (regress <span class="fl">0.5</span> linear dataset)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> <span class="op">$</span> every <span class="dv">50</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">100</span> fs'</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     plotFuns <span class="st">"images/regression-linear-reg.svg"</span> dataset fs <span class="fl">0.01</span></span></code></pre></div>
+<!--
+#endif
+-->
+1c:["$","$L2d",null,{"children":[["$","$L2e",null,{"html":"$2f"}],"$L30","$L31"]}]
+1d:["$","script","script-0",{"src":"/_next/static/chunks/28agsd8y-f5jf.js","async":true}]
+1e:["$","script","script-1",{"src":"/_next/static/chunks/418z_15_pusa2.js","async":true}]
+1f:["$","script","script-2",{"src":"/_next/static/chunks/2y4ttzp40s8et.js","async":true}]
+20:["$","script","script-3",{"src":"/_next/static/chunks/2mt1lletn-11b.js","async":true}]
+21:["$","script","script-4",{"src":"/_next/static/chunks/1c7mkzd2an55e.js","async":true}]
+22:["$","$L32",null,{"children":["$","$28",null,{"name":"Next.MetadataOutlet","children":"$@33"}]}]
+2c:true
+34:I[384725,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"Playground"]
+e:300
+30:["$","div",null,{"id":"live-demo","className":"example-demo","data-ui":true,"children":["$","$L34",null,{"compact":true,"model":"regression"}]}]
+35:T63dd,<p><img src="/images/regression-linear-reg.svg" width="614" height="461" loading="lazy" decoding="async" alt="Linear regression fitted to the observed data points."></p>
+<h2 id="piecewiseLinearRegression">Piecewise linear regression and Poisson point processes</h2>
+To move to piecewise linear regression, we introduce a function <code>splice</code> which splices together different draws from a random function at a random selection of change points. NB if the point process is infinite then the resulting function has an infinite number of pieces, but this is all done lazily, so it’s not a problem.
+<div class="sourceCode code-block" id="cb9"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ot">splice ::</span> <span class="dt">Prob</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>splice pointProcess randomFun <span class="ot">=</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    xs <span class="ot">&lt;-</span> pointProcess</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    fs <span class="ot">&lt;-</span> <span class="fu">mapM</span> (<span class="fu">const</span> randomFun) xs</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    default_f <span class="ot">&lt;-</span> randomFun</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span><span class="ot"> h ::</span> [(<span class="dt">Double</span>, <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)] <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        h [] x <span class="ot">=</span> default_f x</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        h ((a, f) <span class="op">:</span> xfs) x <span class="op">|</span> x <span class="op">&lt;=</span> a <span class="ot">=</span> f x</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        h ((a, f) <span class="op">:</span> xfs) x <span class="op">|</span> x <span class="op">&gt;</span> a <span class="ot">=</span> h xfs x</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (h (<span class="fu">zip</span> xs fs))</span></code></pre></div>
+Note that this second-order function works for any point process and for any random function. We will use the random linear function <code>linear</code>, and for a point process we will use the following Poisson point process, <code>poissonPP</code>. This generates an infinite random list of points, where the gaps between them are exponentially distributed.
+<div class="sourceCode code-block" id="cb10"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">poissonPP ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> [<span class="dt">Double</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>poissonPP lower rate <span class="ot">=</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    step <span class="ot">&lt;-</span> exponential rate</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="ot">=</span> lower <span class="op">+</span> step</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    xs <span class="ot">&lt;-</span> poissonPP x rate</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (x <span class="op">:</span> xs)</span></code></pre></div>
+<p>Here are five draws from the process. Each draw is really an infinite set of points, but we have truncated the display to the viewport [0,20]. Laziness then takes care of truncating the infinite sequences appropriately. <img src="/images/regression-poissonpp.svg" width="614" height="461" loading="lazy" decoding="async" alt="Points of a one-dimensional Poisson point process."></p>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb11"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plotPoissonPP <span class="ot">=</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    pws <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> poissonPP <span class="dv">0</span> <span class="fl">0.1</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> ps <span class="ot">=</span> <span class="fu">map</span> (<span class="fu">takeWhile</span> (<span class="dv">20</span><span class="op">&gt;</span>)) <span class="op">$</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">5</span> <span class="op">$</span> pws</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> filename <span class="ot">=</span> <span class="st">"images/regression-poissonpp.svg"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Plotting "</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">"..."</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> myscatter mpl i <span class="ot">=</span> mpl <span class="op">%</span> setSubplot i <span class="op">%</span> scatter (ps <span class="op">!!</span> i) (<span class="fu">map</span> (<span class="fu">const</span> (<span class="dv">0</span><span class="ot">::</span><span class="dt">Double</span>)) (ps <span class="op">!!</span> i)) <span class="op">@@</span> [o2 <span class="st">"s"</span> (<span class="dv">10</span><span class="ot">::</span><span class="dt">Int</span>),o2 <span class="st">"c"</span> <span class="st">"black"</span>]  <span class="op">%</span> xlim (<span class="dv">0</span><span class="ot">::</span><span class="dt">Int</span>) (<span class="dv">20</span><span class="ot">::</span><span class="dt">Int</span>) <span class="op">%</span> ylim (<span class="op">-</span><span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">1</span><span class="ot">::</span><span class="dt">Int</span>) <span class="op">%</span> mp <span class="op">#</span> <span class="st">"ax.yaxis.set_major_formatter(mticker.NullFormatter())"</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> myscatteraxes mpl i <span class="ot">=</span> <span class="kw">if</span> i <span class="op">&lt;</span> (<span class="fu">length</span> ps <span class="op">-</span> <span class="dv">1</span>) <span class="kw">then</span> myscatter mpl i <span class="op">%</span> mp <span class="op">#</span> <span class="st">"ax.xaxis.set_major_formatter(mticker.NullFormatter())"</span> <span class="kw">else</span> myscatter mpl i</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    file filename <span class="op">$</span> <span class="fu">foldl</span> myscatteraxes (subplots <span class="op">@@</span> [o2 <span class="st">"nrows"</span> (<span class="fu">length</span> ps),o2 <span class="st">"ncols"</span> (<span class="dv">1</span><span class="ot">::</span><span class="dt">Int</span>)]) [<span class="dv">0</span><span class="op">..</span>(<span class="fu">length</span> ps <span class="op">-</span> <span class="dv">1</span>)]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Done."</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<p><br><br></p>
+<p>We can now invoke a random piecewise linear function by calling <code class="sourceCode haskell">splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear</code>. Here are ten draws from this distribution. Because the viewport is bounded, laziness takes care of truncations to the point process that we passed to <code>splice</code>.</p>
+<p><img src="/images/regression-piecewise-prior.svg" width="614" height="461" loading="lazy" decoding="async" alt="Piecewise linear functions drawn from the prior."></p>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb12"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plotPiecewisePrior <span class="ot">=</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    fs' <span class="ot">&lt;-</span> mh <span class="dv">1</span> <span class="op">$</span> sample <span class="op">$</span> splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">10</span> <span class="op">$</span> fs'</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">"images/regression-piecewise-prior.svg"</span> [] fs <span class="dv">1</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<p><br><br></p>
+This is a random function just like any other, so we can use it as a prior, using the same regression routines as before, <code class="sourceCode haskell">regress <span class="fl">0.1</span> (splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear)</code>. We can then sample from the unnormalized distribution using Metropolis-Hastings. <!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb13"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plotPiecewiseReg <span class="ot">=</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    fs' <span class="ot">&lt;-</span> mhirreducible <span class="fl">0.2</span> <span class="fl">0.1</span> (regress <span class="fl">0.1</span> (splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) linear) dataset)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> <span class="op">$</span> every <span class="dv">1000</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">10000</span> fs'</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">"images/regression-piecewise-reg.svg"</span> dataset fs <span class="fl">0.01</span></span></code></pre></div>
+<!--
+#endif
+-->
+<p><img src="/images/regression-piecewise-reg.svg" width="614" height="461" loading="lazy" decoding="async" alt="Piecewise linear regression fitted to the observed data points."></p>
+Finally, we can also do our regression using piecewise constant functions. Our prior will now be <code class="sourceCode haskell">randConst</code>, a random linear function with slope 0.
+<div class="sourceCode code-block" id="cb14"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">randConst ::</span> <span class="dt">Prob</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>randConst <span class="ot">=</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="ot">=</span> <span class="op">\</span>x <span class="ot">-&gt;</span> b</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> f</span></code></pre></div>
+Using the same recipe as before, we can construct our prior by calling <code class="sourceCode haskell">splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) randConst</code> and perform inference on it to get the resultant unnormalized distribution of piecewise constant functions. <!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb15"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plotPiecewiseConst <span class="ot">=</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    fs' <span class="ot">&lt;-</span> mhirreducible <span class="fl">0.2</span> <span class="fl">0.1</span> (regress <span class="fl">0.1</span> (splice (poissonPP <span class="dv">0</span> <span class="fl">0.1</span>) randConst) dataset)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> fs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> <span class="op">$</span> every <span class="dv">1000</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">10000</span> fs'</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    plotFuns <span class="st">"images/regression-piecewise-const.svg"</span> dataset fs <span class="fl">0.01</span></span></code></pre></div>
+<!--
+#endif
+-->
+<p><img src="/images/regression-piecewise-const.svg" width="614" height="461" loading="lazy" decoding="async" alt="Piecewise constant regression fitted to the observed data points."></p>
+<details class="code-details">
+<summary>
+Graphing routines
+</summary>
+<div class="sourceCode code-block" id="cb16"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Plot the points drawn from weighted samples</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- epsilon: smallest y axis difference to worry about</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- delta: smallest x axis difference to worry about</span></span></code></pre></div>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb17"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ot">interestingPoints ::</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">Double</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>interestingPoints f lower upper epsilon delta acc <span class="ot">=</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> <span class="fu">abs</span>(upper <span class="op">-</span> lower) <span class="op">&lt;</span> delta <span class="kw">then</span> acc</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">else</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> mid <span class="ot">=</span> (upper <span class="op">-</span> lower) <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> lower <span class="kw">in</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="fu">abs</span>((f(upper) <span class="op">-</span> f(lower)) <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> f(lower) <span class="op">-</span> f(mid)) <span class="op">&lt;</span> epsilon</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">then</span> acc</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">else</span> interestingPoints f lower mid epsilon delta (mid <span class="op">:</span> (interestingPoints f mid upper epsilon delta acc))</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>sampleFun f <span class="ot">=</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">--  [ (x, f x) | x &lt;- [(-0.25),(-0.25+0.1)..6.2]]</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> xs <span class="ot">=</span> ((<span class="op">-</span><span class="fl">0.25</span>) <span class="op">:</span> (interestingPoints f (<span class="op">-</span><span class="fl">0.25</span>) <span class="fl">6.2</span> <span class="fl">0.3</span> <span class="fl">0.001</span> [<span class="fl">6.2</span>])) <span class="kw">in</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span> (<span class="op">\</span>x <span class="ot">-&gt;</span> (x,f x)) xs</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="ot">plotFuns ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [(<span class="dt">Double</span>,<span class="dt">Double</span>)] <span class="ot">-&gt;</span> [<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>] <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>plotFuns filename dataset funs alpha <span class="ot">=</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">do</span>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Plotting "</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">"..."</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        file filename <span class="op">$</span> <span class="fu">foldl</span> (<span class="op">\</span>a f <span class="ot">-&gt;</span> <span class="kw">let</span> xfs <span class="ot">=</span> sampleFun f <span class="kw">in</span> a <span class="op">%</span> plot (<span class="fu">map</span> <span class="fu">fst</span> xfs) (<span class="fu">map</span> <span class="fu">snd</span> xfs) <span class="op">@@</span> [o1 <span class="st">"go-"</span>, o2 <span class="st">"linewidth"</span> (<span class="fl">0.5</span><span class="ot"> ::</span> <span class="dt">Double</span>), o2 <span class="st">"alpha"</span> alpha, o2 <span class="st">"ms"</span> (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>)]) (scatter (<span class="fu">map</span> <span class="fu">fst</span> dataset) (<span class="fu">map</span> <span class="fu">snd</span> dataset) <span class="op">@@</span> [o2 <span class="st">"c"</span> <span class="st">"black"</span>] <span class="op">%</span> xlim (<span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">6</span><span class="ot"> ::</span> <span class="dt">Int</span>) <span class="op">%</span> ylim (<span class="op">-</span><span class="dv">2</span><span class="ot"> ::</span> <span class="dt">Int</span>) (<span class="dv">10</span><span class="ot"> ::</span> <span class="dt">Int</span>)) funs</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">putStrLn</span> <span class="st">"Done."</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span> ()</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {plotLinearPrior ; plotDataset ; plotLinReg ; plotPiecewisePrior ; plotPoissonPP ; plotPiecewiseReg ; plotPiecewiseConst }</span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+31:["$","$L2e",null,{"html":"$35"}]
+33:null
+e:C
+2b:0
+10:"$undefined"
+c:"$undefined"
+2a:"$undefined"
+23:"$undefined"

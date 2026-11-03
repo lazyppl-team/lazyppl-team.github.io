@@ -1,0 +1,21 @@
+{
+  "compiler": "9.14.1.20260731",
+  "assets": [
+    {
+      "key": "editor/rootfs.tar.zst",
+      "bytes": 73949393,
+      "sha256": "5b9d374981a20c254d65c12b592be0e0af4e905c750a3b48d7a3d40cc9739fb4"
+    },
+    {
+      "key": "editor/bsdtar.wasm",
+      "bytes": 1240004,
+      "sha256": "e13ebb15ca0971f6629a6313bc043c532dd9be3a0e6bb0b7f8a395de835ad0c0"
+    },
+    {
+      "key": "editor/runtime.json",
+      "bytes": 4396,
+      "sha256": "98c0457ec9892037f1a8a7fa26db7f50e151fad34e7739ec7d442dff78c48d95"
+    }
+  ],
+  "source_base_kind": "private-build-input"
+}

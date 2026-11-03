@@ -1,0 +1,154 @@
+{
+  "assets": [
+    {
+      "file": "public/playground/full-size-plot.js",
+      "bytes": 7506,
+      "sha256": "d8d209aa583c34b0740fff600194a6e69693e7c65e2d3b4026868846925ff505"
+    },
+    {
+      "file": "public/playground/full-size-plot.js.br",
+      "bytes": 1993,
+      "sha256": "fc187956047f4b967637d68b9176a7be84d8130c84faf007e352972d76f4b37d"
+    },
+    {
+      "file": "public/playground/full-size-plot.js.gz",
+      "bytes": 2376,
+      "sha256": "f3f6afc1d2fc6c010d45c786e3f236bcf3a9227d01c52b081563aa8cd5a4b6ed"
+    },
+    {
+      "file": "public/playground/playground.js",
+      "bytes": 9906,
+      "sha256": "3e62a86ae9c1396ae37a3dbb531573241341e8a6389b85a52ed28588241f52c1"
+    },
+    {
+      "file": "public/playground/playground.js.br",
+      "bytes": 2409,
+      "sha256": "7480a2c4464e493c2b13b7866c6fb5c624fd086c8718da4bf4b09dea6e52ff58"
+    },
+    {
+      "file": "public/playground/playground.js.gz",
+      "bytes": 2804,
+      "sha256": "1bb379cc9432ddaa577a65e36dbf51597745b720fb021c3218e74e43df4c670c"
+    },
+    {
+      "file": "public/playground/playground.wasm",
+      "bytes": 3673141,
+      "sha256": "244185c9fdc734edd6934fd210ce7633c9c672a496433bd8dee121e79089f900"
+    },
+    {
+      "file": "public/playground/playground.wasm.br",
+      "bytes": 576486,
+      "sha256": "c32b70d708e5dd7b0d26cfd0d09907f584eda5aa50bb95c368bd0c66747b0c83"
+    },
+    {
+      "file": "public/playground/playground.wasm.gz",
+      "bytes": 798257,
+      "sha256": "0f1d2c69e548708893159569c256391e4f9efe783c411b553c74f2ac5209fbcd"
+    },
+    {
+      "file": "public/playground/presentation.js",
+      "bytes": 5320,
+      "sha256": "726b2e76be0ab84308a54fd4b944f76b33f336286d3360d5bf1ce7683cd6ddc5"
+    },
+    {
+      "file": "public/playground/presentation.js.br",
+      "bytes": 1624,
+      "sha256": "5c2e6bd21cb2a19a6719ef0dd677372aba65ffd8de9e069ca196dba85f5fafbb"
+    },
+    {
+      "file": "public/playground/presentation.js.gz",
+      "bytes": 1873,
+      "sha256": "854b0ef496e94d4794fd46f69f5ce223ca35eaa6eea51cfdcb8a1268e531a155"
+    },
+    {
+      "file": "public/playground/protocol.js",
+      "bytes": 5542,
+      "sha256": "b744bde64993833d237a324c51be9d44198855bc06ab0a50f989efc84c1d47ff"
+    },
+    {
+      "file": "public/playground/protocol.js.br",
+      "bytes": 1788,
+      "sha256": "a91ab244dd086fc26c3a26f45055bc9e68e61d09760cd30eb688e3c11cf08290"
+    },
+    {
+      "file": "public/playground/protocol.js.gz",
+      "bytes": 2065,
+      "sha256": "83ec6f9006f8a400ec4525bed9ecf3f75f05ab7c6591228ba840c951a9bf7e6c"
+    },
+    {
+      "file": "public/playground/worker.js",
+      "bytes": 1044,
+      "sha256": "0197e02883233edda0c1f8b34e263d0dc2d88893b4c9d3697f3d55ff4c5b0834"
+    },
+    {
+      "file": "public/playground/worker.js.br",
+      "bytes": 488,
+      "sha256": "88243c202ba0d4bd473c98f5b1c60ba2f84cd07a91d1abf9c3b57ea8145cf0d9"
+    },
+    {
+      "file": "public/playground/worker.js.gz",
+      "bytes": 530,
+      "sha256": "cc8e5e81625c6c7ca179c0b7b17da1e5fc81a98e94143a21587154bc77fa00d7"
+    },
+    {
+      "file": "public/editor/bsdtar.wasm",
+      "bytes": 1240004,
+      "sha256": "e13ebb15ca0971f6629a6313bc043c532dd9be3a0e6bb0b7f8a395de835ad0c0"
+    },
+    {
+      "file": "public/editor/dyld.mjs",
+      "bytes": 48714,
+      "sha256": "f07cb234f85e273e37a101ede1763105d795870815ffb54d6f3af7dd77c8d46e"
+    },
+    {
+      "file": "public/editor/post-link.mjs",
+      "bytes": 5679,
+      "sha256": "51ac4bc2018002fdd482cede7aae7321f57d5edc02542faad8c7beedc6d321e2"
+    },
+    {
+      "file": "public/editor/prelude.mjs",
+      "bytes": 2682,
+      "sha256": "23b7b0432a3b9ff0b96212faa8af3060129b6478e00eadd2f4a9200f6753a32d"
+    },
+    {
+      "file": "public/editor/worker.js",
+      "bytes": 2129,
+      "sha256": "91093bca8bb17489389ed5e380771ce40064cac3ca0de82900b2fbbd57bf10f7"
+    },
+    {
+      "file": "public/playground/validators.js",
+      "bytes": 105458,
+      "sha256": "915c3702b8292484b1bbd7d2ee91779367c7311a11a2646fd11e0fd7037d717c"
+    },
+    {
+      "file": "public/playground/validators.js.br",
+      "bytes": 6283,
+      "sha256": "9af6a68e96fd86a9cfc552c44ab40575fb99b0a27165c6998d06d8b9771f2454"
+    },
+    {
+      "file": "public/playground/validators.js.gz",
+      "bytes": 8681,
+      "sha256": "bd722d6d46e9a33801374003afa4d9914a96d14eb314057a3b40c633eba95c4a"
+    },
+    {
+      "file": "public/playground/site-records.js",
+      "bytes": 876,
+      "sha256": "fd233fb9c56e6a8a39f5e54d9fdcc2609845e7ad27844bad5fbbc4c691741424"
+    },
+    {
+      "file": "public/playground/site-records.js.br",
+      "bytes": 331,
+      "sha256": "c5c5ef804692e63eca12fb53e070879cefcdf87a6a236deefc3f3b8ecb497dfd"
+    },
+    {
+      "file": "public/playground/site-records.js.gz",
+      "bytes": 388,
+      "sha256": "8fe2525b5bc4a2a535bd9c67dcdc5198b2ab8973e52efe7bf5ff8a1bcfc7a3cd"
+    },
+    {
+      "file": "public/playground/build.json",
+      "bytes": 662,
+      "sha256": "f3511e2651e6a396c32f1acf4a6c0ece48711690f1506997d7d2aa990cdc5824"
+    }
+  ]
+}

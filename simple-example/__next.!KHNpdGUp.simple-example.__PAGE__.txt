@@ -1,0 +1,102 @@
+3:"$Sreact.fragment"
+4:"/_next/static/chunks/1-ol2ef1ddu2b.js"
+5:"/_next/static/chunks/33h3p3ej_q-ge.js"
+6:"/_next/static/chunks/3_kgrjt-u8yex.js"
+7:"/_next/static/chunks/1eojptqeebioj.js"
+8:"/_next/static/chunks/40fkv-h9ukgn0.js"
+9:"/_next/static/chunks/0je5e4llskhyr.js"
+a:I[29274,["$4","$5","$6","$7","$8","$9"],"default"]
+b:I[701385,["$4","$5","$6","$7","$8","$9"],"default"]
+10:"/_next/static/chunks/0q-jzvo51nq8h.js"
+11:"/_next/static/chunks/1-exvwzivqn2f.js"
+12:"/_next/static/chunks/1x9r0jqd0kiv7.js"
+13:"/_next/static/chunks/1c7mkzd2an55e.js"
+14:"/_next/static/chunks/418z_15_pusa2.js"
+15:I[273146,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"DocsPage"]
+16:I[79215,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],""]
+17:I[273146,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"DocsTitle"]
+18:I[273146,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"DocsBody"]
+19:I[886378,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"Literate"]
+20:"ViewportBoundary"
+21:I[80768,["$4","$5","$6","$7","$8","$9"],"$20"]
+22:"MetadataBoundary"
+23:I[80768,["$4","$5","$6","$7","$8","$9"],"$22"]
+24:"$Sreact.suspense"
+25:I[466521,["$4","$5","$6","$7","$8","$9"],"IconMark"]
+d:X
+d:C
+e:X
+1a:T2171,<p>To illustrate the basic usage, here is a very simple first example, that doesn’t use laziness. More advanced examples are in the menu above, and further examples in the <a href="https://github.com/lazyppl-team/lazyppl">GitHub repository</a>.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode code-block" id="cb1"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE CPP #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Index</span> <span class="kw">where</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.Distributions</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span></span></code></pre></div>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb2"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span> <span class="kw">hiding</span> (density)</span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<p>Suppose we know that there are fewer buses on Sundays than on other days. I notice 4 buses in an hour, what is the probability it is a Sunday?</p>
+<div class="sourceCode code-block" id="cb3"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">model ::</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Prior belief: it is Sunday with prob. 1/7</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  sunday <span class="ot">&lt;-</span> sample <span class="op">$</span> bernoulli (<span class="dv">1</span><span class="op">/</span><span class="dv">7</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- I know the rates of buses on the different days:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> rate <span class="ot">=</span> <span class="kw">if</span> sunday <span class="kw">then</span> <span class="dv">3</span> <span class="kw">else</span> <span class="dv">10</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- observe 4 buses</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  score <span class="op">$</span> poissonPdf rate <span class="dv">4</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> sunday</span></code></pre></div>
+<p>We run a <span class="prose-compound">Metropolis-Hastings</span> simulation to get a stream of draws from this unnormalized measure. We plot a histogram of the results, which shows the posterior probability that it is Sunday, given that we saw 4 buses.</p>
+<div class="sourceCode code-block" id="cb4"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">inference ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>inference <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  xws <span class="ot">&lt;-</span> mh <span class="dv">1</span> model</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  plotHistogram <span class="st">"images/index-posterior.svg"</span> (<span class="fu">map</span> <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">1000</span> xws)</span></code></pre></div>
+<figure>
+<img src="/images/index-posterior.svg" alt="Posterior probability of Sunday given 4 buses observed" width="614" height="461" loading="lazy" decoding="async">
+<figcaption aria-hidden="true">Posterior probability of Sunday given 4 buses observed</figcaption>
+</figure>
+<details class="code-details">
+<summary>
+Plotting utilities
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb5"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Generating "</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">"..."</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> categories <span class="ot">=</span> nub xs</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (<span class="op">\</span>c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (<span class="op">\</span>n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Done."</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span> {inference}</span></code></pre></div>
+<!--
+#endif
+-->
+</details>f:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$3","c",{"children":[["$","$L15",null,{"toc":[],"breadcrumb":{"enabled":false},"tableOfContent":{"enabled":false},"className":"simple-example-page","children":[["$","header",null,{"id":"main-content","className":"section-heading","children":[["$","nav",null,{"className":"page-breadcrumb","aria-label":"Breadcrumb","children":["$","ol",null,{"children":[[["$","li","/",{"children":[["$","$L16",null,{"prefetch":false,"href":"/","children":"Home"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}]],["$","li",null,{"children":["$","span",null,{"aria-current":"page","title":"Simple example","children":"Simple example"}]}]]}]}],["$","$L17",null,{"children":"Simple example"}]]}],["$","$L18",null,{"children":["$","$L19",null,{"html":"$1a"}]}]]}],["$L1b","$L1c","$L1d"],"$L1e"]}],"p":"$@1f","v":null,"s":"$e"}}]]
+2:[["children",{"s":"simple-example","h":64,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@c","v":"$d","s":"$e"},"c":"$Qf"}]]
+1:[["children",{"s":"(site)","c":"$Q2"}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$3","h",{"children":[null,["$","$L21",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L23",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$24",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Simple example | LazyPPL"}],["$","meta","1",{"name":"description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","link","2",{"rel":"manifest","href":"/manifest.webmanifest"}],["$","meta","3",{"property":"og:title","content":"Simple example | LazyPPL"}],["$","meta","4",{"property":"og:description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","meta","5",{"property":"og:image","content":"https://lazyppl.org/brand/social.png"}],["$","meta","6",{"property":"og:image:width","content":"1200"}],["$","meta","7",{"property":"og:image:height","content":"630"}],["$","meta","8",{"property":"og:image:alt","content":"LazyPPL: Laziness for Bayesian nonparametrics."}],["$","meta","9",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","10",{"name":"twitter:title","content":"Simple example | LazyPPL"}],["$","meta","11",{"name":"twitter:description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","meta","12",{"name":"twitter:image","content":"https://lazyppl.org/brand/social.png"}],["$","link","13",{"rel":"icon","href":"/brand/favicon-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: light)"}],["$","link","14",{"rel":"icon","href":"/brand/favicon-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: light)"}],["$","link","15",{"rel":"icon","href":"/brand/favicon-dark-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: dark)"}],["$","link","16",{"rel":"icon","href":"/brand/favicon-dark-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: dark)"}],["$","link","17",{"rel":"icon","href":"/brand/favicon.svg","type":"image/svg+xml","sizes":"any"}],["$","link","18",{"rel":"apple-touch-icon","href":"/brand/favicon-180.png","type":"image/png","sizes":"180x180"}],["$","$L25","19",{}]]}]}],null]}],null]}],"p":"$@26","v":null,"s":"$e"}},"a":"$@27","u":"$@28","b":"iEbMTFRueLJcGwvmD3PiQ"}
+29:I[80768,["$4","$5","$6","$7","$8","$9"],"OutletBoundary"]
+1b:["$","script","script-0",{"src":"/_next/static/chunks/1x9r0jqd0kiv7.js","async":true}]
+1c:["$","script","script-1",{"src":"/_next/static/chunks/1c7mkzd2an55e.js","async":true}]
+1d:["$","script","script-2",{"src":"/_next/static/chunks/418z_15_pusa2.js","async":true}]
+1e:["$","$L29",null,{"children":["$","$24",null,{"name":"Next.MetadataOutlet","children":"$@2a"}]}]
+28:true
+e:300
+2a:null
+e:C
+27:0
+c:"$undefined"
+26:"$undefined"
+1f:"$undefined"

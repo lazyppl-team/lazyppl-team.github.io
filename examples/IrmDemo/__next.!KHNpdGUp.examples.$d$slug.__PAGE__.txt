@@ -1,0 +1,166 @@
+3:"$Sreact.fragment"
+4:"/_next/static/chunks/1-ol2ef1ddu2b.js"
+5:"/_next/static/chunks/33h3p3ej_q-ge.js"
+6:"/_next/static/chunks/3_kgrjt-u8yex.js"
+7:"/_next/static/chunks/1eojptqeebioj.js"
+8:"/_next/static/chunks/40fkv-h9ukgn0.js"
+9:"/_next/static/chunks/0je5e4llskhyr.js"
+a:I[29274,["$4","$5","$6","$7","$8","$9"],"default"]
+b:I[701385,["$4","$5","$6","$7","$8","$9"],"default"]
+12:"/_next/static/chunks/0q-jzvo51nq8h.js"
+13:"/_next/static/chunks/1-exvwzivqn2f.js"
+14:"/_next/static/chunks/28agsd8y-f5jf.js"
+15:"/_next/static/chunks/418z_15_pusa2.js"
+16:"/_next/static/chunks/2y4ttzp40s8et.js"
+17:"/_next/static/chunks/2mt1lletn-11b.js"
+18:"/_next/static/chunks/1c7mkzd2an55e.js"
+19:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsPage"]
+1a:I[79215,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],""]
+1b:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsTitle"]
+24:"ViewportBoundary"
+25:I[80768,["$4","$5","$6","$7","$8","$9"],"$24"]
+26:"MetadataBoundary"
+27:I[80768,["$4","$5","$6","$7","$8","$9"],"$26"]
+28:"$Sreact.suspense"
+29:I[466521,["$4","$5","$6","$7","$8","$9"],"IconMark"]
+d:X
+d:C
+e:X
+11:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$3","c",{"children":[["$","$L19",null,{"full":true,"className":"demo-page","toc":[{"title":"The model","url":"#the-model","depth":2},{"title":"Running the model","url":"#running-the-model","depth":2},{"title":"Footnote","url":"#footnote","depth":2}],"breadcrumb":{"enabled":false},"tableOfContent":{"single":true},"children":[["$","div",null,{"id":"main-content","className":"demo-header","children":[["$","nav",null,{"className":"page-breadcrumb","aria-label":"Breadcrumb","children":["$","ol",null,{"children":[[["$","li","/",{"children":[["$","$L1a",null,{"prefetch":false,"href":"/","children":"Home"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}],["$","li","/examples/",{"children":[["$","$L1a",null,{"prefetch":false,"href":"/examples/","children":"Examples"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}]],["$","li",null,{"children":["$","span",null,{"aria-current":"page","title":"Relational inference with a CRP-based infinite relational model","children":"Relational inference with a CRP-based infinite relational model"}]}]]}]}],["$","$L1b",null,{"children":"Relational inference with a CRP-based infinite relational model"}],["$","div",null,{"className":"example-actions","children":[["$","a",null,{"className":"primary-link","href":"#live-demo","children":["Run ",["$","span",null,{"className":"brand-icon","data-brand-icon":"PlayCircleIcon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"1.5\"></circle><path d=\"M15.9453 12.3948C15.7686 13.0215 14.9333 13.4644 13.2629 14.3502C11.648 15.2064 10.8406 15.6346 10.1899 15.4625C9.9209 15.3913 9.6758 15.2562 9.47812 15.0701C9 14.6198 9 13.7465 9 12C9 10.2535 9 9.38018 9.47812 8.92995C9.6758 8.74381 9.9209 8.60868 10.1899 8.53753C10.8406 8.36544 11.648 8.79357 13.2629 9.64983C14.9333 10.5356 15.7686 10.9785 15.9453 11.6052C16.0182 11.8639 16.0182 12.1361 15.9453 12.3948Z\" stroke=\"currentColor\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],["$","$L1a",null,{"prefetch":false,"className":"source-link","href":"/playground/#irm-title","children":["Try in your browser ",["$","span",null,{"className":"brand-icon","data-brand-icon":"ArrowRight01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],false,["$","$L1a",null,{"prefetch":false,"className":"source-link","href":"/editor/?example=irm","children":["Open in the full editor ",["$","span",null,{"className":"brand-icon","data-brand-icon":"ArrowRight01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],["$","a",null,{"className":"source-link","href":"https://github.com/lazyppl-team/lazyppl/blob/859ee06149d0866068fd9e20e02e7f9efa7a4ccc/examples/models/IrmDemo.lhs","children":["Read the Haskell source ",["$","span",null,{"className":"brand-icon","data-brand-icon":"LinkSquare01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M11.1004 3.00208C7.4515 3.00864 5.54073 3.09822 4.31962 4.31931C3.00183 5.63706 3.00183 7.75796 3.00183 11.9997C3.00183 16.2415 3.00183 18.3624 4.31962 19.6801C5.6374 20.9979 7.75836 20.9979 12.0003 20.9979C16.2421 20.9979 18.3631 20.9979 19.6809 19.6801C20.902 18.4591 20.9916 16.5484 20.9982 12.8996\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path><path d=\"M20.4803 3.51751L14.931 9.0515M20.4803 3.51751C19.9863 3.023 16.6587 3.0691 15.9552 3.0791M20.4803 3.51751C20.9742 4.01202 20.9282 7.34329 20.9182 8.04754\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}]]}]]}],"$L1c"]}],["$L1d","$L1e","$L1f","$L20","$L21"],"$L22"]}],"p":"$@23","v":null,"s":"$e"}}]]
+f:[["children",{"s":{"n":"slug","t":"d","k":"IrmDemo","s":[]},"h":65632,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@10","v":"$d","s":"$e"},"c":"$Q11"}]]
+2:[["children",{"s":"examples","h":131136,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@c","v":"$d","s":"$e"},"c":"$Qf"}]]
+1:[["children",{"s":"(site)","h":131072,"c":"$Q2"}]]
+0:{"t":{"t":{"s":"","h":131088,"c":"$Q1"},"h":{"r":["$","$3","h",{"children":[null,["$","$L25",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L27",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$28",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Relational inference with a CRP-based infinite relational model | LazyPPL"}],["$","meta","1",{"name":"description","content":"This example, which follows an example from Church, demonstrates how the abstract types of the Chinese Restaurant Process can be used to program an infinite relational model."}],["$","link","2",{"rel":"manifest","href":"/manifest.webmanifest"}],["$","meta","3",{"property":"og:title","content":"Relational inference with a CRP-based infinite relational model | LazyPPL"}],["$","meta","4",{"property":"og:description","content":"This example, which follows an example from Church, demonstrates how the abstract types of the Chinese Restaurant Process can be used to program an infinite relational model."}],["$","meta","5",{"property":"og:image","content":"https://lazyppl.org/brand/social.png"}],["$","meta","6",{"property":"og:image:width","content":"1200"}],["$","meta","7",{"property":"og:image:height","content":"630"}],["$","meta","8",{"property":"og:image:alt","content":"LazyPPL: Laziness for Bayesian nonparametrics."}],["$","meta","9",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","10",{"name":"twitter:title","content":"Relational inference with a CRP-based infinite relational model | LazyPPL"}],["$","meta","11",{"name":"twitter:description","content":"This example, which follows an example from Church, demonstrates how the abstract types of the Chinese Restaurant Process can be used to program an infinite relational model."}],["$","meta","12",{"name":"twitter:image","content":"https://lazyppl.org/brand/social.png"}],["$","link","13",{"rel":"icon","href":"/brand/favicon-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: light)"}],["$","link","14",{"rel":"icon","href":"/brand/favicon-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: light)"}],["$","link","15",{"rel":"icon","href":"/brand/favicon-dark-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: dark)"}],["$","link","16",{"rel":"icon","href":"/brand/favicon-dark-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: dark)"}],["$","link","17",{"rel":"icon","href":"/brand/favicon.svg","type":"image/svg+xml","sizes":"any"}],["$","link","18",{"rel":"apple-touch-icon","href":"/brand/favicon-180.png","type":"image/png","sizes":"180x180"}],["$","$L29","19",{}]]}]}],null]}],null]}],"p":"$@2a","v":null,"s":"$e"}},"a":"$@2b","u":"$@2c","b":"iEbMTFRueLJcGwvmD3PiQ"}
+2d:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsBody"]
+2e:I[886378,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"Literate"]
+32:I[80768,["$4","$5","$6","$7","$8","$9"],"OutletBoundary"]
+2f:T3a3f,<p>This example, which follows an <a href="http://v1.probmods.org/non-parametric-models.html#example-the-infinite-relational-model">example from Church</a>, demonstrates how the abstract types of the Chinese Restaurant Process can be used to program an infinite relational model.</p>
+<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode code-block" id="cb1"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE CPP #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE FlexibleInstances #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE MultiParamTypeClasses #-}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE ExtendedDefaultRules #-}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">IrmDemo</span> <span class="kw">where</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.Distributions</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.Distributions.DirichletP</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.Distributions.Memoization</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Data.List</span></span></code></pre></div>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb2"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<p>We have six people, and we know that some of them talk to each other, and some of them don’t talk to each other. We want to infer the social groups. This is <span class="prose-compound">non-parametric</span> in that we don’t assume a fixed number of social groups.</p>
+<p>We set up a data type inhabited by the people of interest.</p>
+<div class="sourceCode code-block" id="cb3"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Person</span> <span class="ot">=</span> <span class="dt">Tom</span> <span class="op">|</span> <span class="dt">Fred</span> <span class="op">|</span> <span class="dt">Jim</span> <span class="op">|</span> <span class="dt">Mary</span> <span class="op">|</span> <span class="dt">Sue</span> <span class="op">|</span> <span class="dt">Ann</span> <span class="kw">deriving</span> (<span class="dt">Show</span> , <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">MonadMemo</span> <span class="dt">Prob</span> <span class="dt">Person</span></span></code></pre></div>
+<h2 id="the-model">The model</h2>
+<p>The model is set up by building a Chinese Restaurant and placing the people at tables in it. Here we are using our Chinese Restaurant process interface (<code>Distr.DirichletP</code>). It involves abstract types <code class="sourceCode haskell"><span class="dt">Restaurant</span></code> and <code class="sourceCode haskell"><span class="dt">Table</span></code>, and provides two functions:</p>
+<ul>
+<li><code class="sourceCode haskell"><span class="ot">newRestaurant ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Restaurant</span></code>, which provides a new restaurant;</li>
+<li><code class="sourceCode haskell"><span class="ot">newCustomer ::</span> <span class="dt">Restaurant</span> <span class="ot">-&gt;</span> <span class="dt">Prob</span> <span class="dt">Table</span></code>, which says which table a new customer will sit at.</li>
+</ul>
+<p>The model describes an unnormalized probability measure on functions assigning tables to people.</p>
+<div class="sourceCode code-block" id="cb4"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">model ::</span> <span class="dt">Meas</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="kw">do</span></span></code></pre></div>
+<p>We first set up a new restaurant. Behind the scenes, this initiates lazy <span class="prose-compound">stick-breaking</span>.</p>
+<div class="sourceCode code-block" id="cb5"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">  r ::</span> <span class="dt">Restaurant</span> <span class="ot">&lt;-</span> sample <span class="op">$</span> newRestaurant <span class="fl">1.0</span></span></code></pre></div>
+<p>We define two memoized functions: the first, <code>table</code>, assigns a table to each person. Memoization is defined using laziness.</p>
+<div class="sourceCode code-block" id="cb6"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">  table ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="op">\</span>person <span class="ot">-&gt;</span> newCustomer r</span></code></pre></div>
+<p>The second memoized function, <code>near</code>, assigns to each pair of tables the chance that people on those tables will talk to each other.</p>
+<div class="sourceCode code-block" id="cb7"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">  near ::</span> ((<span class="dt">Table</span>, <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">Double</span>) <span class="ot">&lt;-</span> sample <span class="op">$</span> memoize <span class="op">$</span> <span class="op">\</span>(tableA, tableB) <span class="ot">-&gt;</span> beta <span class="fl">0.5</span> <span class="fl">0.5</span></span></code></pre></div>
+<p>We define two helper functions, <code>talks</code> and <code>nottalks</code>, which we then map over the observations about various people talking or not talking to each other.</p>
+<div class="sourceCode code-block" id="cb8"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span><span class="ot"> talks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> <span class="op">\</span>(personA, personB) <span class="ot">-&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                                            score <span class="op">$</span> near (table personA, table personB)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span><span class="ot"> nottalks ::</span> (<span class="dt">Person</span>, <span class="dt">Person</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> () <span class="ot">=</span> <span class="op">\</span>(personA, personB) <span class="ot">-&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                                              score <span class="op">$</span> <span class="dv">1</span> <span class="op">-</span> near (table personA, table personB)</span></code></pre></div>
+<p>The data set:</p>
+<div class="sourceCode code-block" id="cb9"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapM_</span> talks [(<span class="dt">Tom</span>, <span class="dt">Fred</span>), (<span class="dt">Tom</span>, <span class="dt">Jim</span>), (<span class="dt">Jim</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Sue</span>), (<span class="dt">Mary</span>, <span class="dt">Ann</span>), (<span class="dt">Ann</span>, <span class="dt">Sue</span>)]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapM_</span> nottalks [(<span class="dt">Mary</span>, <span class="dt">Fred</span>), (<span class="dt">Mary</span>, <span class="dt">Jim</span>), (<span class="dt">Sue</span>, <span class="dt">Fred</span>), (<span class="dt">Sue</span>, <span class="dt">Tom</span>), (<span class="dt">Ann</span>, <span class="dt">Jim</span>), (<span class="dt">Ann</span>, <span class="dt">Tom</span>)]</span></code></pre></div>
+<p>Finally we return the assignment of tables to people.</p>
+<div class="sourceCode code-block" id="cb10"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> table</span></code></pre></div>
+<h2 id="running-the-model">Running the model</h2>
+<p>We sample from this unnormalized measure using a <span class="prose-compound">Metropolis-Hastings</span> simulation. We calculate the probability of Tom/Fred and Tom/Mary sitting together, and also plot a graph of the sample with the highest likelihood.</p>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb11"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  tws <span class="ot">&lt;-</span> <span class="fu">take</span> <span class="dv">10000</span> <span class="op">&lt;$&gt;</span> mh <span class="fl">0.2</span> model</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  plotHistogram <span class="st">"images/irm-tom-fred.svg"</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">\</span>(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Fred</span>) <span class="op">$</span> tws</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  plotHistogram <span class="st">"images/irm-tom-mary.svg"</span> <span class="op">$</span> <span class="fu">map</span> (<span class="op">\</span>(t,_) <span class="ot">-&gt;</span> t <span class="dt">Tom</span> <span class="op">==</span> t <span class="dt">Mary</span>) <span class="op">$</span> tws</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeFile</span> <span class="st">"images/irm-tables.dot"</span> <span class="op">$</span> <span class="fu">show</span> <span class="op">$</span> maxap tws</span></code></pre></div>
+<!--
+#endif
+-->
+1c:["$","$L2d",null,{"children":[["$","$L2e",null,{"html":"$2f"}],"$L30","$L31"]}]
+1d:["$","script","script-0",{"src":"/_next/static/chunks/28agsd8y-f5jf.js","async":true}]
+1e:["$","script","script-1",{"src":"/_next/static/chunks/418z_15_pusa2.js","async":true}]
+1f:["$","script","script-2",{"src":"/_next/static/chunks/2y4ttzp40s8et.js","async":true}]
+20:["$","script","script-3",{"src":"/_next/static/chunks/2mt1lletn-11b.js","async":true}]
+21:["$","script","script-4",{"src":"/_next/static/chunks/1c7mkzd2an55e.js","async":true}]
+22:["$","$L32",null,{"children":["$","$28",null,{"name":"Next.MetadataOutlet","children":"$@33"}]}]
+2c:true
+34:I[384725,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"Playground"]
+e:300
+30:["$","div",null,{"id":"live-demo","className":"example-demo","data-ui":true,"children":["$","$L34",null,{"compact":true,"model":"irm"}]}]
+35:T1ca5,<figure>
+<img src="/images/irm-tom-fred.svg" alt="The posterior probability of Tom and Fred sitting together." width="614" height="461" loading="lazy" decoding="async">
+<figcaption aria-hidden="true">The posterior probability of Tom and Fred sitting together.</figcaption>
+</figure>
+<figure>
+<img src="/images/irm-tom-mary.svg" alt="The posterior probability of Tom and Mary sitting together." width="614" height="461" loading="lazy" decoding="async">
+<figcaption aria-hidden="true">The posterior probability of Tom and Mary sitting together.</figcaption>
+</figure>
+<figure>
+<img src="/images/irm-tables.svg" alt="The graph of the sampled relation with the highest likelihood." width="273" height="251" loading="lazy" decoding="async">
+<figcaption aria-hidden="true">The graph of the sampled relation with the highest likelihood.</figcaption>
+</figure>
+<h2 id="footnote">Footnote</h2>
+<p>The example at Probmods actually gives different histograms to the ones here, but we suspect that this is an issue with the <code>mh-query</code> parameters in that example, because webchurch’s rejection sampling agrees with our histograms.</p>
+<details class="code-details">
+<summary>
+Plotting code
+</summary>
+<div class="sourceCode code-block" id="cb12"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- The sample with the highest weight, that is, the highest likelihood, from a list of weighted samples</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>maxap xws <span class="ot">=</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> maxw <span class="ot">=</span> (<span class="fu">maximum</span> <span class="op">$</span> <span class="fu">map</span> <span class="fu">snd</span> xws) <span class="kw">in</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> (<span class="dt">Just</span> x) <span class="ot">=</span> Data.List.lookup maxw <span class="op">$</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">map</span> (<span class="op">\</span>(z, w) <span class="ot">-&gt;</span> (w, z)) xws <span class="kw">in</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>   x</span></code></pre></div>
+<div class="sourceCode code-block" id="cb13"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">tableToDot ::</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tableToDot f <span class="ot">=</span> <span class="st">"graph tables {"</span> <span class="op">++</span> <span class="fu">concat</span> [ <span class="fu">show</span> a <span class="op">++</span> <span class="st">" -- "</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">"; "</span> <span class="op">|</span> a <span class="ot">&lt;-</span> people , b <span class="ot">&lt;-</span> people , a <span class="op">&lt;</span> b, f a <span class="op">==</span> f b] <span class="op">++</span> <span class="st">"}"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">where</span> dotLine a b <span class="dt">True</span> <span class="ot">=</span> <span class="fu">show</span> a <span class="op">++</span> <span class="st">" -- "</span> <span class="op">++</span> <span class="fu">show</span> b <span class="op">++</span> <span class="st">"\n"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>       people <span class="ot">=</span> [<span class="fu">minBound</span><span class="op">..</span><span class="fu">maxBound</span>]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Show</span> (<span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Table</span>) <span class="kw">where</span> <span class="fu">show</span> f <span class="ot">=</span> tableToDot f</span></code></pre></div>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb14"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">plotHistogram ::</span> (<span class="dt">Show</span> a , <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plotHistogram filename xs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Generating "</span> <span class="op">++</span> filename <span class="op">++</span> <span class="st">"..."</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> <span class="kw">let</span> categories <span class="ot">=</span> nub xs</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a> <span class="kw">let</span> counts <span class="ot">=</span> <span class="fu">map</span> (<span class="op">\</span>c <span class="ot">-&gt;</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> (<span class="op">==</span>c) xs) categories</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a> file filename <span class="op">$</span> bar (<span class="fu">map</span> <span class="fu">show</span> categories) <span class="op">$</span> <span class="fu">map</span> (<span class="op">\</span>n <span class="ot">-&gt;</span> (<span class="fu">fromIntegral</span> n)<span class="op">/</span>(<span class="fu">fromIntegral</span> <span class="op">$</span> <span class="fu">length</span> xs)) counts</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">"Done."</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+31:["$","$L2e",null,{"html":"$35"}]
+33:null
+e:C
+2b:0
+10:"$undefined"
+c:"$undefined"
+2a:"$undefined"
+23:"$undefined"

@@ -1,0 +1,36 @@
+3:"$Sreact.fragment"
+4:"/_next/static/chunks/1-ol2ef1ddu2b.js"
+5:"/_next/static/chunks/33h3p3ej_q-ge.js"
+6:"/_next/static/chunks/3_kgrjt-u8yex.js"
+7:"/_next/static/chunks/1eojptqeebioj.js"
+8:"/_next/static/chunks/40fkv-h9ukgn0.js"
+9:"/_next/static/chunks/0je5e4llskhyr.js"
+a:I[29274,["$4","$5","$6","$7","$8","$9"],"default"]
+b:I[701385,["$4","$5","$6","$7","$8","$9"],"default"]
+10:"/_next/static/chunks/0q-jzvo51nq8h.js"
+11:"/_next/static/chunks/1-exvwzivqn2f.js"
+12:"/_next/static/chunks/0ax3_lwlelm5g.js"
+13:I[79215,["$4","$5","$6","$7","$8","$9","$10","$11","$12"],""]
+14:I[655618,["$4","$5","$6","$7","$8","$9","$10","$11","$12"],"FullEditor"]
+15:I[80768,["$4","$5","$6","$7","$8","$9"],"OutletBoundary"]
+16:"$Sreact.suspense"
+19:"ViewportBoundary"
+1a:I[80768,["$4","$5","$6","$7","$8","$9"],"$19"]
+1b:"MetadataBoundary"
+1c:I[80768,["$4","$5","$6","$7","$8","$9"],"$1b"]
+1d:I[466521,["$4","$5","$6","$7","$8","$9"],"IconMark"]
+d:X
+d:C
+e:X
+f:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$3","c",{"children":[["$","main",null,{"id":"main-content","className":"editor-page","children":[["$","header",null,{"className":"editor-page-heading","children":[["$","nav",null,{"className":"page-breadcrumb","aria-label":"Breadcrumb","children":["$","ol",null,{"children":[[["$","li","/",{"children":[["$","$L13",null,{"prefetch":false,"href":"/","children":"Home"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}],["$","li","/playground/",{"children":[["$","$L13",null,{"prefetch":false,"href":"/playground/","children":"Try in your browser"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}]],["$","li",null,{"children":["$","span",null,{"aria-current":"page","title":"Full editor","children":"Full editor"}]}]]}]}],["$","h1",null,{"className":"sr-only","children":"Full editor"}]]}],["$","$L14",null,{}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/0ax3_lwlelm5g.js","async":true}]],["$","$L15",null,{"children":["$","$16",null,{"name":"Next.MetadataOutlet","children":"$@17"}]}]]}],"p":"$@18","v":null,"s":"$e"}}]]
+2:[["children",{"s":"editor","h":64,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@c","v":"$d","s":"$e"},"c":"$Qf"}]]
+1:[["children",{"s":"(site)","c":"$Q2"}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$3","h",{"children":[null,["$","$L1a",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L1c",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$16",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Full editor | LazyPPL"}],["$","meta","1",{"name":"description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","link","2",{"rel":"manifest","href":"/manifest.webmanifest"}],["$","meta","3",{"property":"og:title","content":"Full editor | LazyPPL"}],["$","meta","4",{"property":"og:description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","meta","5",{"property":"og:image","content":"https://lazyppl.org/brand/social.png"}],["$","meta","6",{"property":"og:image:width","content":"1200"}],["$","meta","7",{"property":"og:image:height","content":"630"}],["$","meta","8",{"property":"og:image:alt","content":"LazyPPL: Laziness for Bayesian nonparametrics."}],["$","meta","9",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","10",{"name":"twitter:title","content":"Full editor | LazyPPL"}],["$","meta","11",{"name":"twitter:description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","meta","12",{"name":"twitter:image","content":"https://lazyppl.org/brand/social.png"}],["$","link","13",{"rel":"icon","href":"/brand/favicon-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: light)"}],["$","link","14",{"rel":"icon","href":"/brand/favicon-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: light)"}],["$","link","15",{"rel":"icon","href":"/brand/favicon-dark-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: dark)"}],["$","link","16",{"rel":"icon","href":"/brand/favicon-dark-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: dark)"}],["$","link","17",{"rel":"icon","href":"/brand/favicon.svg","type":"image/svg+xml","sizes":"any"}],["$","link","18",{"rel":"apple-touch-icon","href":"/brand/favicon-180.png","type":"image/png","sizes":"180x180"}],["$","$L1d","19",{}]]}]}],null]}],null]}],"p":"$@1e","v":null,"s":"$e"}},"a":"$@1f","u":"$@20","b":"iEbMTFRueLJcGwvmD3PiQ"}
+17:null
+20:true
+e:300
+e:C
+1f:0
+c:"$undefined"
+1e:"$undefined"
+18:"$undefined"

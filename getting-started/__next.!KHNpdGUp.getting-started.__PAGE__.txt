@@ -1,0 +1,99 @@
+3:"$Sreact.fragment"
+4:"/_next/static/chunks/1-ol2ef1ddu2b.js"
+5:"/_next/static/chunks/33h3p3ej_q-ge.js"
+6:"/_next/static/chunks/3_kgrjt-u8yex.js"
+7:"/_next/static/chunks/1eojptqeebioj.js"
+8:"/_next/static/chunks/40fkv-h9ukgn0.js"
+9:"/_next/static/chunks/0je5e4llskhyr.js"
+a:I[29274,["$4","$5","$6","$7","$8","$9"],"default"]
+b:I[701385,["$4","$5","$6","$7","$8","$9"],"default"]
+10:"/_next/static/chunks/0q-jzvo51nq8h.js"
+11:"/_next/static/chunks/1-exvwzivqn2f.js"
+12:"/_next/static/chunks/1x9r0jqd0kiv7.js"
+13:"/_next/static/chunks/1c7mkzd2an55e.js"
+14:"/_next/static/chunks/418z_15_pusa2.js"
+15:I[273146,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"DocsPage"]
+16:I[79215,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],""]
+17:I[273146,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"DocsTitle"]
+18:I[273146,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"DocsBody"]
+19:I[886378,["$4","$5","$6","$7","$8","$9","$10","$11","$12","$13","$14"],"Literate"]
+20:"ViewportBoundary"
+21:I[80768,["$4","$5","$6","$7","$8","$9"],"$20"]
+22:"MetadataBoundary"
+23:I[80768,["$4","$5","$6","$7","$8","$9"],"$22"]
+24:"$Sreact.suspense"
+25:I[466521,["$4","$5","$6","$7","$8","$9"],"IconMark"]
+d:X
+d:C
+e:X
+1a:T27ce,
+<p><a href="/examples/MinimalDemo/">Minimal examples</a> · <a href="/#two-monad-architecture">How LazyPPL works</a></p>
+<h2 id="choose-a-route">Choose a route</h2><div class="route-cards"><section class="route-card"><div class="route-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" color="currentColor" class="" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"></circle><path d="M15.9453 12.3948C15.7686 13.0215 14.9333 13.4644 13.2629 14.3502C11.648 15.2064 10.8406 15.6346 10.1899 15.4625C9.9209 15.3913 9.6758 15.2562 9.47812 15.0701C9 14.6198 9 13.7465 9 12C9 10.2535 9 9.38018 9.47812 8.92995C9.6758 8.74381 9.9209 8.60868 10.1899 8.53753C10.8406 8.36544 11.648 8.79357 13.2629 9.64983C14.9333 10.5356 15.7686 10.9785 15.9453 11.6052C16.0182 11.8639 16.0182 12.1361 15.9453 12.3948Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"></path></svg></div><h3 id="browser-route">In your browser</h3><p>LazyPPL is a Haskell library for Bayesian probabilistic programming.</p><p class="route-action"><a href="/playground/">Try LazyPPL in your browser</a></p></section><section class="route-card"><div class="route-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" color="currentColor" class="" aria-hidden="true"><path d="M6.51734 17.1132C6.91177 17.6905 8.10883 18.9228 9.74168 19.2333M9.86428 22C8.83582 21.8306 2 19.6057 2 12.0926C2 5.06329 8.0019 2 12.0008 2C15.9996 2 22 5.06329 22 12.0926C22 19.6057 15.1642 21.8306 14.1357 22C14.1357 22 13.9267 18.5826 14.0487 17.9969C14.1706 17.4113 13.7552 16.4688 13.7552 16.4688C14.7262 16.1055 16.2043 15.5847 16.7001 14.1874C17.0848 13.1032 17.3268 11.5288 16.2508 10.0489C16.2508 10.0489 16.5318 7.65809 15.9996 7.56548C15.4675 7.47287 13.8998 8.51192 13.8998 8.51192C13.4432 8.38248 12.4243 8.13476 12.0018 8.17939C11.5792 8.13476 10.5568 8.38248 10.1002 8.51192C10.1002 8.51192 8.53249 7.47287 8.00036 7.56548C7.46823 7.65809 7.74917 10.0489 7.74917 10.0489C6.67316 11.5288 6.91516 13.1032 7.2999 14.1874C7.79575 15.5847 9.27384 16.1055 10.2448 16.4688C10.2448 16.4688 9.82944 17.4113 9.95135 17.9969C10.0733 18.5826 9.86428 22 9.86428 22Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div><h3 id="codespaces-route">In Codespaces</h3><p>Codespaces needs a GitHub account and opens the project in VS Code with GHC and Cabal already installed.</p><p class="route-action"><a href="https://codespaces.new/lazyppl-team/lazyppl">Open in GitHub Codespaces</a></p></section></div>
+
+
+
+
+<h2 id="ubuntu">Install locally on Ubuntu 24.04</h2><section class="local-route"><h3 id="system-libraries">System libraries</h3><p>On Ubuntu, you can install the system libraries and the build tools as an administrator with</p><div class="sourceCode code-block" id="cb1"><div class="code-copy-control"><span class="code-language">Shell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode sh" tabindex="0" role="region" aria-label="Shell code"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> <span class="at">--no-install-recommends</span> build-essential ca-certificates curl git xz-utils libgmp-dev libtinfo-dev libffi-dev</span></code></pre></div><h3 id="ghcup-and-cabal">GHCup and Cabal</h3><p>The system uses Haskell Cabal. You need to install GHCup first, then GHC and Cabal, in your regular user account.</p><div class="sourceCode code-block" id="cb2"><div class="code-copy-control"><span class="code-language">Shell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode sh" tabindex="0" role="region" aria-label="Shell code"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--proto</span> <span class="st">"=https"</span> <span class="at">--tlsv1.2</span> <span class="at">-sSf</span> https://get-ghcup.haskell.org <span class="kw">|</span> <span class="fu">env</span> BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_MINIMAL=1 BOOTSTRAP_HASKELL_ADJUST_BASHRC=0 sh</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/.ghcup/env"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ghcup</span> install ghc 9.14.1</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">ghcup</span> set ghc 9.14.1</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">ghcup</span> install cabal 3.18.2.0</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">ghcup</span> set cabal 3.18.2.0</span></code></pre></div><h3 id="get-lazyppl">Get LazyPPL</h3><div class="sourceCode code-block" id="cb3"><div class="code-copy-control"><span class="code-language">Shell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode sh" tabindex="0" role="region" aria-label="Shell code"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/lazyppl-team/lazyppl.git lazyppl</span></code></pre></div><p>Open a terminal in the cloned <code>lazyppl</code> directory. Select the source revision used by these examples:</p><div class="sourceCode code-block" id="cb4"><div class="code-copy-control"><span class="code-language">Shell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode sh" tabindex="0" role="region" aria-label="Shell code"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/.ghcup/env"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">--detach</span> 859ee06149d0866068fd9e20e02e7f9efa7a4ccc</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">cabal</span> update</span></code></pre></div><p>Cabal uses GHC 9.14.1 installed above.</p><h3 id="run-the-first-example">Run the first example</h3><p>To explore with GHCi, type</p><div class="sourceCode code-block" id="cb5"><div class="code-copy-control"><span class="code-language">Shell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode sh" tabindex="0" role="region" aria-label="Shell code"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cabal</span> repl lib:lazyppl-examples</span></code></pre></div><p>This takes some time (about two minutes on two vCPUs) if it is your first time ever using Cabal. To explore with GHCi again, type the same command (a later load took about one second).</p><p>To run, type the following at the GHCi prompt</p><div class="sourceCode code-block" id="cb6"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">:</span><span class="kw">module</span> <span class="op">+</span> <span class="dt">MinimalDemo</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>runPoissonSim</span></code></pre></div><p>This printed the following in one run (the example draws 10,000 samples, so other runs give slightly different numbers).</p><div class="sourceCode code-block"><div class="code-copy-control"><span class="code-language">Text</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="text" tabindex="0" role="region" aria-label="Text code"><code>k   poisson(k)
+--  ----------
+0   0.3678
+1   0.3685
+2   0.1804
+3   6.48e-2
+4   1.4e-2
+5   3.6e-3
+6   8.0e-4
+7   1.0e-4</code></pre></div><p>To leave GHCi, type</p><div class="sourceCode code-block"><div class="code-copy-control"><span class="code-language">Text</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="text" tabindex="0" role="region" aria-label="Text code"><code>:quit</code></pre></div><p><a href="/examples/MinimalDemo/">Read the MinimalDemo example</a></p><h3 id="build-the-package">Build the package</h3><p>To build, type</p><div class="sourceCode code-block" id="cb9"><div class="code-copy-control"><span class="code-language">Shell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode sh" tabindex="0" role="region" aria-label="Shell code"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cabal</span> build</span></code></pre></div><h3 id="other-operating-systems">Other operating systems</h3><p>For other operating systems, see the GHCup and Cabal installation guides.</p><p><a href="https://www.haskell.org/ghcup/install/">GHCup installation guide</a> · <a href="https://www.haskell.org/cabal/download.html">Cabal installation guide</a></p></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+f:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$3","c",{"children":[["$","$L15",null,{"toc":[{"title":"Choose a route","url":"#choose-a-route","depth":2},{"title":"In your browser","url":"#browser-route","depth":3},{"title":"In Codespaces","url":"#codespaces-route","depth":3},{"title":"Install locally on Ubuntu 24.04","url":"#ubuntu","depth":2},{"title":"System libraries","url":"#system-libraries","depth":3},{"title":"GHCup and Cabal","url":"#ghcup-and-cabal","depth":3},{"title":"Get LazyPPL","url":"#get-lazyppl","depth":3},{"title":"Run the first example","url":"#run-the-first-example","depth":3},{"title":"Build the package","url":"#build-the-package","depth":3},{"title":"Other operating systems","url":"#other-operating-systems","depth":3}],"breadcrumb":{"enabled":false},"tableOfContent":{"single":true},"className":"guide-page","children":[["$","header",null,{"id":"main-content","className":"section-heading","children":[["$","nav",null,{"className":"page-breadcrumb","aria-label":"Breadcrumb","children":["$","ol",null,{"children":[[["$","li","/",{"children":[["$","$L16",null,{"prefetch":false,"href":"/","children":"Home"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}]],["$","li",null,{"children":["$","span",null,{"aria-current":"page","title":"Getting started","children":"Getting started"}]}]]}]}],["$","$L17",null,{"children":"Getting started"}]]}],["$","$L18",null,{"children":[["$","p",null,{"children":["$","$L16",null,{"prefetch":false,"href":"/simple-example/","children":"Simple example"}]}],["$","$L19",null,{"className":"installation-guide","html":"$1a"}]]}]]}],["$L1b","$L1c","$L1d"],"$L1e"]}],"p":"$@1f","v":null,"s":"$e"}}]]
+2:[["children",{"s":"getting-started","h":64,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@c","v":"$d","s":"$e"},"c":"$Qf"}]]
+1:[["children",{"s":"(site)","c":"$Q2"}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$3","h",{"children":[null,["$","$L21",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L23",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$24",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Getting started | LazyPPL"}],["$","meta","1",{"name":"description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","link","2",{"rel":"manifest","href":"/manifest.webmanifest"}],["$","meta","3",{"property":"og:title","content":"Getting started | LazyPPL"}],["$","meta","4",{"property":"og:description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","meta","5",{"property":"og:image","content":"https://lazyppl.org/brand/social.png"}],["$","meta","6",{"property":"og:image:width","content":"1200"}],["$","meta","7",{"property":"og:image:height","content":"630"}],["$","meta","8",{"property":"og:image:alt","content":"LazyPPL: Laziness for Bayesian nonparametrics."}],["$","meta","9",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","10",{"name":"twitter:title","content":"Getting started | LazyPPL"}],["$","meta","11",{"name":"twitter:description","content":"Laziness for Bayesian nonparametrics. Haskell library for Bayesian probabilistic programming."}],["$","meta","12",{"name":"twitter:image","content":"https://lazyppl.org/brand/social.png"}],["$","link","13",{"rel":"icon","href":"/brand/favicon-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: light)"}],["$","link","14",{"rel":"icon","href":"/brand/favicon-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: light)"}],["$","link","15",{"rel":"icon","href":"/brand/favicon-dark-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: dark)"}],["$","link","16",{"rel":"icon","href":"/brand/favicon-dark-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: dark)"}],["$","link","17",{"rel":"icon","href":"/brand/favicon.svg","type":"image/svg+xml","sizes":"any"}],["$","link","18",{"rel":"apple-touch-icon","href":"/brand/favicon-180.png","type":"image/png","sizes":"180x180"}],["$","$L25","19",{}]]}]}],null]}],null]}],"p":"$@26","v":null,"s":"$e"}},"a":"$@27","u":"$@28","b":"iEbMTFRueLJcGwvmD3PiQ"}
+29:I[80768,["$4","$5","$6","$7","$8","$9"],"OutletBoundary"]
+1b:["$","script","script-0",{"src":"/_next/static/chunks/1x9r0jqd0kiv7.js","async":true}]
+1c:["$","script","script-1",{"src":"/_next/static/chunks/1c7mkzd2an55e.js","async":true}]
+1d:["$","script","script-2",{"src":"/_next/static/chunks/418z_15_pusa2.js","async":true}]
+1e:["$","$L29",null,{"children":["$","$24",null,{"name":"Next.MetadataOutlet","children":"$@2a"}]}]
+28:true
+e:300
+2a:null
+e:C
+27:0
+c:"$undefined"
+26:"$undefined"
+1f:"$undefined"

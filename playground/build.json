@@ -1,0 +1,11 @@
+{
+  "source_revision": "859ee06149d0866068fd9e20e02e7f9efa7a4ccc",
+  "wasm_sha256": "244185c9fdc734edd6934fd210ce7633c9c672a496433bd8dee121e79089f900",
+  "native_plan_sha256": "01f333f210735788626fd3fda105ec7d0c18d265f17536658f3dffd777f92e70",
+  "wasm_plan_sha256": "15f98cf51dd913610f09c93d6007cf9dd8c8a8576a60e1b3349b076aededc0aa",
+  "native_compiler": "ghc-9.14.1",
+  "wasm_compiler": "ghc-9.14.1.20260731",
+  "ghc_wasm_meta_revision": "8079eb96bbc63823d99ad8acaff0765532625474",
+  "editor_examples_manifest_sha256": "0f2311576beb0e976f62e2f986edb8d40b2435ff0d8355eff4f8eb57654d90bc",
+  "physics_source_revision": "cc1b28932ef1c41bdf23cd16f23e7a4f44caeeb5"
+}

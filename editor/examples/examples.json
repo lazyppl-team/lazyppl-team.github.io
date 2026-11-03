@@ -1,0 +1,43 @@
+{
+  "source_revision": "859ee06149d0866068fd9e20e02e7f9efa7a4ccc",
+  "physics_source_revision": "cc1b28932ef1c41bdf23cd16f23e7a4f44caeeb5",
+  "physics_listing_sha256": "b709b08f508ed05f3ba8ccc65a4f87f89753476c97bdcf010de8c09562f4d555",
+  "inputs": {
+    "examples/models/MinimalDemo.lhs": "115089d567627a541f888e73aeef358a2a96ead429c406ffc319cfdec60c29d7",
+    "web/editor/example-drivers/poisson.hs": "075ca5f91681b90663ac5542fe191746adec9a7cc444724bffb52dba7941c31f",
+    "examples/models/RegressionDemo.lhs": "42d9611a743d6697e207be7dd837df4f5bbfecfa116ea79257de0389566e686b",
+    "web/editor/example-drivers/regression.hs": "69871c9387250a3a538cd728b409edbaf674d52bfa7be1ba0746690c74bc420f",
+    "examples/models/GaussianProcessDemo.lhs": "4b42ae19f26d85b98d214e9ee0c3aa279271e73c0d65b9d93916e7b1efc212c9",
+    "web/editor/example-drivers/curves.hs": "7e3e4c338a92f458576c35ab95921b385b10c8e7758aab9074b33047625ee528",
+    "web/editor/example-drivers/gp.hs": "4f9260fd21b6b9002754efe46e777982a06eb08cb4d804e2a7e4fa17a8028477",
+    "examples/models/WienerDemo.lhs": "dc509f284b84cea0614f62b0114b4bfc81615973e75683c266c08b33011c7025",
+    "web/editor/example-drivers/wiener.hs": "d2fa2d62f5bd5b0426e3733b72746d6967444db564bce93998f7c4f1177502bf",
+    "examples/models/ClusteringDemo.lhs": "f945fc3d5524a09899ea3aae86ca8b65ab3b5d220c7925bbdb69a580daf83629",
+    "web/editor/example-drivers/clustering.hs": "ef0126ec02594b240789773e287b8a220b2873d3624a57dc24429c197a5462e5",
+    "examples/models/IrmDemo.lhs": "0f2ce0ea1d8e41cf1b2b05f2edd66021504e12a55217c29d3c7d72bdc269242e",
+    "web/editor/example-drivers/irm.hs": "cae3c931813b4428a89eb1a375eef72114d2dbe5faba0982a8261ebd19d0ed86",
+    "examples/models/ProgramInductionDemo.lhs": "247d5d9e13dc2e923edaab7655cfc49da5afa3a085cd3609f2c839634ce285ee",
+    "web/editor/example-drivers/program.hs": "13b0dd0cd25df53d0f869c8829c8b7adebab57625eec493326c1dbbfd85a7f0c",
+    "examples/models/AdditiveClusteringDemo.lhs": "e8781d8d5cff258463fbdcd6c521fda04184e139f1f27357c653882adb800923",
+    "web/editor/example-drivers/ibp.hs": "d40ade0a4ec330f757d3a9eb6d218c1b596141f7789e83a889be8ebf6ee42746",
+    "examples/models/GraphDemo.lhs": "c66f6486c51312b06e32b65687da5ee5b3a489cd11ceec307e9a0789c085a0f8",
+    "web/editor/example-drivers/graph.hs": "c85fbf7a9712dfb58e39fc86ddccf76cd2037e92ca0243ff3849120db92d8ff6",
+    "src/LazyPPL/Distributions/Mondrian.hs": "3fc055fcee52357161f129a31e8bbbeddf3462d20d4381769550a88fad5d37c0",
+    "web/editor/example-drivers/mondrian.hs": "a96f04c2c52e4d9f15d97c418a075bb3666cec0535d22a9a70a13c58a904f025",
+    "examples/models/ControlFlowDemo.lhs": "293b6d1d84951954f9a80dfc4dc1dbc5e007d88ebafec3f728d621a3c8cebec4",
+    "web/editor/example-drivers/controlflow.hs": "c9f83b34abe11de09b04f919c722f55a048c14586f4d21c896e2d407cdfb7bee"
+  },
+  "examples": {
+    "poisson.hs": "018236cb7f035e4153d57323fb82ed54d104c9bc35929e050b153da658f00ea6",
+    "regression.hs": "d41e95c18674b35dcda5484da7dcfb4e87b2f768abb7b97957680d608e040bdb",
+    "gp.hs": "71d9b6ecb6514a7433b04633795f0dae18934b838ae9f9f3fadaa8af4cff8e56",
+    "wiener.hs": "31503b516f81c8b4d233d4cae866561d59805ad5292c34c71f04607e100fae61",
+    "clustering.hs": "936e3bdc7f447bd79f99ee82d88154c302f4f78eaba94a29f29724bab33ecb2c",
+    "irm.hs": "dfff1141fcfa65c51617c74094104147c5208b51f7007ce624bcfbd3e3c7446c",
+    "program.hs": "5bccb33c93ffae4e3582958c77e0ed8fb5f42551b86d20b6f33c7454f559e0da",
+    "ibp.hs": "76ec9e312fef29a2f3c69cc12fb1d227bf15e9acb08fa0040e0ef1d68608df33",
+    "graph.hs": "f091381ee19de9be0340d99d0bafd2964dde2fc1e8704603a92f5dbbfdb1247a",
+    "mondrian.hs": "952c341a0dc4c54145bd46b47043355eca48e6e0557dea6ce6052e9b48c1402f",
+    "controlflow.hs": "fef1ef1da5e8adac238be29d49a0195c3c9e1c065f0c02f1380bfb258322aeef"
+  }
+}

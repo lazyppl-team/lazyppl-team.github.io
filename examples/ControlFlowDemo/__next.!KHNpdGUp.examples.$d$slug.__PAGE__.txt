@@ -1,0 +1,224 @@
+3:"$Sreact.fragment"
+4:"/_next/static/chunks/1-ol2ef1ddu2b.js"
+5:"/_next/static/chunks/33h3p3ej_q-ge.js"
+6:"/_next/static/chunks/3_kgrjt-u8yex.js"
+7:"/_next/static/chunks/1eojptqeebioj.js"
+8:"/_next/static/chunks/40fkv-h9ukgn0.js"
+9:"/_next/static/chunks/0je5e4llskhyr.js"
+a:I[29274,["$4","$5","$6","$7","$8","$9"],"default"]
+b:I[701385,["$4","$5","$6","$7","$8","$9"],"default"]
+12:"/_next/static/chunks/0q-jzvo51nq8h.js"
+13:"/_next/static/chunks/1-exvwzivqn2f.js"
+14:"/_next/static/chunks/28agsd8y-f5jf.js"
+15:"/_next/static/chunks/418z_15_pusa2.js"
+16:"/_next/static/chunks/2y4ttzp40s8et.js"
+17:"/_next/static/chunks/2mt1lletn-11b.js"
+18:"/_next/static/chunks/1c7mkzd2an55e.js"
+19:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsPage"]
+1a:I[79215,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],""]
+1b:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsTitle"]
+1c:I[273146,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"DocsBody"]
+1d:I[886378,["$4","$5","$6","$7","$8","$9","$12","$13","$14","$15","$16","$17","$18"],"Literate"]
+26:"ViewportBoundary"
+27:I[80768,["$4","$5","$6","$7","$8","$9"],"$26"]
+28:"MetadataBoundary"
+29:I[80768,["$4","$5","$6","$7","$8","$9"],"$28"]
+2a:"$Sreact.suspense"
+2b:I[466521,["$4","$5","$6","$7","$8","$9"],"IconMark"]
+d:X
+d:C
+e:X
+1e:T7fd8,<details class="code-details">
+<summary>
+Extensions and imports for this Literate Haskell file
+</summary>
+<div class="sourceCode code-block" id="cb1"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE CPP #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">ControlFlowDemo</span> <span class="kw">where</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.SingleSite</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">LazyPPL.Distributions</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span></code></pre></div>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb2"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Matplotlib</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<p><br></p>
+We consider a simple but slightly contrived model to illustrate how control flow transformations and laziness can be advantageous. Our first prior on pairs of booleans.
+<div class="sourceCode code-block" id="cb3"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">prior1 ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>prior1 <span class="ot">=</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> x <span class="ot">&lt;-</span> bernoulli <span class="fl">0.5</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>     y <span class="ot">&lt;-</span> <span class="kw">if</span> x <span class="kw">then</span> bernoulli <span class="fl">0.4</span> <span class="kw">else</span> bernoulli <span class="fl">0.7</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> (x,y)</span></code></pre></div>
+Our model conditions on the two booleans being equal. This means that if <code>x</code> changes, <code>y</code> has to change too, and vice versa.
+<div class="sourceCode code-block" id="cb4"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">model ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model prior <span class="ot">=</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> (x,y) <span class="ot">&lt;-</span> sample prior</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     score (<span class="kw">if</span> x<span class="op">==</span>y <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> x</span></code></pre></div>
+<p>The posterior probability of <code>(model prior1)</code> returning true is 4/7.</p>
+<p>Since <code>x</code> and <code>y</code> are correlated, it is not a good idea to use a naive Metropolis Hastings simulation. But this is an extreme example, and less extreme examples might appear in more complex probabilistic programs that do benefit from Metropolis Hastings simulation, where the correlations are not known in advance.</p>
+Here is a second implementation of the prior. It is mathematically equivalent, and computationally equivalent on each run, because of laziness. With Metropolis-Hastings, it is asymptotically the same (of course, as long as the proposal is irreducible – see below). But in practice this prior works better with Metropolis-Hastings because it explicitly uses different sites for the two different conditional branches.
+<div class="sourceCode code-block" id="cb5"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">prior2 ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>prior2 <span class="ot">=</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> x <span class="ot">&lt;-</span> bernoulli <span class="fl">0.5</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     ytrue <span class="ot">&lt;-</span> bernoulli <span class="fl">0.4</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>     yfalse <span class="ot">&lt;-</span> bernoulli <span class="fl">0.7</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> (<span class="kw">if</span> x <span class="kw">then</span> (x,ytrue) <span class="kw">else</span> (x,yfalse))</span></code></pre></div>
+<p>Of course, we could solve this particular program analytically. The point is rather that we have a universal program transformation manipulation that could be applied automatically.</p>
+<p>The following chart shows that the effective sample size (the ratio between the variance of a single true sample and the variance among the generated samples) is much better with this second implementation of the prior, although Metropolis Hastings is still far from optimal for this contrived problem. <img src="/images/controlflow-essA.png" width="640" height="480" loading="lazy" decoding="async" alt="Effective sample size for the first program transformation example." class="theme-image-light"><img src="/images/controlflow-essA-dark.png" width="640" height="480" loading="lazy" decoding="async" alt="Effective sample size for the first program transformation example." class="theme-image-dark"></p>
+<details class="code-details">
+<summary>
+(Code for precision of estimators)
+</summary>
+<div class="sourceCode code-block" id="cb6"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Take a sampler (m)  returning reals, regarded as an estimator,</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- and calculate the mean and precision for the estimator.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- k is the number of samples to use in the estimator.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- n is the number of runs to average over to approximate the mean, variance and ess.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ot">meanPrec ::</span> <span class="dt">IO</span> [(<span class="dt">Double</span>,a)] <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Double</span>,<span class="dt">Double</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>meanPrec m n k <span class="ot">=</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> xwss <span class="ot">&lt;-</span> replicateM n m</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> as <span class="ot">=</span> <span class="fu">map</span> ((<span class="op">\</span>x <span class="ot">-&gt;</span> x <span class="op">/</span> (<span class="fu">fromIntegral</span> k))<span class="op">.</span> <span class="fu">sum</span> <span class="op">.</span> <span class="fu">map</span> <span class="fu">fst</span> <span class="op">.</span> <span class="fu">take</span> k) xwss</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> mean <span class="ot">=</span> (<span class="fu">sum</span> as) <span class="op">/</span> (<span class="fu">fromIntegral</span> n) <span class="co">-- sample mean</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> var <span class="ot">=</span> (<span class="fu">sum</span> (<span class="fu">map</span> (<span class="op">\</span>x <span class="ot">-&gt;</span> (x <span class="op">-</span> mean)<span class="op">^</span><span class="dv">2</span>) as)) <span class="op">/</span> (<span class="fu">fromIntegral</span> n) <span class="co">-- sample variance</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> (mean,<span class="dv">1</span><span class="op">/</span>var)</span></code></pre></div>
+</details>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb7"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plotESSA <span class="ot">=</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">"Plotting images/controlflow-essA.png..."</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">1000</span>,<span class="dv">10000</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- A rejection sampler where the scores are known to be 0 or 1.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> rejectionsampler m <span class="ot">=</span> <span class="fu">fmap</span> (<span class="fu">filter</span> (<span class="op">\</span>(_,w) <span class="ot">-&gt;</span> w<span class="op">&gt;</span><span class="fl">0.00001</span>)) <span class="op">$</span> weightedsamples <span class="op">$</span> m</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> truevar <span class="ot">=</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>) <span class="op">-</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>)<span class="op">^</span><span class="dv">2</span> <span class="co">-- variance for one true sample</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Tests to plot</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>     as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (<span class="op">\</span>(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="fl">0.3</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>     cs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (<span class="op">\</span>(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="fl">0.33</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior2) <span class="dv">100</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>     es <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (<span class="op">\</span>(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh <span class="dv">1</span> <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>     fs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (<span class="op">\</span>(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (rejectionsampler <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">100</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>     file <span class="st">"images/controlflow-essA.png"</span> <span class="op">$</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>       plot xs as <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"mh 0.3 with prior1"</span>, o2 <span class="st">"color"</span> <span class="st">"tomato"</span>] <span class="op">%</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>       plot xs cs <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"mh 0.3 with prior2"</span>, o2 <span class="st">"color"</span> <span class="st">"firebrick"</span>] <span class="op">%</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>       plot xs es <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"all sites mh"</span>, o2 <span class="st">"color"</span> <span class="st">"forestgreen"</span>] <span class="op">%</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>       plot xs fs <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"rejection sampling"</span>, o2 <span class="st">"color"</span> <span class="st">"black"</span>] <span class="op">%</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>       ylim (<span class="dv">1</span><span class="ot">::</span><span class="dt">Double</span>) (<span class="dv">500</span><span class="ot">::</span><span class="dt">Double</span>) <span class="op">%</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>       xlabel <span class="st">"Samples"</span> <span class="op">%</span> ylabel <span class="st">"Effective sample size"</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">"loc"</span> <span class="st">"upper right"</span>]</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="st">"done."</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<h2 id="irreducibility">Irreducibility</h2>
+This example also illustrates the issue with potential irreducibility in single-site Metropolis Hastings (<code>mh1</code>): the first implementation of the prior is especially bad, because <em>all</em> proposals will be rejected except perhaps one. This irreducibility arises from the hard constraints (scores of <code>0</code>) and is avoided to some extent with a softer constraint:
+<div class="sourceCode code-block" id="cb8"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">softModel ::</span> <span class="dt">Prob</span> (<span class="dt">Bool</span>,<span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Meas</span> <span class="dt">Bool</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>softModel prior <span class="ot">=</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> (x,y) <span class="ot">&lt;-</span> sample prior</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     score (<span class="kw">if</span> x<span class="op">==</span>y <span class="kw">then</span> <span class="fl">0.9</span> <span class="kw">else</span> <span class="fl">0.1</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">return</span> x</span></code></pre></div>
+<p><img src="/images/controlflow-essB.png" width="640" height="480" loading="lazy" decoding="async" alt="Effective sample size for the second program transformation example." class="theme-image-light"><img src="/images/controlflow-essB-dark.png" width="640" height="480" loading="lazy" decoding="async" alt="Effective sample size for the second program transformation example." class="theme-image-dark"></p>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<div class="sourceCode code-block" id="cb9"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fromBool b <span class="ot">=</span> <span class="kw">if</span> b <span class="kw">then</span> <span class="fl">1.0</span> <span class="kw">else</span> <span class="fl">0.0</span></span></code></pre></div>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb10"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plotESSB <span class="ot">=</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">"Plotting images/controlflow-essB.png..."</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>,<span class="dv">80</span>,<span class="dv">90</span>,<span class="dv">100</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> truevar <span class="ot">=</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>) <span class="op">-</span> (<span class="fl">4.0</span><span class="op">/</span><span class="fl">7.0</span>)<span class="op">^</span><span class="dv">2</span> <span class="co">-- variance for one true sample</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Tests to plot</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>     as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (<span class="op">\</span>(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> model prior1) <span class="dv">1000</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>     bs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> (<span class="op">\</span>(_,prec)<span class="ot">-&gt;</span>truevar<span class="op">*</span>prec) <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> fromBool <span class="op">$</span> softModel prior1) <span class="dv">1000</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>     file <span class="st">"images/controlflow-essB.png"</span> <span class="op">$</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>       plot xs as <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"mh1 with hard constraint"</span>, o2 <span class="st">"color"</span> <span class="st">"mediumblue"</span>] <span class="op">%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>       plot xs bs <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"mh1 with soft constraint"</span>, o2 <span class="st">"color"</span> <span class="st">"deepskyblue"</span>] <span class="op">%</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>       xlabel <span class="st">"Samples"</span> <span class="op">%</span> ylabel <span class="st">"Effective sample size"</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">"loc"</span> <span class="st">"upper right"</span>]</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="st">"done."</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<h2 id="note-about-different-metropolis-hastings-kernels-in-general">Note about different <span class="prose-compound">Metropolis-Hastings</span> kernels in general</h2>
+These are contrived examples and the reader should not conclude that all-sites Metropolis-Hastings outperforms the more complex Metropolis-Hastings algorithms of LazyPPL in general. To emphasise this, we plot the precision in the intercept for a linear regression example (similar to <a href="/examples/RegressionDemo/">here</a>).
+<div class="sourceCode code-block" id="cb11"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">linreg ::</span> <span class="dt">Meas</span> (<span class="dt">Double</span>,<span class="dt">Double</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>linreg <span class="ot">=</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sample <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> sample <span class="op">$</span> normal <span class="dv">0</span> <span class="dv">3</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> dataset <span class="ot">=</span> [(<span class="dv">0</span>,<span class="dv">5</span>), (<span class="fl">0.1</span>,<span class="dv">10</span>), (<span class="fl">0.2</span>,<span class="dv">0</span>)]</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mapM</span> (<span class="op">\</span>(x, y) <span class="ot">-&gt;</span> score <span class="op">$</span> normalPdf (a<span class="op">*</span>x <span class="op">+</span> b) <span class="fl">0.5</span> y) dataset</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (a,b)</span></code></pre></div>
+<p><img src="/images/controlflow-prec.png" width="640" height="480" loading="lazy" decoding="async" alt="Precision in the intercept for a linear regression example." class="theme-image-light"><img src="/images/controlflow-prec-dark.png" width="640" height="480" loading="lazy" decoding="async" alt="Precision in the intercept for a linear regression example." class="theme-image-dark"></p>
+<p>(Here we plot precision, which is proportional to effective sample size, because a general effective sample size analysis isn’t written yet.)</p>
+<p><br></p>
+<details class="code-details">
+<summary>
+(Plotting code)
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb12"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plotPrec <span class="ot">=</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">do</span> <span class="fu">putStrLn</span> <span class="st">"Plotting images/controlflow-prec.png..."</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">1</span>,<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">400</span>,<span class="dv">700</span>,<span class="dv">1000</span>]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">-- Tests to plot</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     as <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh <span class="fl">0.5</span> <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>     bs <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh1 <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>     es <span class="ot">&lt;-</span> forM xs <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">.</span> meanPrec (mh <span class="dv">1</span> <span class="op">$</span> <span class="fu">fmap</span> <span class="fu">snd</span> <span class="op">$</span> linreg) <span class="dv">1000</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>     file <span class="st">"images/controlflow-prec.png"</span> <span class="op">$</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>       plot xs bs <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"mh1"</span>, o2 <span class="st">"color"</span> <span class="st">"mediumblue"</span>] <span class="op">%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>       plot xs as <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"mh 0.5"</span>, o2 <span class="st">"color"</span> <span class="st">"firebrick"</span>] <span class="op">%</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>       plot xs es <span class="op">@@</span> [o2 <span class="st">"label"</span> <span class="st">"all sites mh"</span>, o2 <span class="st">"color"</span> <span class="st">"forestgreen"</span>] <span class="op">%</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>       xlabel <span class="st">"Samples"</span> <span class="op">%</span> ylabel <span class="st">"Precision for mean b"</span> <span class="op">%</span> legend <span class="op">@@</span> [o2 <span class="st">"loc"</span> <span class="st">"upper right"</span>]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">putStrLn</span> <span class="st">"done."</span></span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+<details class="code-details">
+<summary>
+(Epilogue code)
+</summary>
+<!--
+#ifdef LAZYPPL_DEMOS
+-->
+<div class="sourceCode code-block" id="cb13"><div class="code-copy-control"><span class="code-language">Haskell</span><span class="code-scroll-hint" hidden="">Scroll within code</span><span class="code-copy-mount"></span></div><pre class="sourceCode haskell literate" tabindex="0" role="region" aria-label="Haskell code"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  plotESSA</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  plotESSB</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  plotPrec</span></code></pre></div>
+<!--
+#endif
+-->
+</details>
+11:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$3","c",{"children":[["$","$L19",null,{"full":true,"className":"demo-page","toc":[{"title":"Irreducibility","url":"#irreducibility","depth":2},{"title":"Note about different Metropolis-Hastings kernels in general","url":"#note-about-different-metropolis-hastings-kernels-in-general","depth":2}],"breadcrumb":{"enabled":false},"tableOfContent":{"single":true},"children":[["$","div",null,{"id":"main-content","className":"demo-header","children":[["$","nav",null,{"className":"page-breadcrumb","aria-label":"Breadcrumb","children":["$","ol",null,{"children":[[["$","li","/",{"children":[["$","$L1a",null,{"prefetch":false,"href":"/","children":"Home"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}],["$","li","/examples/",{"children":[["$","$L1a",null,{"prefetch":false,"href":"/examples/","children":"Examples"}],["$","span",null,{"aria-hidden":"true","children":"/"}]]}]],["$","li",null,{"children":["$","span",null,{"aria-current":"page","title":"Discussion of program transformations and laziness","children":"Discussion of program transformations and laziness"}]}]]}]}],["$","$L1b",null,{"children":"Discussion of program transformations and laziness"}],["$","div",null,{"className":"example-actions","children":["$undefined","$undefined",["$","$L1a",null,{"prefetch":false,"className":"source-link","href":"/playground/","children":["Try in your browser ",["$","span",null,{"className":"brand-icon","data-brand-icon":"ArrowRight01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],["$","$L1a",null,{"prefetch":false,"className":"source-link","href":"/editor/?example=controlflow","children":["Open in the full editor ",["$","span",null,{"className":"brand-icon","data-brand-icon":"ArrowRight01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}],["$","a",null,{"className":"source-link","href":"https://github.com/lazyppl-team/lazyppl/blob/859ee06149d0866068fd9e20e02e7f9efa7a4ccc/examples/models/ControlFlowDemo.lhs","children":["Read the Haskell source ",["$","span",null,{"className":"brand-icon","data-brand-icon":"LinkSquare01Icon","aria-hidden":"true","dangerouslySetInnerHTML":{"__html":"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" color=\"currentColor\" class=\"\" aria-hidden=\"true\"><path d=\"M11.1004 3.00208C7.4515 3.00864 5.54073 3.09822 4.31962 4.31931C3.00183 5.63706 3.00183 7.75796 3.00183 11.9997C3.00183 16.2415 3.00183 18.3624 4.31962 19.6801C5.6374 20.9979 7.75836 20.9979 12.0003 20.9979C16.2421 20.9979 18.3631 20.9979 19.6809 19.6801C20.902 18.4591 20.9916 16.5484 20.9982 12.8996\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path><path d=\"M20.4803 3.51751L14.931 9.0515M20.4803 3.51751C19.9863 3.023 16.6587 3.0691 15.9552 3.0791M20.4803 3.51751C20.9742 4.01202 20.9282 7.34329 20.9182 8.04754\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></path></svg>"}}]]}]]}]]}],["$","$L1c",null,{"children":["$","$L1d",null,{"html":"$1e"}]}]]}],["$L1f","$L20","$L21","$L22","$L23"],"$L24"]}],"p":"$@25","v":null,"s":"$e"}}]]
+f:[["children",{"s":{"n":"slug","t":"d","k":"ControlFlowDemo","s":[]},"h":65632,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@10","v":"$d","s":"$e"},"c":"$Q11"}]]
+2:[["children",{"s":"examples","h":131136,"d":{"r":["$","$3","c",{"children":[null,["$","$La",null,{"parallelRouterKey":"children","template":["$","$Lb",null,{}]}]]}],"p":"$@c","v":"$d","s":"$e"},"c":"$Qf"}]]
+1:[["children",{"s":"(site)","h":131072,"c":"$Q2"}]]
+0:{"t":{"t":{"s":"","h":131088,"c":"$Q1"},"h":{"r":["$","$3","h",{"children":[null,["$","$L27",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L29",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$2a",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Discussion of program transformations and laziness | LazyPPL"}],["$","meta","1",{"name":"description","content":"The posterior probability of (model prior1) returning true is 4/7."}],["$","link","2",{"rel":"manifest","href":"/manifest.webmanifest"}],["$","meta","3",{"property":"og:title","content":"Discussion of program transformations and laziness | LazyPPL"}],["$","meta","4",{"property":"og:description","content":"The posterior probability of (model prior1) returning true is 4/7."}],["$","meta","5",{"property":"og:image","content":"https://lazyppl.org/brand/social.png"}],["$","meta","6",{"property":"og:image:width","content":"1200"}],["$","meta","7",{"property":"og:image:height","content":"630"}],["$","meta","8",{"property":"og:image:alt","content":"LazyPPL: Laziness for Bayesian nonparametrics."}],["$","meta","9",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","10",{"name":"twitter:title","content":"Discussion of program transformations and laziness | LazyPPL"}],["$","meta","11",{"name":"twitter:description","content":"The posterior probability of (model prior1) returning true is 4/7."}],["$","meta","12",{"name":"twitter:image","content":"https://lazyppl.org/brand/social.png"}],["$","link","13",{"rel":"icon","href":"/brand/favicon-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: light)"}],["$","link","14",{"rel":"icon","href":"/brand/favicon-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: light)"}],["$","link","15",{"rel":"icon","href":"/brand/favicon-dark-16.png","type":"image/png","sizes":"16x16","media":"(prefers-color-scheme: dark)"}],["$","link","16",{"rel":"icon","href":"/brand/favicon-dark-32.png","type":"image/png","sizes":"32x32","media":"(prefers-color-scheme: dark)"}],["$","link","17",{"rel":"icon","href":"/brand/favicon.svg","type":"image/svg+xml","sizes":"any"}],["$","link","18",{"rel":"apple-touch-icon","href":"/brand/favicon-180.png","type":"image/png","sizes":"180x180"}],["$","$L2b","19",{}]]}]}],null]}],null]}],"p":"$@2c","v":null,"s":"$e"}},"a":"$@2d","u":"$@2e","b":"iEbMTFRueLJcGwvmD3PiQ"}
+2f:I[80768,["$4","$5","$6","$7","$8","$9"],"OutletBoundary"]
+1f:["$","script","script-0",{"src":"/_next/static/chunks/28agsd8y-f5jf.js","async":true}]
+20:["$","script","script-1",{"src":"/_next/static/chunks/418z_15_pusa2.js","async":true}]
+21:["$","script","script-2",{"src":"/_next/static/chunks/2y4ttzp40s8et.js","async":true}]
+22:["$","script","script-3",{"src":"/_next/static/chunks/2mt1lletn-11b.js","async":true}]
+23:["$","script","script-4",{"src":"/_next/static/chunks/1c7mkzd2an55e.js","async":true}]
+24:["$","$L2f",null,{"children":["$","$2a",null,{"name":"Next.MetadataOutlet","children":"$@30"}]}]
+2e:true
+e:300
+30:null
+e:C
+2d:0
+10:"$undefined"
+c:"$undefined"
+2c:"$undefined"
+25:"$undefined"

@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fdirections\u002F[direction]","\u002Fexamples\u002F[slug]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
